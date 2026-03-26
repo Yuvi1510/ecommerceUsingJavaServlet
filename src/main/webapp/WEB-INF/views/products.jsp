@@ -62,6 +62,7 @@
                            <th>ImagePath</th>
                            <th>Price</th>
                            <th>Quantity</th>
+                           <th>Category</th>
                            <th>Actions</th>
                        </tr>
                        </thead>

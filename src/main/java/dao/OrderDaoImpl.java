@@ -1,6 +1,7 @@
 package dao;
 
 import model.Order;
+import model.OrderItem;
 import util.DatabaseConnection;
 import util.ModelUtils;
 import util.OrderStatus;
@@ -13,11 +14,11 @@ import java.util.List;
 public class OrderDaoImpl implements OrderDao {
 
     @Override
-    public boolean addOrder(Order order, List<Integer> productIds) {
+    public boolean addOrder(Order order, List<OrderItem> productIds) {
         String query = "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setDate(1, Date.valueOf(order.getDate()));
             ps.setDouble(2, order.getSubTotal());
@@ -29,12 +30,14 @@ public class OrderDaoImpl implements OrderDao {
 
             int rowsAffected = ps.executeUpdate();
 
-            return rowsAffected >=1;
+            if(rowsAffected >= 1){
+
+            }
 
         } catch (Exception e) {
             System.out.println("Error adding order: " + e.getMessage());
-            return false;
         }
+        return false;
     }
 
     @Override
