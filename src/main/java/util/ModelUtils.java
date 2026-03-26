@@ -1,6 +1,7 @@
 package util;
 
 import jakarta.servlet.http.HttpServletRequest;
+import model.Order;
 import model.Product;
 import model.User;
 
@@ -47,7 +48,6 @@ public class ModelUtils {
                 request.getParameter("image"),
                 Double.parseDouble(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("quantity")),
-                1,
                 Integer.parseInt(request.getParameter("category"))
         );
 
@@ -59,12 +59,41 @@ public class ModelUtils {
                 rs.getString("image_path"),
                 rs.getDouble("price"),
                 rs.getInt("quantity"),
-                rs.getInt("store_id"),
                 rs.getInt("category_id")
         );
 
         product.setProductId(rs.getInt("product_id"));
 
         return product;
+    }
+
+
+    public static Order getOrderFromRequest(HttpServletRequest request) {
+        return new Order(
+                Double.parseDouble(request.getParameter("subTotal")),
+                Double.parseDouble(request.getParameter("taxAmount")),
+                Double.parseDouble(request.getParameter("deliveryCharge")),
+                Double.parseDouble(request.getParameter("totalAmount")),
+                OrderStatus.valueOf(request.getParameter("orderStatus")),
+                Integer.parseInt(request.getParameter("userId"))
+        );
+    }
+
+    public static Order getOrderFromResultSet(ResultSet rs) throws SQLException {
+        Order order = new Order(
+                rs.getDouble("sub_total"),
+                rs.getDouble("tax_amount"),
+                rs.getDouble("delivery_charge"),
+                rs.getDouble("total_amount"),
+                OrderStatus.valueOf(rs.getString("order_status")),
+                rs.getInt("user_id")
+        );
+
+        order.setOrderId(rs.getInt("order_id"));
+
+        Date date = rs.getDate("date");
+        order.setDate(date.toLocalDate());
+
+        return order;
     }
 }

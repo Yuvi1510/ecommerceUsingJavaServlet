@@ -26,18 +26,18 @@
 
 <main>
     <aside>
-        <a href="dashboard"><button class="option ">Users</button></a>
-        <a href="dashboard/categories"><button class="option active">Categories</button></a>
-        <a href="dashboard/products"><button class="option">Products</button></a>
-        <a href="dashboard/orders"><button class="option">Orders</button></a>
-        <a href="dashboard/reports"><button class="option">Reports</button></a>
+        <a href="dashboard"><button class="option active ">Users</button></a>
+        <a href="categories"><button class="option ">Categories</button></a>
+        <a href="products"><button class="option">Products</button></a>
+        <a href="orders"><button class="option">Orders</button></a>
+        <a href="reports"><button class="option">Reports</button></a>
     </aside>
 
     <div class="content-container">
         <div class="content" id="users-page">
             <h2>Users Management</h2>
             <div class="buttons">
-                <button><a href="/dashboard">All Users</a></button>
+                <a href="/dashboard"><button>All Users</button></a>
                 <button onclick="changeContent('addUser')">Add User</button>
                 <button onclick="changeContent('findUserByEmail')">Find User By Email</button>
                 <button onclick="changeContent('findUserById')">Find User By ID</button>

@@ -25,10 +25,10 @@
 <main>
     <aside>
         <a href="dashboard"><button class="option ">Users</button></a>
-        <a href="dashboard/categories"><button class="option active">Categories</button></a>
-        <a href="dashboard/products"><button class="option">Products</button></a>
-        <a href="dashboard/orders"><button class="option">Orders</button></a>
-        <a href="dashboard/reports"><button class="option">Reports</button></a>
+        <a href="categories"><button class="option active">Categories</button></a>
+        <a href="products"><button class="option">Products</button></a>
+        <a href="orders"><button class="option">Orders</button></a>
+        <a href="reports"><button class="option">Reports</button></a>
     </aside>
 
     <div class="content-container">

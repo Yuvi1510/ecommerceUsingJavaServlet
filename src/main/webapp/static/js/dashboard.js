@@ -10,7 +10,7 @@ function changeContent(contentId) {
                 </div>
                  <div>
                             <button type="submit">Find User</button>
-                             <button ><a href="/dashboard">Cancel</a></button>
+                             <a href="/dashboard"><button >Cancel</button></a>
                             </div>
             </form>
         `;
@@ -24,7 +24,7 @@ function changeContent(contentId) {
                 </div>
                  <div>
                             <button type="submit">Find User</button>
-                             <button ><a href="/dashboard">Cancel</a></button>
+                             <a href="/dashboard"><button >Cancel</button></a>
                             </div>
             </form>
         
@@ -88,7 +88,7 @@ function changeContent(contentId) {
                             </div>
                              <div>
                             <button type="submit">Add User</button>
-                             <button ><a href="/dashboard">Cancel</a></button>
+                             <a href="/dashboard"><button >Cancel</button></a>
                             </div>
                         </form>`
     }
@@ -166,7 +166,7 @@ function editUser(userId, firstName, lastName, dob, email, phone, address){
                             </div>
                              <div>
                             <button type="submit">Update User</button>
-                             <button ><a href="/dashboard">Cancel</a></button>
+                             <a href="/dashboard"><button >Cancel</button></a>
                             </div>
                         </form>`;
 }
@@ -245,7 +245,7 @@ function deleteUser(userId, firstName, lastName, dob, email, phone, address){
                             <span style="color:red;">This action can not be reversed!</span>
                              <div>
                             <button type="submit">Delete User</button>
-                             <button ><a href="/dashboard">Cancel</a></button>
+                             <a href="/dashboard"><button >Cancel</button></a>
                             </div>
                         </form>`;
 }

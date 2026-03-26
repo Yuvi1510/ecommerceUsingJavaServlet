@@ -7,10 +7,8 @@ public class OrderItem {
     private int orderId;
     private int productId;
 
-    public OrderItem(int orderQuantity, Double amount, int orderId, int productId) {
-        this.orderQuantity = orderQuantity;
-        this.amount = amount;
-        this.orderId = orderId;
+    public OrderItem( int productId, int orderQuantity) {
+        this.orderQuantity = orderQuantity >= 1? orderQuantity: 0;
         this.productId = productId;
     }
 

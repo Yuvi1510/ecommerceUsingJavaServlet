@@ -14,8 +14,8 @@ public class Order {
     private OrderStatus orderStatus;
     private int userId;
 
-    public Order(LocalDate date, Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus, int userId) {
-        this.date = date;
+    public Order( Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus, int userId) {
+        this.date = LocalDate.now();
         this.subTotal = subTotal;
         this.taxAmount = taxAmount;
         this.deliveryCharge = deliveryCharge;
