@@ -55,12 +55,11 @@ public class ProductsController extends HttpServlet {
 
             if(products == null){
                 req.setAttribute("error", "No products found!");
-//                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
 
             }
 
-            req.setAttribute("products", products);
-            req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
+           resp.sendRedirect(req.getContextPath() +"/products");
 
         } else if (action.equals("findProductsByCategory")) {
             int categoryId = Integer.parseInt(req.getParameter("category"));
@@ -68,10 +67,13 @@ public class ProductsController extends HttpServlet {
 
             if(products == null){
                 req.setAttribute("error", "No products found!");
-//                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
 
             }
             req.setAttribute("products", products);
+            // while doing forward we need to add categories as well
+            // otherwise when we click on find products by category, categories will be null and no options will be shown
+            req.setAttribute("categories",categoryDao.getAllCategories());
             req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
 
         } else if (action.equals("findProductsById")) {
@@ -84,6 +86,7 @@ public class ProductsController extends HttpServlet {
 
             }else {
             req.setAttribute("products", List.of(product));
+                req.setAttribute("categories",categoryDao.getAllCategories());
             }
             req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
 
@@ -96,6 +99,7 @@ public class ProductsController extends HttpServlet {
                 req.setAttribute("error", "Unable to update product!");
             }else {
                 req.setAttribute("products", List.of(product));
+                req.setAttribute("categories",categoryDao.getAllCategories());
             }
             req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
 

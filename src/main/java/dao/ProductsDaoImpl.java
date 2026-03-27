@@ -12,7 +12,7 @@ public class ProductsDaoImpl implements ProductsDao {
 
     @Override
     public boolean addProduct(Product product) {
-        String query = "INSERT INTO products(name, description, image_path, price, quantity, category_id) VALUES(?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO products(name, description, image_path, price, quantity, category_id, date_added) VALUES(?,?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
@@ -23,6 +23,7 @@ public class ProductsDaoImpl implements ProductsDao {
             ps.setDouble(4, product.getPrice());
             ps.setInt(5, product.getQuantity());
             ps.setInt(6, product.getCategoryId());
+            ps.setDate(7, Date.valueOf(product.getDate()));
 
             int rowsAffected = ps.executeUpdate();
 
@@ -164,6 +165,58 @@ public class ProductsDaoImpl implements ProductsDao {
         }
 
         return products;
+    }
+
+    @Override
+    public List<Product> findTopProducts() {
+      String query = "SELECT p.*, SUM(oi.order_quantity) AS total_quantity_sold,SUM(oi.amount) AS total_revenue FROM orders o " +
+                "INNER JOIN order_items oi ON o.order_id=oi.order_id  " +
+                "INNER JOIN products p ON p.product_id = oi.product_id " +
+                "WHERE o.status='confirmed' " +
+                "GROUP BY p.product_id " +
+                "ORDER BY total_quantity_sold DESC " +
+                "LIMIT 4";
+
+        List<Product> topProducts = new ArrayList<>();
+
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)){
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Product product = ModelUtils.getProductFromResultSet(rs);
+                topProducts.add(product);
+            }
+
+            return topProducts;
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public List<Product> findLatestProducts() {
+        String query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 4";
+        List<Product> latestProducts = new ArrayList<>();
+
+        try(Connection connection = DatabaseConnection.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                Product product = ModelUtils.getProductFromResultSet(rs);
+                latestProducts.add(product);
+            }
+
+            return latestProducts;
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return null;
     }
 
 

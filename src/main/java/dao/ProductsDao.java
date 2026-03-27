@@ -12,4 +12,6 @@ public interface ProductsDao {
     boolean updateProduct(Product product, int productId);
     boolean deleteProduct(int id);
     List<Product> findAllProducts();
+    List<Product> findTopProducts();
+    List<Product> findLatestProducts();
 }

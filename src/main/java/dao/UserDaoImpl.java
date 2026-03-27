@@ -1,6 +1,7 @@
 package dao;
 
 import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 import util.DatabaseConnection;
 import util.ModelUtils;
 
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao{
+
+
     @Override
     public boolean addUser(User user) {
         String query = "INSERT INTO users(first_name, last_name,DOB,email,phone, address, password) VALUES(?,?,?,?,?,?,?)";
@@ -20,7 +23,10 @@ public class UserDaoImpl implements UserDao{
             ps.setString(4, user.getEmail());
             ps.setString(5, user.getPhone());
             ps.setString(6, user.getAddress());
-            ps.setString(7, user.getPassword());
+
+            // generate salt
+            String salt = BCrypt.gensalt();
+            ps.setString(7, BCrypt.hashpw(user.getPassword(), salt));
 
             int rowsAffected = ps.executeUpdate();
 

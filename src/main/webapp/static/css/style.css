@@ -1,0 +1,463 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff;
+}
+/*universal selection for button*/
+button{
+    font-size: 0.8rem;
+    font-weight: 700;
+    outline: none;
+    border: none;
+    background-color: #1d1d1d;
+    color: aliceblue;
+    padding: 13px 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+}
+
+button:hover{
+    background-color: #3a3833;
+}
+
+/* navbar design*/
+.navbar {
+    background: #001F3F;
+    padding: 10px 40px;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.navbar-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo Styling */
+.logo img {
+    height: 70px;
+    display: block;
+}
+
+/* Search Bar Styling */
+.search-container {
+    display: flex;
+    flex: 0 1 400px;
+    margin: 0 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+}
+
+.search-btn {
+    background: #f39c12;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    width: 18px;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: orange;
+}
+
+/*for icon*/
+
+.nav-links .icon a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: white;
+    text-align: center;
+}
+
+.nav-links .icon i {
+    font-size: 22px;
+    display: block;
+}
+
+.nav-links .icon span {
+    font-size: 11px;
+    display: block;
+}
+
+.nav-links .icon a:hover {
+    color: orange;
+}
+/*home section*/
+#home{
+    background-image: url("../images/background.png");
+    /*background: #ECECEC;*/
+    width: 100%;
+    height: 88vh;
+    background-size: cover;
+    background-position: top center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#home span{
+    color: coral;
+}
+
+.container{
+    margin-left: 90px;
+}
+
+.container h5{
+    font-size: 1.3rem;
+    font-weight: normal;
+}
+
+.container h1{
+    margin-top: 15px;
+}
+
+.container p{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+/*brand logo section*/
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px;
+}
+
+.brand-logo {
+    width: 100px;
+    height: auto;
+}
+
+/*for new sewctio*/
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.one {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f4f4f4;
+}
+
+.one .img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+
+.one:hover .img-fluid {
+    transform: scale(1.1);
+}
+
+
+.one .details {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* h2 Heading Style */
+.one .details h2 {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+#new .one .details button {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    background: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    padding: 2.5px;
+    transform: translateY(70px);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+#new .one .details button:hover {
+    color: coral;
+    border-bottom: 1px solid coral;
+}
+
+#new .one:nth-child(1) .details {
+    color: #000;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+}
+
+#new .one:nth-child(2) .details {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+}
+
+#new .one:nth-child(3) .details {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+}
+
+/* featured*/
+#featured{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+#featured h3{
+    font-weight: normal;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch; /* Forces all cards to be the same height */
+    gap: 20px;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+#featured .product-container {
+    flex: 0 0 calc(25% - 20px);
+    min-width: 250px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #fff;
+    transition: 0.3s shadow;
+}
+
+.img-box {
+    background-color: #f9f9f9;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* 2. ALIGN TEXT AND STARS */
+.star {
+    color: #f1c40f;
+    margin-bottom: -10px;
+    height: 20px;
+}
+.p-name {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: -20px;
+    font-weight: normal;
+    min-height: 2.4em;
+}
+
+.p-price {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #222;
+    margin-bottom: -15px;
+}
+
+
+
+.buy-btn {
+    background-color: coral;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 80%;
+    margin-top: auto;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+}
+
+#featured .product-container:hover .buy-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.buy-btn:hover{
+    background: coral;
+}
+
+#banner{
+    background-image: url("../images/8.jpg");
+    /*background: #ECECEC;*/
+    width: 100%;
+    height: 60vh;
+    background-size: cover;
+    background-position: top center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.banner{
+    margin-left: 90px;
+}
+
+#banner h4{
+    color: rgb(32, 32, 102);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: normal;
+}
+
+#banner h1{
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+#banner p{
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+#banner button{
+    background: coral;
+}
+
+#watches{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+#watches h3{
+    font-weight: normal;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+hr {
+    width: 60px;
+    height: 5px;
+    background-color: rgb(133, 94, 22);
+    border: none;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+#footer{
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.footer-one {
+    margin-bottom: 30px;
+}
+
+.footer-one .footer-img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.footer-one .footer-img:hover {
+    transform: scale(1.05);
+}

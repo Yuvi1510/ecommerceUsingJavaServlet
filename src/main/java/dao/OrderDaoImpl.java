@@ -1,5 +1,6 @@
 package dao;
 
+import model.CartItem;
 import model.Order;
 import model.OrderItem;
 import util.DatabaseConnection;
@@ -12,9 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
+    OrderItemDao orderItemDao = new OrderItemDaoImpl();
+
+    private OrderItem mapCartItemToOrderItem(CartItem cartItem){
+        OrderItem orderItem = new OrderItem(cartItem.getProductId(), cartItem.getTotalItems(), cartItem.getTotalPrice());
+        return orderItem;
+    }
 
     @Override
-    public boolean addOrder(Order order, List<OrderItem> productIds) {
+    public boolean addOrder(Order order, List<CartItem> items) {
         String query = "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -30,8 +37,21 @@ public class OrderDaoImpl implements OrderDao {
 
             int rowsAffected = ps.executeUpdate();
 
-            if(rowsAffected >= 1){
+            // get the id of order
+            int id = 0;
+            ResultSet rs = ps.getResultSet();
+            if(rs.next()){
+               id =  rs.getInt(1);
+            }
 
+            // if order is saved then set the order item with order id
+            // and then save the order item
+            if(rowsAffected >= 1){
+                for(CartItem item: items){
+                    OrderItem orderItem = mapCartItemToOrderItem(item);
+                    orderItem.setOrderId(id);
+                    orderItemDao.addOrderItem(orderItem);
+                }
             }
 
         } catch (Exception e) {

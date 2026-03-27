@@ -1,5 +1,8 @@
 package model;
 
+import dao.ProductsDao;
+import dao.ProductsDaoImpl;
+
 public class OrderItem {
     private int orderItemId;
     private int orderQuantity;
@@ -7,9 +10,18 @@ public class OrderItem {
     private int orderId;
     private int productId;
 
-    public OrderItem( int productId, int orderQuantity) {
+    ProductsDao productsDao = new ProductsDaoImpl();
+
+    public OrderItem( int productId, int orderQuantity, Double amount) {
         this.orderQuantity = orderQuantity >= 1? orderQuantity: 0;
         this.productId = productId;
+        this.amount =amount;
+    }
+
+    public void updateQuantity(int orderQuantity){
+        this.orderQuantity = orderQuantity;
+        this.amount = productsDao.findProductById(productId).getPrice() * orderQuantity;
+
     }
 
     public int getOrderItemId() {

@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Product {
     private int productId;
     private String name;
@@ -8,6 +10,7 @@ public class Product {
     private Double price;
     private int quantity;
     private int categoryId;
+    private LocalDate date;
 
     public Product(){
 
@@ -20,6 +23,15 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.categoryId = categoryId;
+        this.date = LocalDate.now();
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public int getProductId() {

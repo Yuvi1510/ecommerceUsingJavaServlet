@@ -1,5 +1,6 @@
 package dao;
 
+import model.CartItem;
 import model.Order;
 import model.OrderItem;
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Or;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderDao {
-    boolean addOrder(Order order, List<OrderItem> productIds);
+    boolean addOrder(Order order, List<CartItem> productIds);
     List<Order> findAllOrders();
     Order findOrderById(int orderId);
     List<Order> findOrderByUserId(int userId);

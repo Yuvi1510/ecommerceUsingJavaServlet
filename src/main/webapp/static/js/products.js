@@ -7,6 +7,9 @@ function changeContent(contentId){
     </option>
 `).join("");
 
+    console.log(categories);
+    console.log(options);
+
     const element = document.getElementById("inner-content");
 
     if(contentId === "addProduct"){

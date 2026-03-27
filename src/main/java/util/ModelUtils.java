@@ -2,6 +2,7 @@ package util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import model.Order;
+import model.OrderItem;
 import model.Product;
 import model.User;
 
@@ -63,6 +64,7 @@ public class ModelUtils {
         );
 
         product.setProductId(rs.getInt("product_id"));
+        product.setDate(rs.getDate("date_added").toLocalDate());
 
         return product;
     }
@@ -95,5 +97,20 @@ public class ModelUtils {
         order.setDate(date.toLocalDate());
 
         return order;
+    }
+
+
+    public static OrderItem getOrderItemFromResultSet(ResultSet rs) throws SQLException {
+        OrderItem item = new OrderItem(
+                rs.getInt("product_id"),
+                rs.getInt("order_quantity"),
+                rs.getDouble("total_price")
+        );
+
+        item.setOrderItemId(rs.getInt("order_item_id"));
+        item.setAmount(rs.getDouble("amount"));
+        item.setOrderId(rs.getInt("order_id"));
+
+        return item;
     }
 }
