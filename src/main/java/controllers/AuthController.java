@@ -29,11 +29,13 @@ public class AuthController extends HttpServlet {
 
         User user = userDao.findUserByEmail(email);
 
-       if( BCrypt.checkpw(password, user.getPassword())){
-           req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
-       }else {
+       if( user == null || !BCrypt.checkpw(password, user.getPassword())){
            req.setAttribute("error", "Invalid credentials!");
            req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
+       }else {
+           System.out.println("User logged in");
+           req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
+
        }
     }
 

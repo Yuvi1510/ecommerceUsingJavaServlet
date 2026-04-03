@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,11 +23,11 @@
 <div class="container">
     <!--login Forn-->
     <div class="form-box login">
+        <form action="/login" method="post">
+            <h1>Login</h1>
         <c:if test="${not empty error}">
             <span style="color: red;">${error}</span>
         </c:if>
-        <form action="">
-            <h1>Login</h1>
             <div class="input-box">
                 <input type="text" name="email" placeholder="Email" required>
                 <i class='bx bxs-user'></i>
@@ -44,14 +43,14 @@
             </div>
 
             <button type="submit" class="btn">Login</button>
-            <p>Or Login With Social Platforms</p>
-            <div class="social-icons">
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo" class="google-logo"></i></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook"></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub"></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn"></a>
+<%--            <p>Or Login With Social Platforms</p>--%>
+<%--            <div class="social-icons">--%>
+<%--                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo" class="google-logo"></a>--%>
+<%--                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook"></a>--%>
+<%--                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub"></a>--%>
+<%--                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn"></a>--%>
 
-            </div>
+<%--            </div>--%>
         </form>
     </div>
 
@@ -60,17 +59,17 @@
         <form action="/register" method="post">
             <h1>Registration</h1>
             <div class="input-box fname">
-                <input type="text" name="First Name" placeholder="firstName" required>
+                <input type="text" name="firstName" placeholder="First Name" required>
                 <i class='bx bxs-user'></i>
             </div>
 
             <div class="input-box lname">
-                <input type="text" name="Last Name" placeholder="lastName" required>
+                <input type="text" name="lastName" placeholder="Last Name" required>
                 <i class='bx bxs-user'></i>
             </div>
 
             <div class="input-box phone">
-                <input type="number" name="PhoneNo" placeholder="phone" required>
+                <input type="number" name="phone" placeholder="Phone" required>
                 <i class='bx bxs-phone'></i>
             </div>
 
@@ -80,17 +79,17 @@
             </div>
 
             <div class="input-box">
-                <input type="email" placeholder="email" required>
+                <input type="email" placeholder="email" name="email" required>
                 <i class='bx bxs-envelope'></i>
             </div>
 
             <div class="input-box">
-                <input type="number" name="address" placeholder="Address..." required>
+                <input type="text" name="address" placeholder="Address..." required>
                 <i class='bx bxs-map'></i>
             </div>
 
             <div class="input-box">
-                <input type="password" name="password0" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="input-box">
@@ -101,7 +100,7 @@
             <button type="submit" class="btn register-btn">Register</button>
             <p>Or Register Social Platforms</p>
             <div class="social-icons">
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo" class="google-logo"></i></a>
+                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo" class="google-logo"></a>
                 <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook"></a>
                 <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub"></a>
                 <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn"></a>
