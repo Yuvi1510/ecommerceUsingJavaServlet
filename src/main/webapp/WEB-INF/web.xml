@@ -7,7 +7,7 @@
 
     <!-- Welcome file — redirects root URL to the topic servlet -->
     <welcome-file-list>
-        <welcome-file>dashboard</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
 
 </web-app>

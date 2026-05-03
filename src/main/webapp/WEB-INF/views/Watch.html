@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronics – FataFat Kin</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="CSS/shop.css" />
+
+  <style>
+    #banner {
+      background-image: url("../images/e2.png");
+      width: 100%;
+      height: 40vh;
+      background-size: contain;
+      background-position: right center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 5%;
+      background-color: #1d1d1d;
+      /* Fallback/Theme color */
+      flex-shrink: 0;
+    }
+
+    #banner h1 {
+      color: #fff;
+      font-size: 2.5rem;
+    }
+
+    #banner p {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    #featured {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 90px);
+      margin-top: 90px;
+    }
+
+    .shop-products-area::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .shop-products-area::-webkit-scrollbar-track {
+      background: #f5f5f5;
+    }
+
+    .shop-products-area::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #f1c40f, #f39c12);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-item">
+      <div class="logo">
+        <img src="images/download.png" alt="FataFat Kin Logo" />
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Search product" class="search-input" />
+        <button class="search-btn">
+          <img src="images/search.png" class="search-icon" />
+        </button>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.jsp">Home</a></li>
+        <li><a class="active" href="shop.html">Shop</a></li>
+        <li><a href="index.jsp">About</a></li>
+
+        <li><a href="order.html">My order</a></li>
+
+
+        <li class="icon"><a href="service.html"><i class="bx bx-help-circle"></i><span>Service</span></a></li>
+        <li class="icon"><a href="#"><i class="bx bx-shopping-bag"></i><span>cart</span></a></li>
+        <li class="icon"><a href="login.html"><i class="bx bx-user"></i><span>login</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== ELECTRONICS MAIN SECTION (Using shop logic) ===== -->
+  <section id="featured">
+
+    <div class="shop-container">
+      <h3>Electronics Category</h3>
+      <hr class="divider">
+      <p>Explore our Full Range of Top Gadgets and Appliances</p>
+    </div>
+
+    <div class="shop-layout">
+      <!-- FIXED CATEGORY SIDEBAR -->
+      <aside class="category-sidebar">
+        <div class="cat-title">Categories</div>
+
+        <a href="shop.html">All</a>
+        <a class="active" href="electronics.html">Electronics</a>
+        <a href="Fashion.html">Fashion</a>
+        <a href="Home&living.html">Home &amp; Living</a>
+        <a href="Beauty&Health.html">Beauty &amp; Health</a>
+        <a href="Groceries.html">Groceries</a>
+        <a href="Sports&Outdoor.html">Sports &amp; Outdoor</a>
+        <a href="Baby&Toys.html">Baby &amp; Toys</a>
+        <a href="Automotive.html">Automotive</a>
+        <a href="Book.html">Books &amp; Stationery</a>
+        <hr class="cat-divider">
+        <a href="#">Deals</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+
+        <div class="cat-more-links" id="catMoreLinks">
+          <hr class="cat-divider">
+          <a href="#">Mobile Accessories</a>
+          <a href="Gaming.html">Gaming</a>
+          <a href="Watch.html">Watches</a>
+          <a href="jewelry.html">Jewelry</a>
+          <a href="Health.html">Health Devices</a>
+          <a href="Pet.html">Pet Supplies</a>
+          <a href="office.html">Office Equipment</a>
+          <a href="Travel.html">Travel &amp; Luggage</a>
+          <a href="Kitchen.html">Kitchen Appliances</a>
+        </div>
+        <button class="cat-show-more-btn" id="catShowMoreBtn" onclick="toggleCatMore()">
+          <span id="catMoreBtnText">Show More</span>
+          <i class='bx bx-chevron-down' id="catMoreBtnIcon"></i>
+        </button>
+      </aside>
+
+      <!-- SCROLLABLE PRODUCTS AREA -->
+      <div class="shop-products-area">
+
+        <!-- Product Row 1 -->
+        <div class="product-list">
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/chopard-alpine-eagle-frozen.webp" alt="Chopard Alpine Frozen" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Chopard Alpine Frozen</h5>
+        <h4 class="p-price">Rs 450000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/jacob-co-twin-turbo-furious-sapphire-crystal-.webp"
+            alt="Jacob & Co Twin Turbo" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Jacob & Co Twin Turbo</h5>
+        <h4 class="p-price">Rs 1250000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/greubel-forsey-gmt-balancier.webp" alt="Grebel Frostry GMT" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Grebel Frostry GMT</h5>
+        <h4 class="p-price">Rs 320000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/bell night.webp" alt="Bell Night" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Bell Night</h5>
+        <h4 class="p-price">Rs 280000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+    </div>
+
+    <!-- Row 2: next 4 products -->
+    <div class="product-list">
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/albishorn-marinagraph-classic-racing-.webp"
+            alt="Albishorn Marinagraog Classic" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Albishorn Marinagraog Classic</h5>
+        <h4 class="p-price">Rs 195000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/l-leroy-elroy-platinum.webp" alt="Leroy-Elroy" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Leroy-Elroy</h5>
+        <h4 class="p-price">Rs 98000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/patek-philippe-red.webp" alt="Patek-Philippe Red" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Patek-Philippe Red</h5>
+        <h4 class="p-price">Rs 750000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/watch/patek phellips.webp" alt="Patek Philippe" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Patek Philippe (Classic)</h5>
+        <h4 class="p-price">Rs 680000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER INSIDE SCROLL AREA -->
+  <section id="pagination">
+    <div class="page">
+      <button class="btn1"><i class='bx bx-left-arrow-alt'></i>prev</button>
+      <ul>
+        <a href="#">
+          <li class="link active" onclick="activeLink(event)">1</li>
+        </a>
+        <a href="#">
+          <li class="link" onclick="activeLink(event)">2</li>
+        </a>
+        <a href="#">
+          <li class="link" onclick="activeLink(event)">3</li>
+        </a>
+        <a href="#">
+          <li class="link" onclick="activeLink(event)">4</li>
+        </a>
+        <a href="#">
+          <li class="link" onclick="activeLink(event)">5</li>
+        </a>
+        <a href="#">
+          <li class="link" onclick="activeLink(event)">6</li>
+        </a>
+      </ul>
+      <button class="btn2">next<i class='bx bx-right-arrow-alt'></i></button>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER  ===== -->
+  <footer class="footer">
+    <div class="row">
+      <div class="footer-one">
+        <img src="images/download.png" alt="Logo">
+        <p>Shop the best of Nepal from the comfort of home and experience the joy of truly fast delivery with Fatafat
+          Kin.</p>
+      </div>
+      <div class="footer-one">
+        <h5>Featured</h5>
+        <ul>
+          <li><a href="#">men</a></li>
+          <li><a href="#">women</a></li>
+          <li><a href="#">boys</a></li>
+          <li><a href="#">girls</a></li>
+          <li><a href="#">new arrivals</a></li>
+          <li><a href="#">shoes</a></li>
+        </ul>
+      </div>
+      <div class="footer-one">
+        <h5>Contact Us</h5>
+        <div>
+          <h6 class="text">ADDRESS</h6>
+          <p>123 Street Name, City, US</p>
+        </div>
+        <div>
+          <h6 class="text">PHONE</h6>
+          <p>(123) 456-7890</p>
+        </div>
+        <div>
+          <h6 class="text">EMAIL</h6>
+          <p>mail@example.com</p>
+        </div>
+      </div>
+      <div class="footer-one">
+        <h5>Instagram</h5>
+        <div class="insta-grid">
+          <img src="images/spring/download (2).jpg">
+          <img src="images/spring/download (3).jpg">
+          <img src="images/spring/images (2).jpg">
+          <img src="images/spring/images (1).jpg">
+          <img src="images/spring/download (4).jpg">
+        </div>
+      </div>
+    </div>
+    <div class="payment">
+      <div class="payment-img">
+        <div class="image">
+          <img src="images/spring/esewa.jpg">
+          <img src="images/spring/khalti.png">
+          <img src="images/spring/card.png">
+        </div>
+        <div class="image">
+          <p style="color:#9a9a9a;font-size:0.85rem;">© 2026 Fatafat Kin. All Rights Reserved</p>
+        </div>
+        <div class="social-icons">
+          <a href="#" class="social-link fb">
+            <div class="icon-circle"><i class='bx bxl-facebook-circle'></i></div><span class="icon-text">Facebook</span>
+          </a>
+          <a href="#" class="social-link github">
+            <div class="icon-circle"><i class='bx bxl-github'></i></div>
+            <span class="icon-text">GitHub</span>
+          </a>
+          <a href="#" class="social-link linkedin">
+            <div class="icon-circle"><i class='bx bxl-linkedin-square'></i></div>
+            <span class="icon-text">LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== POPUP ===== -->
+  <div class="popup-overlay" id="popupOverlay" onclick="handleOverlayClick(event)">
+    <div class="popup-box" id="popupBox">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div class="popup-icon-wrap">
+        <div class="popup-icon"><i class='bx bx-check'></i></div>
+      </div>
+      <h2>Buy Now Confirmed</h2>
+      <p class="popup-subtitle">You have selected immediate checkout for:</p>
+      <div class="popup-details">
+        <div class="detail-row">
+          <span class="label">Item</span>
+          <span class="value" id="popupItemName">–</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Quantity</span>
+          <span class="value">1</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Item Subtotal</span>
+          <span class="value price" id="popupItemPrice">–</span>
+        </div>
+      </div>
+      <p class="popup-shipping-note">
+        <i class='bx bx-info-circle'></i>
+        Shipping fee of Rs. 150 will be applied at payment
+      </p>
+      <div class="popup-btns">
+        <button class="popup-cancel" onclick="closePopup()">CANCEL</button>
+        <button class="popup-proceed" onclick="proceedToPayment()">
+          <i class='bx bx-credit-card'></i>
+          PROCEED TO PAYMENT
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="Js/shop.js"></script>
+</body>
+
+</html>

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
+import util.SessionUtil;
 
 import java.io.IOException;
 
@@ -33,9 +34,11 @@ public class AuthController extends HttpServlet {
            req.setAttribute("error", "Invalid credentials!");
            req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
        }else {
-           System.out.println("User logged in");
-           req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
+           SessionUtil.setAttribute(req, "user", user);
 
+//           CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
+
+           resp.sendRedirect(req.getContextPath() + "/home");
        }
     }
 

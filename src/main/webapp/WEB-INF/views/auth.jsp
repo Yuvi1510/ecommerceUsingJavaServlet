@@ -23,7 +23,7 @@
 <div class="container">
     <!--login Forn-->
     <div class="form-box login">
-        <form action="/login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <h1>Login</h1>
         <c:if test="${not empty error}">
             <span style="color: red;">${error}</span>
@@ -56,7 +56,7 @@
 
     <!--Register Form-->
     <div class="form-box register">
-        <form action="/register" method="post">
+        <form action="${pageContext.request.contextPath}/register" method="post">
             <h1>Registration</h1>
             <div class="input-box fname">
                 <input type="text" name="firstName" placeholder="First Name" required>

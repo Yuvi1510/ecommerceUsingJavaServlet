@@ -23,7 +23,7 @@ public class CategoriesController extends HttpServlet {
         if(action == null){
             List<Category> categories = categoryDao.getAllCategories();
             req.setAttribute("categories", categories);
-            req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/admin/categories.jsp").forward(req,resp);
         }
     }
 
@@ -36,7 +36,7 @@ public class CategoriesController extends HttpServlet {
             boolean success = categoryDao.addCategory(new Category(name));
             if(!success || name.equals("test")){
                 req.setAttribute("error","Unable to add category");
-                req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/admin/categories.jsp").forward(req,resp);
             }
 
             resp.sendRedirect(req.getContextPath() + "/categories");
@@ -49,7 +49,7 @@ public class CategoriesController extends HttpServlet {
 
             if(!success){
                 req.setAttribute("error","Unable to update category");
-                req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/admin/categories.jsp").forward(req,resp);
             }
             resp.sendRedirect(req.getContextPath() + "/categories");
         }else if(action.equals("delete")){

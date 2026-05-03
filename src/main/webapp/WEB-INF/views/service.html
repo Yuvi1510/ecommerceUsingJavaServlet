@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Service — FataFat Kin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/customer-service.css">
+</head>
+
+<body>
+   <nav class="navbar">
+    <div class="navbar-item">
+      <div class="logo">
+        <img src="images/download.png" alt="FataFat Kin Logo" />
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Search product" class="search-input" />
+        <button class="search-btn">
+          <img src="images/search.png" class="search-icon" />
+        </button>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.jsp">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a class="active" href="about.html">About</a></li>
+        <li><a href="order.html">My order</a></li>
+
+        <li class="icon"><a href="service.html"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
+        <li class="icon">
+          <a href="cart.html"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
+        </li>
+        <li class="icon">
+          <a href="login.html"><i class="bx bx-user icon"></i><span>login</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+    <main class="support-page">
+        <header class="support-hero">
+            <h1>Customer Service</h1>
+            <p>Questions about orders, returns, or your account? Our team is here to help — <span
+                    class="support-hero-accent">seven days a week</span>.</p>
+        </header>
+
+        <section class="support-options" aria-label="Contact options">
+            <article class="support-card">
+                <i class="bx bxs-phone" aria-hidden="true"></i>
+                <h2>Call us</h2>
+                <p><a href="tel:+9779800000000">+977-9800000000</a></p>
+                <p style="font-size:0.85rem;color:#888;margin-top:8px;">Sun–Sat, 9:00–21:00 NPT</p>
+            </article>
+            <article class="support-card">
+                <i class="bx bxs-envelope" aria-hidden="true"></i>
+                <h2>Email</h2>
+                <p><a href="mailto:support@fatafatkin.com">support@fatafatkin.com</a></p>
+                <p style="font-size:0.85rem;color:#888;margin-top:8px;">We reply within 24 hours</p>
+            </article>
+            <article class="support-card">
+                <i class="bx bxs-message-rounded-dots" aria-hidden="true"></i>
+                <h2>Live chat</h2>
+                <p>Available on this site during business hours</p>
+                <p style="font-size:0.85rem;color:#888;margin-top:8px;">Start from the chat icon when online</p>
+            </article>
+        </section>
+
+        <section class="faq-block" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" class="support-section-title">Frequently asked questions</h2>
+            <hr>
+            <details class="faq-item">
+                <summary>How can I track my order?</summary>
+                <p>Sign in and open <strong>My Orders</strong>. Select an order to see status and tracking. You will
+                    also get email updates when your order ships.</p>
+            </details>
+            <details class="faq-item">
+                <summary>What is your return policy?</summary>
+                <p>Unopened items in original packaging can be returned within <strong>7 days</strong> of delivery. Some
+                    categories may have different rules; check the product page before you buy.</p>
+            </details>
+            <details class="faq-item">
+                <summary>How do I cancel an order?</summary>
+                <p>Go to <strong>My Orders</strong> and choose <strong>Cancel</strong> if the order is not yet shipped.
+                    After dispatch, you can refuse delivery or request a return once it arrives.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Do you deliver across Nepal?</summary>
+                <p>We deliver to major cities and many towns. Enter your address at checkout to see options and
+                    estimated delivery time.</p>
+            </details>
+            <details class="faq-item">
+                <summary>What payment methods do you accept?</summary>
+                <p>We accept major cards, mobile wallets, and cash on delivery where available. Exact options appear at
+                    checkout.</p>
+            </details>
+        </section>
+
+        <section class="contact-form-section" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Send us a message</h2>
+            <p class="form-lead">Describe your issue and we will get back to you by email.</p>
+            <form id="support-form" novalidate>
+                <label for="support-name">Name</label>
+                <input id="support-name" name="name" type="text" placeholder="Your name" required autocomplete="name">
+
+                <label for="support-email">Email</label>
+                <input id="support-email" name="email" type="email" placeholder="you@example.com" required
+                    autocomplete="email">
+
+                <label for="support-topic">Topic</label>
+                <select id="support-topic" name="topic" required>
+                    <option value="">Select a topic</option>
+                    <option value="order">Order &amp; delivery</option>
+                    <option value="return">Returns &amp; refunds</option>
+                    <option value="product">Product question</option>
+                    <option value="account">Account &amp; login</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="support-order">Order number <span
+                        style="font-weight:400;text-transform:none;color:#888;">(optional)</span></label>
+                <input id="support-order" name="order" type="text" placeholder="e.g. FFK-12345" autocomplete="off">
+
+                <label for="support-message">Message</label>
+                <textarea id="support-message" name="message" placeholder="How can we help?" rows="5"
+                    required></textarea>
+
+                <button type="submit" class="btn-submit">Submit</button>
+                <p id="form-feedback" class="form-message" role="status" aria-live="polite" hidden></p>
+            </form>
+        </section>
+    </main>
+<footer class="footer">
+    <div class="row">
+      <div class="footer-one">
+        <img src="images/download.png" alt="Logo" />
+        <p>Shop the best of Nepal from the comfort of home with Fatafat Kin.</p>
+      </div>
+      <div class="footer-one">
+        <h5>Featured</h5>
+        <ul>
+          <li><a href="#">new arrivals</a></li>
+          <li><a href="#">shoes</a></li>
+        </ul>
+      </div>
+      <div class="footer-one">
+        <h5>Contact</h5>
+        <p>123 STREET NAME, CITY, US</p>
+        <p>(123) 456-7890</p>
+      </div>
+    </div>
+    <div class="payment">
+      <div class="payment-img">
+        <div class="image">
+          <img src="images/spring/esewa.jpg" />
+          <img src="images/spring/khalti.png" />
+        </div>
+        <p>© 2026 Fatafat Kin. All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+
+    <script src="Js/CustomerService.js"></script>
+</body>
+
+</html>

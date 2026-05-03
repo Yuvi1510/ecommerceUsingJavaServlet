@@ -1,39 +1,78 @@
 package dao;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import model.Product;
 import util.DatabaseConnection;
 import util.ModelUtils;
+import util.SessionUtil;
+import util.Validation;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductsDaoImpl implements ProductsDao {
 
+    // In ProductsDaoImpl.java
     @Override
-    public boolean addProduct(Product product) {
+    public boolean addProduct(HttpServletRequest request) {
+        Product product = ModelUtils.getProductFromRequest(request);
+
         String query = "INSERT INTO products(name, description, image_path, price, quantity, category_id, date_added) VALUES(?,?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
 
+            Part image = request.getPart("image");
+            String imageName = image.getSubmittedFileName();
+
+            if(!Validation.isValidImageExtension(imageName)){
+                SessionUtil.setAttribute(request, "error", "Invalid image extension!");
+                return false;
+            }
+
+            // Generate unique filename
+            String extension = imageName.substring(imageName.lastIndexOf("."));
+            String uniqueImageName = System.currentTimeMillis() + "_" + System.nanoTime() + extension;
+
+            InputStream is = image.getInputStream();
+            byte[] data = new byte[is.available()];
+
+            is.read(data);
+
+//          C:\fatafat-kin\\uploads\products
+            String path = "C:" + File.separator + "fatafat-kin"+ File.separator + "uploads" + File.separator+ "products" + File.separator + uniqueImageName;
+            System.out.println(path);
+
+            FileOutputStream fos = new FileOutputStream(path);
+
+            fos.write(data);
+            fos.close();
+
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
-            ps.setString(3, product.getImagePath());
+            ps.setString(3, uniqueImageName); // Store just the filename
             ps.setDouble(4, product.getPrice());
             ps.setInt(5, product.getQuantity());
             ps.setInt(6, product.getCategoryId());
             ps.setDate(7, Date.valueOf(product.getDate()));
 
             int rowsAffected = ps.executeUpdate();
-
-            return rowsAffected >=1;
+            return rowsAffected >= 1;
 
         } catch (Exception e) {
             System.out.println("Error adding product: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
+
 
     @Override
     public Product findProductById(int id) {
@@ -105,26 +144,44 @@ public class ProductsDaoImpl implements ProductsDao {
     }
 
     @Override
-    public boolean updateProduct(Product product, int productId) {
+    public boolean updateProduct(HttpServletRequest request, int id) {
         String query = "UPDATE products SET name = ?, description = ?, image_path = ?, " +
                 "price = ?, quantity = ?, category_id = ? WHERE product_id = ?";
+
+        Product product = ModelUtils.getProductFromRequest(request);
+
+        String mainFolder = request.getServletContext().getRealPath("");
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
 
+            Part image = request.getPart("image");
+            String imageName = image.getSubmittedFileName();
+
+            if(!Validation.isValidImageExtension(imageName)){
+                SessionUtil.setAttribute(request, "error", "Invalid image extension!");
+                return false;
+            }
+
+            String uploadFolder = "static/images/" + imageName;
+            String filePath = mainFolder + "/" + uploadFolder;
+            // write the image
+            image.write(filePath);
+
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
-            ps.setString(3, product.getImagePath());
+            ps.setString(3, uploadFolder);
             ps.setDouble(4, product.getPrice());
             ps.setInt(5, product.getQuantity());
             ps.setInt(6, product.getCategoryId());
-            ps.setInt(7, productId);
+            ps.setDate(7, Date.valueOf(product.getDate()));
 
             int rowsAffected = ps.executeUpdate();
-            return rowsAffected >= 1;
+
+            return rowsAffected >=1;
 
         } catch (Exception e) {
-            System.out.println("Error updating product: " + e.getMessage());
+            System.out.println("Error adding product: " + e.getMessage());
             return false;
         }
     }

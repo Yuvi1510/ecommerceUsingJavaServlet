@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen – FataFat Kin</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="CSS/shop.css" />
+
+  <style>
+
+
+    #banner {
+      background-image: url("../images/e2.png");
+      width: 100%;
+      height: 40vh;
+      background-size: contain;
+      background-position: right center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 5%;
+      background-color: #1d1d1d;
+      /* Fallback/Theme color */
+      flex-shrink: 0;
+    }
+
+    #banner h1 {
+      color: #fff;
+      font-size: 2.5rem;
+    }
+
+    #banner p {
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    #featured {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 90px);
+      margin-top: 90px;
+    }
+
+    .shop-products-area::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .shop-products-area::-webkit-scrollbar-track {
+      background: #f5f5f5;
+    }
+
+    .shop-products-area::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #f1c40f, #f39c12);
+      border-radius: 10px;
+    }
+    
+
+  
+  </style>
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-item">
+      <div class="logo">
+        <img src="images/download.png" alt="FataFat Kin Logo" />
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Search product" class="search-input" />
+        <button class="search-btn">
+          <img src="images/search.png" class="search-icon" />
+        </button>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.jsp">Home</a></li>
+        <li><a class="active" href="shop.html">Shop</a></li>
+        <li><a href="index.jsp">About</a></li>
+
+        <li><a href="order.html">My order</a></li>
+
+
+        <li class="icon"><a href="service.html"><i class="bx bx-help-circle"></i><span>Service</span></a></li>
+        <li class="icon"><a href="Cart.html"><i class="bx bx-shopping-bag"></i><span>cart</span></a></li>
+        <li class="icon"><a href="login.html"><i class="bx bx-user"></i><span>login</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== ELECTRONICS MAIN SECTION (Using shop logic) ===== -->
+  <section id="featured">
+
+    <div class="shop-container">
+      <h3>Electronics Category</h3>
+      <hr class="divider">
+      <p>Explore our Full Range of Top Gadgets and Appliances</p>
+    </div>
+
+    <div class="shop-layout">
+      <!-- FIXED CATEGORY SIDEBAR -->
+      <aside class="category-sidebar">
+        <div class="cat-title">Categories</div>
+
+        <a href="shop.html">All</a>
+        <a class="active" href="electronics.html">Electronics</a>
+        <a href="Fashion.html">Fashion</a>
+        <a href="Home&living.html">Home &amp; Living</a>
+        <a href="Beauty&Health.html">Beauty &amp; Health</a>
+        <a href="Groceries.html">Groceries</a>
+        <a href="Sports&Outdoor.html">Sports &amp; Outdoor</a>
+        <a href="Baby&Toys.html">Baby &amp; Toys</a>
+        <a href="Automotive.html">Automotive</a>
+        <a href="Book.html">Books &amp; Stationery</a>
+        <hr class="cat-divider">
+        <a href="#">Deals</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+
+        <div class="cat-more-links" id="catMoreLinks">
+          <hr class="cat-divider">
+          <a href="#">Mobile Accessories</a>
+          <a href="Gaming.html">Gaming</a>
+          <a href="Watch.html">Watches</a>
+          <a href="jewelry.html">Jewelry</a>
+          <a href="Health.html">Health Devices</a>
+          <a href="Pet.html">Pet Supplies</a>
+          <a href="office.html">Office Equipment</a>
+          <a href="Travel.html">Travel &amp; Luggage</a>
+          <a href="Kitchen.html">Kitchen Appliances</a>
+        </div>
+        <button class="cat-show-more-btn" id="catShowMoreBtn" onclick="toggleCatMore()">
+          <span id="catMoreBtnText">Show More</span>
+          <i class='bx bx-chevron-down' id="catMoreBtnIcon"></i>
+        </button>
+      </aside>
+
+      <!-- SCROLLABLE PRODUCTS AREA -->
+      <div class="shop-products-area">
+
+        <!-- Product Row 1 -->
+        <div class="product-list">
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/1.jpg" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Fridge</h5>
+        <h4 class="p-price">Rs 13000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/2.jpg" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Sandwich Maker</h5>
+        <h4 class="p-price">Rs 3500</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/3.jpg" alt="" />
+        </div>
+
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">
+          Coffee Maker
+        </h5>
+        <h4 class="p-price">Rs 1100</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/4.jpg" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Kettle</h5>
+        <h4 class="p-price">Rs 2500</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+    </div>
+
+    <div class="product-list">
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/5.webp" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Microwave</h5>
+        <h4 class="p-price">Rs 11490</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/6.jpg" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Juicer</h5>
+        <h4 class="p-price">Rs 4700</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/7.jpg" alt="" />
+        </div>
+
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">
+          Blender
+        </h5>
+        <h4 class="p-price">Rs 7000</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+
+      <div class="product-container">
+        <div class="img-box">
+          <img class="product-img" src="images/kitchen appliances/8.jpg" alt="" />
+        </div>
+        <div class="star">
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+          <i class="bx bxs-star"></i>
+        </div>
+        <h5 class="p-name">Gas Burner</h5>
+        <h4 class="p-price">Rs 6669</h4>
+        <button class="buy-btn">BUY NOW</button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER INSIDE SCROLL AREA -->
+  <footer class="footer">
+    <div class="row">
+      <div class="footer-one">
+        <img src="images/download.png" alt="Logo" />
+        <p>Shop the best of Nepal from the comfort of home with Fatafat Kin.</p>
+      </div>
+      <div class="footer-one">
+        <h5>Featured</h5>
+        <ul>
+          <li><a href="#">new arrivals</a></li>
+          <li><a href="#">shoes</a></li>
+        </ul>
+      </div>
+      <div class="footer-one">
+        <h5>Contact</h5>
+        <p>123 STREET NAME, CITY, US</p>
+        <p>(123) 456-7890</p>
+      </div>
+    </div>
+    <div class="payment">
+      <div class="payment-img">
+        <div class="image">
+          <img src="images/spring/esewa.jpg" />
+          <img src="images/spring/khalti.png" />
+        </div>
+        <p>© 2026 Fatafat Kin. All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    function toggleCatMore() {
+      const moreLinks = document.getElementById('catMoreLinks');
+      const btnText = document.getElementById('catMoreBtnText');
+      const btn = document.getElementById('catShowMoreBtn');
+
+      if (moreLinks.classList.contains('visible')) {
+        moreLinks.classList.remove('visible');
+        btnText.textContent = 'Show More';
+        btn.classList.remove('open');
+      } else {
+        moreLinks.classList.add('visible');
+        btnText.textContent = 'Show Less';
+        btn.classList.add('open');
+      }
+    }
+
+    const categoryBtn = document.getElementById('category-btn');
+    const shortcutLinks = document.querySelector('.shortcut-links');
+    categoryBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      shortcutLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+
+</html>

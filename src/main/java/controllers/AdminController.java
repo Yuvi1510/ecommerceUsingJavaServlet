@@ -35,7 +35,7 @@ public class AdminController extends HttpServlet {
         if(action == null){
             List<User> users = userDao.findAllUsers();
             req.setAttribute("users", users);
-            req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req, resp);
         }
     }
 
@@ -53,14 +53,14 @@ public class AdminController extends HttpServlet {
             User user = userDao.findUserById(id);
             System.out.println(user.getUserId());
             req.setAttribute("users", List.of(user));
-            req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req,resp);
         }else if(action.equals("findByEmail")){
             String email = req.getParameter("email");
             System.out.println(email);
             User user = userDao.findUserByEmail(email);
             System.out.println(user.getEmail());
             req.setAttribute("users", List.of(user));
-            req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req,resp);
         }else if(action.equals("edit")){
             int id = Integer.parseInt(req.getParameter("userId"));
             User user = ModelUtils.getUserFromRequest(req);

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+
+    <!-- CSS LINK -->
+    <link rel="stylesheet" href="CSS/order.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>My Orders</h1>
+
+    <!-- Empty State -->
+    <div id="empty">
+        <img src="images/order-img.jpeg" class="empty-img" alt="No Orders">
+        <h2>No Orders</h2>
+        <h3>You haven't placed any orders yet</h3>
+    </div>
+
+    <!-- Orders Container (ID fixed to match JS) -->
+    <div id="order"></div>
+
+    <button id="clearBtn">Clear Orders</button>
+
+</div>
+
+<!-- JS LINK -->
+<script>
+    const orderContainer = document.getElementById("order");
+const empty = document.getElementById("empty");
+const clearBtn = document.getElementById("clearBtn");
+
+if (orderContainer) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  function showOrders() {
+    orderContainer.innerHTML = "";
+
+    if (orders.length === 0) {
+      empty.style.display = "flex";
+      clearBtn.style.display = "none";
+    } else {
+      empty.style.display = "none";
+      clearBtn.style.display = "block";
+
+      orders.forEach((order) => {
+        const div = document.createElement("div");
+        div.classList.add("order-card");
+
+        div.innerHTML = `
+          <img src="${order.img}" width="120">
+          <h3>${order.name}</h3>
+          <p>Rs ${order.price}</p>
+          <p>Status: ${order.status}</p>
+        `;
+
+        orderContainer.appendChild(div);
+      });
+    }
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      localStorage.removeItem("orders");
+      orders = [];
+      showOrders();
+    });
+  }
+
+  showOrders();
+}
+</script>
+
+</body>
+</html>

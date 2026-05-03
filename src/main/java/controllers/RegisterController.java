@@ -18,6 +18,7 @@ public class RegisterController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("register called");
         User user = ModelUtils.getUserFromRequest(req);
         boolean success = userDao.addUser(user);
 

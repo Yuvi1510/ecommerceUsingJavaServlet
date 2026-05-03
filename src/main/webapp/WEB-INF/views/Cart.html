@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>test - Shopping Cart</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="CSS/style.css" />
+  <link rel="stylesheet" href="CSS/cart.css" />
+  <style>
+    .quantity-btn:hover {
+      background-color: #f39c12;
+      /* Changes background to orange */
+      color: #fff;
+      /* Optional: Changes text to white for better contrast */
+    }
+
+    .quantity-input {
+      width: 40px;
+      text-align: center;
+      border: none;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      padding: 10px 0;
+      font-size: 16px;
+    }
+
+    .action-group {
+      display: flex !important;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+      justify-content: flex-start;
+    }
+
+    .cart-table td:last-child {
+      width: 1%;
+      min-width: 160px;
+      white-space: nowrap;
+    }
+
+    .buy-now-item-btn {
+      margin: 0;
+      display: inline-block;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      transition: color 0.3s ease;
+    }
+
+    .cart-table td:last-child {
+      min-width: 150px;
+    }
+
+    /* Hover: Remove icon turns orange */
+    .remove-btn:hover {
+      background-color: #fff;
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="navbar-item">
+      <div class="logo">
+        <img src="images/download.png" alt="FataFat Kin Logo" />
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Search product" class="search-input" />
+        <button class="search-btn">
+          <img src="images/search.png" class="search-icon" />
+        </button>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="home.html" href="#">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="order.html">My order</a></li>
+        <li li class="icon" id="category-btn"><a href="#"><i class="bx bxs-category"></i><span>Categories</span></a>
+        </li>
+        <div class="shortcut-links">
+          <a href="active">Categories</a>
+          <hr>
+
+          <a href="electronics.html">Electronics</a>
+          <a href="#">Fashion</a>
+          <a href="#">Home & Living</a>
+          <a href="#">Beauty & Health</a>
+          <a href="#">Groceries</a>
+          <a href="#">Sports & Outdoor</a>
+          <a href="#">Baby & Toys</a>
+          <a href="#">Automotive</a>
+          <a href="#">Books & Stationery</a>
+          <a href="#">Deals</a>
+          <a href="#">New Arrivals</a>
+          <a href="#">Best Sellers</a>
+
+          <!-- Hidden items INSIDE -->
+          <div class="more-links">
+            <a href="#">Mobile Accessories</a>
+            <a href="#">Gaming</a>
+            <a href="#">Watches</a>
+            <a href="#">Jewelry</a>
+            <a href="#">Health Devices</a>
+            <a href="#">Pet Supplies</a>
+            <a href="#">Office Equipment</a>
+            <a href="#">Travel & Luggage</a>
+            <a href="#">Kitchen Appliances</a>
+          </div>
+
+          <!-- ONLY ONE BUTTON -->
+          <a href="#" id="showMoreBtn">Show More</a>
+        </div>
+
+        <li class="icon"><a href="service.html"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
+        <li class="icon">
+          <a href="cart.html"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
+        </li>
+        <li class="icon">
+          <a href="login.html"><i class="bx bx-user icon"></i><span>login</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="shop">
+    <div class="cart-container" id="cartRoot">
+      <div class="cart-header">
+        <h3>Shopping Carts</h3>
+        <p id="itemCountDisplay">2 Items in your cart</p>
+      </div>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="cartTableBody">
+          <tr class="cart-item" data-price="1500">
+            <td>
+              <div class="cart-item-info">
+                <img src="images/boy/31.png" alt="Product Image" class="cart-item-image" />
+                <div class="cart-item-details">
+                  <h4>Men’s Waffle Knit Short Sleeve Button-Down Casual Shirt</h4>
+                  <p>Size: XL, Color: White</p>
+                </div>
+              </div>
+            </td>
+            <td class="item-price-display">Rs. 1,500</td>
+            <td>
+              <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="text" value="1" class="quantity-input" readonly />
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </td>
+            <td class="item-subtotal-display">Rs. 1,500</td>
+            <td>
+              <div class="action-group">
+                <button class="remove-btn"><i class="bx bx-trash"></i></button>
+                <button class="buy-now-item-btn">BUY NOW</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="cart-item" data-price="6500">
+            <td>
+              <div class="cart-item-info">
+                <img src="images/boy/45.png" alt="Product Image" class="cart-item-image" />
+                <div class="cart-item-details">
+                  <h4>URBANFIND Men's Slim Fit Lightweight Sportswear Jacket Casual Bomber Jacket</h4>
+                  <p>Size: XXL, Color: blue</p>
+                </div>
+              </div>
+            </td>
+            <td class="item-price-display">Rs. 6,500</td>
+            <td>
+              <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="text" value="1" class="quantity-input" readonly />
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </td>
+            <td class="item-subtotal-display">Rs. 6,500</td>
+            <td>
+              <div class="action-group">
+                <button class="remove-btn"><i class="bx bx-trash"></i></button>
+                <button class="buy-now-item-btn">Buy Now</button>
+              </div>
+            </td>
+          </tr>
+          <tr class="cart-item" data-price="750">
+            <td>
+              <div class="cart-item-info">
+                <img src="images/girl/8.png" alt="Product Image" class="cart-item-image" />
+                <div class="cart-item-details">
+                  <h4>Sun-Kissed Cotton Bucket Hat – Bright Yellow</h4>
+                  <p>Size: XXL, Color: yellow</p>
+                </div>
+              </div>
+            </td>
+            <td class="item-price-display">Rs. 750</td>
+            <td>
+              <div class="quantity-control">
+                <button class="quantity-btn minus">-</button>
+                <input type="text" value="1" class="quantity-input" readonly />
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </td>
+            <td class="item-subtotal-display">Rs. 750</td>
+            <td>
+              <div class="action-group">
+                <button class="remove-btn"><i class="bx bx-trash"></i></button>
+                <button class="buy-now-item-btn">Buy Now</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cart-summary">
+        <div class="summary-box">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="cartSubtotalDisplay">Rs. 10,700</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping Fee</span>
+            <span id="shippingFeeDisplay">Rs. 150</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="cartTotalDisplay">Rs. 10,850</span>
+          </div>
+          <button class="checkout-btn" id="proceedCheckoutBtn">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="buyNowModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <i class="bx bx-check-circle"></i>
+        <h3>Buy Now Confirmed</h3>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button class="modal-btn btn-cancel">Cancel</button>
+        <button class="modal-btn btn-confirm-checkout">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cartCheckoutModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <i class="bx bx-shopping-bag"></i>
+        <h3>Secure Checkout</h3>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button onclick="window.location.href = 'shop.html'" class="modal-btn btn-cancel">Continue Shopping</button>
+        <button class="modal-btn btn-confirm-checkout">Confirm and Pay</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <i class="bx bx-trash"></i>
+        <h3>Remove Item?</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to remove <strong id="deleteItemName">this item</strong> from your cart?</p>
+        <p>This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn btn-cancel">Cancel</button>
+        <button class="modal-btn btn-confirm-delete" id="confirmDeleteBtn">Remove Item</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="row">
+      <div class="footer-one">
+        <img src="images/download.png" alt="Logo" />
+        <p>Shop the best of Nepal from the comfort of home and experience the joy of truly fast delivery with Fatafat
+          Kin.</p>
+      </div>
+      <div class="footer-one">
+        <h5>Featured</h5>
+        <ul>
+          <li><a href="#">men</a></li>
+          <li><a href="#">women</a></li>
+          <li><a href="#">boys</a></li>
+          <li><a href="#">girls</a></li>
+          <li><a href="#">new arrivals</a></li>
+          <li><a href="#">shoes</a></li>
+        </ul>
+      </div>
+      <div class="footer-one">
+        <h5>Contact Us</h5>
+        <div>
+          <h6 class="text">ADDRESS</h6>
+          <p>123 STREET NAME, CITY, US</p>
+        </div>
+        <div>
+          <h6 class="text">PHONE</h6>
+          <p>(123) 456-7890</p>
+        </div>
+        <div>
+          <h6 class="text">EMAIL</h6>
+          <p>MAIL@EXAMPLE.COM</p>
+        </div>
+      </div>
+      <div class="footer-one">
+        <h5>Instagram</h5>
+        <div class="insta-grid">
+          <img src="images/spring/download (2).jpg" />
+          <img src="images/spring/download (3).jpg" />
+          <img src="images/spring/images (2).jpg" />
+          <img src="images/spring/images (1).jpg" />
+          <img src="images/spring/download (4).jpg" />
+        </div>
+      </div>
+    </div>
+    <div class="payment">
+      <div class="payment-img">
+        <div class="image">
+          <img src="images/spring/esewa.jpg" />
+          <img src="images/spring/khalti.png" />
+          <img src="images/spring/card.png" />
+        </div>
+        <div class="image">
+          <p>© 2026 Fatafat Kin. All Rights Reserved</p>
+        </div>
+        <div class="social-icons">
+          <a href="#" class="social-link fb">
+            <div class="icon-circle"><i class="bx bxl-facebook-circle"></i></div>
+            <span class="icon-text">Facebook</span>
+          </a>
+          <a href="#" class="social-link github">
+            <div class="icon-circle"><i class="bx bxl-github"></i></div>
+            <span class="icon-text">GitHub</span>
+          </a>
+          <a href="#" class="social-link linkedin">
+            <div class="icon-circle"><i class="bx bxl-linkedin-square"></i></div>
+            <span class="icon-text">LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="JS/cart.js"></script>
+</body>
+
+</html>

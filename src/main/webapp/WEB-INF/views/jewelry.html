@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="CSS/style.css" />
+    <style>
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#banner {
+  margin-top: 0 !important;
+  background-image: url("../images/banner/jelwerybanner.jpg");
+  width: 100%;
+  height: 50vh;
+  background-size: contain; 
+  background-position: right center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 5%;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+.banner{
+  margin-left:90px;
+}
+
+#banner h4{
+  color: rgb(32, 32, 102);
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: normal;
+}
+
+#banner h1{
+color: #fff;
+margin-bottom: 10px;
+}
+
+#banner p{
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+#banner button{
+  background: coral;
+}
+
+#featured{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+#featured h3{
+  font-weight: normal;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.product-list {
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    padding: 20px 0;
+}
+
+#featured .product-container {
+    flex: 0 0 calc(25% - 20px); 
+    min-width: 250px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: lightgray;
+    transition: 0.3s shadow;
+}
+
+.img-box {
+    background-color: #f9f9f9;
+    width: 100%;
+    height: 200px; 
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.img-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+}
+
+/* 2. ALIGN TEXT AND STARS */
+.star {
+    color: #f1c40f;
+    margin-bottom: -10px;
+    height: 20px; 
+}
+.p-name {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: -20px;
+    font-weight: normal;
+    min-height: 2.4em; 
+    font-weight: bold;
+}
+
+.p-price {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #fff;
+    margin-bottom: -15px;
+}
+
+.p-price s{
+  color: #000;
+  text-decoration: line-through;
+}
+
+.buy-btn {
+    background-color: coral;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 80%;
+    margin-top: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px); 
+}
+
+#featured .product-container:hover .buy-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.buy-btn:hover{
+  background: coral;
+}
+
+</style>
+</head>
+<body>
+   <nav class="navbar">
+      <div class="navbar-item">
+        <div class="logo">
+          <img src="images/download.png" alt="FataFat Kin Logo" />
+        </div>
+
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Search product"
+            class="search-input"
+          />
+          <button class="search-btn">
+            <img src="images/search.png" class="search-icon" />
+          </button>
+        </div>
+
+        <ul class="nav-links">
+          <li><a class="active" href="#">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="order.html">My order</a></li>
+          <li li class="icon" id="category-btn"><a href="#"><i class="bx bxs-category"></i><span>Categories</span></a> </li>
+          <div class="shortcut-links">
+          <a href="#">Categories</a>
+          <hr>
+
+        <a href="#">Electronics</a>
+        <a href="#">Fashion</a>
+        <a href="#">Home & Living</a>
+        <a href="#">Beauty & Health</a>
+        <a href="#">Groceries</a>
+        <a href="#">Sports & Outdoor</a>
+        <a href="#">Baby & Toys</a>
+        <a href="#">Automotive</a>
+        <a href="#">Books & Stationery</a>
+        <a href="#">Deals</a>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+
+  <!-- Hidden items INSIDE -->
+       <div class="more-links">
+       <a href="#">Mobile Accessories</a>
+       <a href="#">Gaming</a>
+       <a href="#">Watches</a>
+       <a href="#">Jewelry</a>
+       <a href="#">Health Devices</a>
+       <a href="#">Pet Supplies</a>
+       <a href="#">Office Equipment</a>
+       <a href="#">Travel & Luggage</a>
+       <a href="#">Kitchen Appliances</a>
+  </div>
+
+  <!-- ONLY ONE BUTTON -->
+  <a href="#" id="showMoreBtn">Show More</a>
+</div>
+
+          <li class="icon"><a href="service.html"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
+          <li class="icon">
+            <a href="#"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a></li>
+          <li class="icon">
+            <a href="login.html"><i class="bx bx-user icon"></i><span>login</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  
+     <section id="banner">
+      <div class="banner">
+        <h1>Jewelry Collection<br><span>Timeless Elegance</span></h1>
+        <p>
+          UP TO <span>40% OFF!</span><br> ON RINGS, EARRINGS, BRACELETS & NECKLACES!
+        </p>
+      </div>
+    </section>
+
+    <section id="featured">
+      <div class="product-list">
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/curve_finger_ring.png" alt="Curve Finger Ring" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Curve Finger Ring</h5>
+          <h4 class="p-price">Rs 15000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/bleustone earing.webp" alt="Bluestone Earring" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Bluestone Earrings (Stud)</h5>
+          <h4 class="p-price">Rs 22000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/forestry ring.webp" alt="Forestry Ring" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Forestry Ring (Nature Inspired)</h5>
+          <h4 class="p-price">Rs 180000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/diamodirng.jpeg" alt="Diamond Ring" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Diamond Ring (1 Carat)</h5>
+          <h4 class="p-price">Rs 1500000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+      </div>
+
+      <!-- Row 2: next 4 products -->
+      <div class="product-list">
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/goldearrings.jpeg" alt="Gold Earrings" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Gold Earrings (22k)</h5>
+          <h4 class="p-price">Rs 95000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/hardwearbracelt.jpeg" alt="Hardwear Bracelet" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Hardwear Bracelet (Stainless Steel)</h5>
+          <h4 class="p-price">Rs 280000</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/microneedlenecklace.jpeg" alt="Microneedle Necklace" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Microneedle Necklace (Minimalist)</h5>
+          <h4 class="p-price">Rs 3200</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+
+        <div class="product-container">
+          <div class="img-box">
+            <img class="product-img" src="images/jelwery/braceletnew.png" alt="Bracelet" />
+          </div>
+          <div class="star">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+          </div>
+          <h5 class="p-name">Classic Chain Bracelet (Silver)</h5>
+          <h4 class="p-price">Rs 1200</h4>
+          <button class="buy-btn">BUY NOW</button>
+        </div>
+      </div>
+    </section>
+
+<footer class="footer">
+      <div class="row">
+        <div class="footer-one">
+          <img src="images/download.png" alt="Logo" />
+          <p>
+            Shop the best of Nepal from the comfort of home and experience the
+            joy of truly fast delivery with Fatafat Kin.
+          </p>
+        </div>
+
+        <div class="footer-one">
+          <h5>Featured</h5>
+          <ul>
+            <li><a href="#">men</a></li>
+            <li><a href="#">women</a></li>
+            <li><a href="#">boys</a></li>
+            <li><a href="#">girls</a></li>
+            <li><a href="#">new arrivals</a></li>
+            <li><a href="#">shoes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-one">
+          <h5>Contact Us</h5>
+          <div>
+            <h6 class="text">ADDRESS</h6>
+            <p>123 STREET NAME, CITY, US</p>
+          </div>
+          <div>
+            <h6 class="text">PHONE</h6>
+            <p>(123) 456-7890</p>
+          </div>
+          <div>
+            <h6 class="text">EMAIL</h6>
+            <p>MAIL@EXAMPLE.COM</p>
+          </div>
+        </div>
+
+        <div class="footer-one">
+          <h5>Instagram</h5>
+          <div class="insta-grid">
+            <img src="images/spring/download (2).jpg" />
+            <img src="images/spring/download (3).jpg" />
+            <img src="images/spring/images (2).jpg" />
+            <img src="images/spring/images (1).jpg" />
+            <img src="images/spring/download (4).jpg" />
+          </div>
+        </div>
+      </div>
+      <div class="payment">
+        <div class="payment-img">
+          <div class="image">
+            <img src="images/spring/esewa.jpg" />
+            <img src="images/spring/khalti.png" />
+            <img src="images/spring/card.png" />
+          </div>
+
+          <div class="image">
+            <p>© 2026 Fatafat Kin. All Rights Reserved</p>
+          </div>
+
+          <div class="social-icons">
+            <a href="#" class="social-link fb">
+              <div class="icon-circle">
+                <i class="bx bxl-facebook-circle"></i>
+              </div>
+              <span class="icon-text">Facebook</span>
+            </a>
+
+            <a href="#" class="social-link github">
+              <div class="icon-circle">
+                <i class="bx bxl-github"></i>
+              </div>
+              <span class="icon-text">GitHub</span>
+            </a>
+
+            <a href="#" class="social-link linkedin">
+              <div class="icon-circle">
+                <i class="bx bxl-linkedin-square"></i>
+              </div>
+              <span class="icon-text">LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</body>
+<script src="JS/script.js"></script>
+</html>

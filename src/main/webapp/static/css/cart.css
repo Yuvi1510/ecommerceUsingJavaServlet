@@ -1,0 +1,311 @@
+.cart-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.cart-table th,
+.cart-table td {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-table th {
+  background-color: #f9f9f9;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #555;
+}
+
+.cart-item-info {
+  display: flex;
+  align-items: center;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.cart-item-details h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+.cart-item-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.quantity-btn {
+  background: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
+
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.cart-table td:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.buy-now-item-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+.buy-now-item-btn:hover {
+  background-color: #e67e22;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summary-box {
+  width: 300px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.summary-row.total {
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.checkout-btn {
+  width: 100%;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: #2ecc71;
+}
+
+@media (max-width: 768px) {
+  .cart-table td:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+  }
+  .remove-btn {
+    margin-right: 0;
+  }
+}
+
+/* ---  styling POPUP --- */
+
+.modal-overlay {
+  display: none; 
+  position: fixed;
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  align-items: center; 
+  justify-content: center; 
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  transform: translateY(-50px);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+/* content animation */
+.modal-overlay.show .modal-content {
+  transform: translateY(0);
+}
+
+/* The Close Button */
+.close-modal {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-modal:hover {
+  color: #333;
+}
+
+/* Modal Header Elements */
+.modal-header i {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+/* Color icons based on purpose */
+#buyNowModal .modal-header i {
+  color: #f39c12;
+}
+#cartCheckoutModal .modal-header i {
+  color: #27ae60;
+}
+
+/* --- styling FOR DELETE POPUP ICON --- */
+#deleteConfirmModal .modal-header i {
+  color: #e74c3c;
+} 
+
+.modal-header h3 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.modal-body {
+  margin-bottom: 25px;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+.modal-body p {
+  margin: 8px 0;
+}
+.modal-body strong {
+  color: #333;
+  font-weight: 700;
+}
+.modal-body .highlight-price {
+  color: #2ecc71;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Modal Action Buttons */
+.modal-footer {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+.modal-btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  border: none;
+}
+.btn-cancel {
+  background-color: #eee;
+  color: #555;
+}
+.btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+.btn-confirm-checkout {
+  background-color: #27ae60;
+  color: white;
+}
+.btn-confirm-checkout:hover {
+  background-color: #2ecc71;
+}
+
+/* ---  FOR DELETE CONFIRM BUTTON --- */
+.btn-confirm-delete {
+  background-color: #e74c3c;
+  color: white;
+}
+.btn-confirm-delete:hover {
+  background-color: #c0392b;
+}

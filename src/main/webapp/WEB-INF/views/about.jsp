@@ -20,7 +20,7 @@
 <nav class="navbar">
     <div class="navbar-item">
         <div class="logo">
-            <a href="index.html"><img src="images/logo2.png" alt="FataFat Kin Logo"></a>
+            <a href="index.jsp"><img src="images/logo2.png" alt="FataFat Kin Logo"></a>
         </div>
 
         <div class="search-container">
@@ -31,7 +31,7 @@
         </div>
 
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.jsp">Home</a></li>
             <li><a href="#">Shop</a></li>
             <li><a href="#">Top Sales</a></li>
             <li><a href="#">New Arrivals</a></li>
@@ -100,7 +100,7 @@
         <div class="about-cta-inner">
             <h2>Ready to explore?</h2>
             <p>Jump back to the shop and see seasonal picks, featured items, and more.</p>
-            <a href="index.html" class="about-cta-btn">Back to home</a>
+            <a href="index.jsp" class="about-cta-btn">Back to home</a>
         </div>
     </section>
 </main>

@@ -46,7 +46,7 @@ public class ModelUtils {
         return new Product(
                 request.getParameter("name"),
                 request.getParameter("description"),
-                request.getParameter("image"),
+                "",
                 Double.parseDouble(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("quantity")),
                 Integer.parseInt(request.getParameter("category"))
