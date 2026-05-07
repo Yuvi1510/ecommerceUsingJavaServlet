@@ -17,32 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/about.css">
 </head>
 <body class="about-page">
-<nav class="navbar">
-    <div class="navbar-item">
-        <div class="logo">
-            <a href="index.jsp"><img src="images/logo2.png" alt="FataFat Kin Logo"></a>
-        </div>
-
-        <div class="search-container">
-            <input type="text" placeholder="Search product" class="search-input">
-            <button class="search-btn" type="button">
-                <img src="images/search.png" class="search-icon" alt="">
-            </button>
-        </div>
-
-        <ul class="nav-links">
-            <li><a href="index.jsp">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Top Sales</a></li>
-            <li><a href="#">New Arrivals</a></li>
-            <li><a href="#">Offer</a></li>
-            <li><a href="about.html">About</a></li>
-            <li class="icon"><a href="#customer-service"><i class="bx bx-help-circle icon"></i><span>customer service</span></a></li>
-            <li class="icon"><a href="#"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a></li>
-            <li class="icon"><a href="login.html"><i class="bx bx-user icon"></i><span>login</span></a></li>
-        </ul>
-    </div>
-</nav>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <header class="about-hero">
     <div class="about-hero-inner">
@@ -62,7 +37,7 @@
             <p>This project is a coursework exercise: we focused on layout, navigation, product presentation, and a consistent visual language across pages.</p>
         </div>
         <div class="about-split-visual">
-            <img src="images/background.png" alt="Shopping and lifestyle">
+            <img src="${pageContext.request.contextPath}/static/images/about.png" alt="Shopping and lifestyle">
         </div>
     </section>
 

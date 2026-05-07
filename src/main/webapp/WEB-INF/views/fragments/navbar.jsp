@@ -21,14 +21,14 @@
         </div>
 
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a class="active" href="about.html">About</a></li>
-            <li><a href="order.html">My order</a></li>
+            <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+            <li><a href="${pageContext.request.contextPath}/shop">Shop</a></li>
+            <li><a  href="${pageContext.request.contextPath}/about">About</a></li>
+            <li><a href="${pageContext.request.contextPath}/my-orders">My order</a></li>
 
-            <li class="icon"><a href="service.html"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
+            <li class="icon"><a href="${pageContext.request.contextPath}/service"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
             <li class="icon">
-                <a href="cart.html"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
+                <a href="${pageContext.request.contextPath}/cart"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
             </li>
             <li class="icon">
                 <a href="${pageContext.request.contextPath}/login"><i class="bx bx-user icon"></i><span>login</span></a>

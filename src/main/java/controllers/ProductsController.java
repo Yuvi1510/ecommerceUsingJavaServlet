@@ -19,7 +19,7 @@ import javax.management.modelmbean.ModelMBean;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/products")
+@WebServlet({"/products","/shop"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
 maxFileSize = 1024 * 1024 * 10, // 10 MB
 maxRequestSize = 1024 * 1024 * 50) // 50 MB
@@ -31,12 +31,95 @@ public class ProductsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
+        String uri = req.getRequestURI();
+        System.out.println(uri);
+
+        String contextPath = req.getContextPath();
+        System.out.println(contextPath);
+
+        String path = uri.substring(contextPath.length());
+        System.out.println(path);
+
+
         if(action == null){
             List<Product> products = productsDao.findAllProducts();
             List<Category> categories = categoryDao.getAllCategories();
             req.setAttribute("products", products);
             req.setAttribute("categories", categories);
+
+            if(path.contains("/products")){
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
+
+            }else {
+                req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+            }
+        }else if (action.equals("findProductsByName")) {
+            String name = req.getParameter("name");
+
+            List<Product> products = productsDao.findProductsByName(name);
+
+            if(products == null){
+                req.setAttribute("error", "No products found!");
+                req.setAttribute("categories", categoryDao.getAllCategories());
+                if(path.contains("/products")){
+                    req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
+
+                }else {
+                    req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+                }
+
+            }
+
+            if(path.contains("/products")){
+            resp.sendRedirect(req.getContextPath() +"/products");
+
+            }else {
+            resp.sendRedirect(req.getContextPath() +"/shop");
+            }
+
+        } else if (action.equals("findProductsByCategory")) {
+            int categoryId = Integer.parseInt(req.getParameter("category"));
+            List<Product> products = productsDao.findProductsByCategory(categoryId);
+
+            if(products == null){
+                req.setAttribute("error", "No products found!");
+                if(path.contains("/products")){
+                    req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
+
+                }else {
+                    req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+                }
+            }
+            req.setAttribute("products", products);
+            // while doing forward we need to add categories as well
+            // otherwise when we click on find products by category, categories will be null and no options will be shown
+            req.setAttribute("categories",categoryDao.getAllCategories());
+            if(path.contains("/products")){
+                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
+
+            }else {
+                req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+            }
+
+        } else if (action.equals("findProductsById")) {
+            int id = Integer.parseInt(req.getParameter("productId"));
+
+            Product product = productsDao.findProductById(id);
+            if(product == null){
+                req.setAttribute("error", "No products found!");
+//                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
+
+            }else {
+                req.setAttribute("products", List.of(product));
+                req.setAttribute("categories",categoryDao.getAllCategories());
+            }
+            if(path.contains("/products")){
+                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
+
+            }else {
+                req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+            }
+
         }
     }
 
@@ -53,49 +136,6 @@ public class ProductsController extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
             }
             resp.sendRedirect(req.getContextPath() +"/products");
-        } else if (action.equals("findProductsByName")) {
-            String name = req.getParameter("name");
-
-            List<Product> products = productsDao.findProductsByName(name);
-
-            if(products == null){
-                req.setAttribute("error", "No products found!");
-                req.setAttribute("categories", categoryDao.getAllCategories());
-                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
-
-            }
-
-           resp.sendRedirect(req.getContextPath() +"/products");
-
-        } else if (action.equals("findProductsByCategory")) {
-            int categoryId = Integer.parseInt(req.getParameter("category"));
-            List<Product> products = productsDao.findProductsByCategory(categoryId);
-
-            if(products == null){
-                req.setAttribute("error", "No products found!");
-                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
-
-            }
-            req.setAttribute("products", products);
-            // while doing forward we need to add categories as well
-            // otherwise when we click on find products by category, categories will be null and no options will be shown
-            req.setAttribute("categories",categoryDao.getAllCategories());
-            req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
-
-        } else if (action.equals("findProductsById")) {
-            int id = Integer.parseInt(req.getParameter("productId"));
-
-            Product product = productsDao.findProductById(id);
-            if(product == null){
-                req.setAttribute("error", "No products found!");
-//                req.getRequestDispatcher("/WEB-INF/views/products.jsp").forward(req, resp);
-
-            }else {
-            req.setAttribute("products", List.of(product));
-                req.setAttribute("categories",categoryDao.getAllCategories());
-            }
-            req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
-
         } else if (action.equals("edit")) {
             Product product = ModelUtils.getProductFromRequest(req);
             int id = Integer.parseInt(req.getParameter("id"));

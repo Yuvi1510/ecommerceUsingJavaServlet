@@ -62,7 +62,7 @@ function deleteCategory(categoryId, categoryName){
                     </div>
                     <div>
                     <button type="submit" class="btn-danger">Delete</button>
-                    <button ><a href="/categories">Cancel</a></button>
+                    <button ><a href="/categories" style="color-white; text-decoration: none">Cancel</a></button>
                     </div>
                 </form>`;
 

@@ -44,7 +44,7 @@
         <div class="content" id="users-page">
             <h2>Users Management</h2>
             <div class="buttons">
-                <a href="/products"><button >All Products</button></a>
+                <a href="${pageContext.request.contextPath}/products"><button >All Products</button></a>
                 <button onclick="changeContent('addProduct')">Add Product</button>
                 <button onclick="changeContent('findProductsByName')">Find Product By Name</button>
                 <button onclick="changeContent('findProductsByCategory')">Find Product By Category</button>

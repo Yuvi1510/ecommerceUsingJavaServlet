@@ -18,8 +18,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/login.css">
     <script src="${pageContext.request.contextPath}/static/js/login.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
 </head>
 <body>
+<jsp:include page="fragments/navbar.jsp"/>
+
 <div class="container">
     <!--login Forn-->
     <div class="form-box login">

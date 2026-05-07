@@ -352,7 +352,8 @@
 
      /* ===== PRODUCTS AREA — scrollable zone ===== */
      .shop-products-area {
-         flex: 1;
+         display: grid;
+         grid-column: 4;
          overflow-y: scroll;
          overflow-x: hidden;
          padding: 15px 0 30px 20px;
