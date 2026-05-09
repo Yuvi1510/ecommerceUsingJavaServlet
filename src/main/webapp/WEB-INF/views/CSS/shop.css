@@ -399,6 +399,7 @@
          overflow: hidden;
      }
 
+
      .product-container:hover {
          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
          transform: translateY(-3px);
@@ -406,7 +407,7 @@
 
      .img-box {
          background-color: #f9f9f9;
-         width: 100%;
+         width: 350px;
          height: 150px;
          margin-bottom: 8px;
          display: flex;

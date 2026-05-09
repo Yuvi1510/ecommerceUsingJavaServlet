@@ -55,9 +55,10 @@
       });
     }
 
-    function openPopup(itemName, itemPrice, imgSrc) {
-      document.getElementById('popupItemName').textContent = itemName;
-      document.getElementById('popupItemPrice').textContent = itemPrice;
+    function openPopup(itemId, itemName, itemPrice, imgSrc) {
+      document.getElementById('popupItemId').value = itemId;
+      document.getElementById('popupItemName').value = itemName;
+      document.getElementById('popupItemPrice').value = itemPrice;
       currentProductImg = imgSrc || '';
       document.getElementById('popupOverlay').classList.add('show');
       document.body.style.overflow = 'hidden';
