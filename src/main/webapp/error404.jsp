@@ -11,7 +11,7 @@
 <div class="container">
     <h1>404</h1>
     <h2>Oops! Page Not Found: Learning Logs</h2>
-    <a href="${pageContext.request.contextPath}/topic" class="btn">Go to Topics</a>
+    <a href="${pageContext.request.contextPath}/" class="btn">Go to Topics</a>
 </div>
 </body>
 </html>
