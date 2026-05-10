@@ -142,19 +142,19 @@
       <p class="popup-subtitle">You have selected immediate checkout for:</p>
       <form action="${pageContext.request.contextPath}/order" method="post" class="popup-details">
         <div class="detail-row">
-          <input hidden name="action" value="create" style="border: none" class="value" id="popupItemId">–</input>
+          <input hidden name="action" value="create" style="border: none" class="value" ></input>
+        </div>
+        <div class="detail-row">
+          <span class="label">Id</span>
+          <input name="id"  style="border: none" class="value" id="popupItemId"></input>
         </div>
         <div class="detail-row">
           <span class="label">Item</span>
-          <input name="id" disabled style="border: none" class="value" id="popupItemId">–</input>
-        </div>
-        <div class="detail-row">
-          <span class="label">Item</span>
-          <input disabled style="border: none" class="value" id="popupItemName">–</input>
+          <input  style="border: none" class="value" id="popupItemName"></input>
         </div>
         <div class="detail-row">
           <span class="label">Quantity</span>
-          <input name="quantity" disabled style="border: none" class="value">1</input>
+          <input name="quantity"  style="border: none" class="value">1</input>
         </div>
         <div class="detail-row">
           <span class="label">Item Subtotal</span>

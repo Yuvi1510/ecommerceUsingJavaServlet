@@ -14,6 +14,10 @@ public class Order {
     private OrderStatus orderStatus;
     private int userId;
 
+    public Order( Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus) {
+        this(subTotal, taxAmount, deliveryCharge, totalAmount, orderStatus, 0);
+    }
+
     public Order( Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus, int userId) {
         this.date = LocalDate.now();
         this.subTotal = subTotal;

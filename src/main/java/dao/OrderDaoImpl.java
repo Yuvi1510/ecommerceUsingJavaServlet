@@ -39,7 +39,7 @@ public class OrderDaoImpl implements OrderDao {
 
             // get the id of order
             int id = 0;
-            ResultSet rs = ps.getResultSet();
+            ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
                id =  rs.getInt(1);
             }
@@ -53,6 +53,8 @@ public class OrderDaoImpl implements OrderDao {
                     orderItemDao.addOrderItem(orderItem);
                 }
             }
+
+            return true;
 
         } catch (Exception e) {
             System.out.println("Error adding order: " + e.getMessage());

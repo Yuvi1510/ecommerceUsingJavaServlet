@@ -53,9 +53,9 @@
     <div class="payment">
         <div class="payment-img">
             <div class="image">
-                <img src="images/spring/esewa.jpg">
-                <img src="images/spring/khalti.png">
-                <img src="images/spring/card.png">
+                <img src="${pageContext.request.contextPath}/static/images/spring/esewa.jpg">
+                <img src="${pageContext.request.contextPath}/static/images/spring/khalti.png">
+                <img src="${pageContext.request.contextPath}/static/images/spring/card.png">
             </div>
             <div class="image">
                 <p style="color:#9a9a9a;font-size:0.85rem;">© 2026 Fatafat Kin. All Rights Reserved</p>

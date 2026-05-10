@@ -73,11 +73,10 @@ public class ModelUtils {
     public static Order getOrderFromRequest(HttpServletRequest request) {
         return new Order(
                 Double.parseDouble(request.getParameter("subTotal")),
-                Double.parseDouble(request.getParameter("taxAmount")),
-                Double.parseDouble(request.getParameter("deliveryCharge")),
-                Double.parseDouble(request.getParameter("totalAmount")),
-                OrderStatus.valueOf(request.getParameter("orderStatus")),
-                Integer.parseInt(request.getParameter("userId"))
+                (Double.parseDouble(request.getParameter("subTotal") ) + 150.0) * 0.13, // 13 % of total amount
+                150.00,
+                Double.parseDouble(request.getParameter("subTotal"))+ 150.00,
+                OrderStatus.PENDING
         );
     }
 
