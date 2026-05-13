@@ -1,16 +1,18 @@
 package dao;
 
+import dto.OrderDto;
+import dto.OrderItemDto;
 import model.CartItem;
 import model.Order;
 import model.OrderItem;
 import util.DatabaseConnection;
 import util.ModelUtils;
-import util.OrderStatus;
+import enums.OrderStatus;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class OrderDaoImpl implements OrderDao {
     OrderItemDao orderItemDao = new OrderItemDaoImpl();
@@ -105,26 +107,92 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findOrderByUserId(int userId) {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM orders WHERE user_id = ? ORDER BY order_id DESC";
+    public List<OrderDto> findOrderByUserId(int userId) {
+        String query = """
+    SELECT 
+        o.order_id,
+        o.date,
+        o.sub_total,
+        o.tax_amount,
+        o.delivery_charge,
+        o.total_amount,
+        o.status,
+        o.user_id,
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+        oi.order_item_id,
+        oi.order_quantity,
+        oi.amount,
+        oi.product_id,
 
+        p.name,
+        p.description,
+        p.image_path,
+        p.price
+
+    FROM orders o
+    JOIN order_items oi 
+        ON o.order_id = oi.order_id
+    JOIN products p 
+        ON oi.product_id = p.product_id
+
+    WHERE o.user_id = ?
+    ORDER BY o.order_id DESC
+""";
+
+        try(Connection connection = DatabaseConnection.getConnection()){
+            Map<Integer, OrderDto> orderMap = new HashMap<>();
+
+            PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Order order = ModelUtils.getOrderFromResultSet(rs);
-                orders.add(order);
+
+                int orderId = rs.getInt("order_id");
+
+                OrderDto orderDto = orderMap.get(orderId);
+
+                if (orderDto == null) {
+
+                    orderDto = new OrderDto();
+
+                    orderDto.setOrderId(orderId);
+                    orderDto.setDate(rs.getDate("date").toLocalDate());
+                    orderDto.setSubTotal(rs.getDouble("sub_total"));
+                    orderDto.setTaxAmount(rs.getDouble("tax_amount"));
+                    orderDto.setDeliveryCharge(rs.getDouble("delivery_charge"));
+                    orderDto.setTotalAmount(rs.getDouble("total_amount"));
+                    orderDto.setOrderStatus(
+                            OrderStatus.valueOf(rs.getString("status"))
+                    );
+                    orderDto.setUserId(rs.getInt("user_id"));
+
+                    orderMap.put(orderId, orderDto);
+                }
+
+                OrderItemDto itemDto = new OrderItemDto();
+
+                itemDto.setOrderItemId(rs.getInt("order_item_id"));
+                itemDto.setOrderQuantity(rs.getInt("order_quantity"));
+                itemDto.setAmount(rs.getDouble("amount"));
+                itemDto.setOrderId(orderId);
+                itemDto.setProductId(rs.getInt("product_id"));
+
+                itemDto.setName(rs.getString("name"));
+                itemDto.setDescription(rs.getString("description"));
+                itemDto.setImagePath(rs.getString("image_path"));
+                itemDto.setPrice(rs.getDouble("price"));
+
+                orderDto.getOrderItems().add(itemDto);
             }
 
-        } catch (Exception e) {
-            System.out.println("Error finding orders by user ID: " + e.getMessage());
-        }
+            List<OrderDto> orders = new ArrayList<>(orderMap.values());
 
-        return orders;
+            return orders;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -243,7 +311,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean updateOrderStatus(int orderId, OrderStatus newStatus) {
-        String query = "UPDATE orders SET order_status = ? WHERE order_id = ?";
+        String query = "UPDATE orders SET status = ? WHERE order_id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {

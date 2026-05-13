@@ -19,7 +19,7 @@ import javax.management.modelmbean.ModelMBean;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/products","/shop"})
+@WebServlet({"/products","/shop","/singleProduct"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
 maxFileSize = 1024 * 1024 * 10, // 10 MB
 maxRequestSize = 1024 * 1024 * 50) // 50 MB
@@ -50,8 +50,16 @@ public class ProductsController extends HttpServlet {
             if(path.contains("/products")){
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
-            }else {
+            } else if (path.contains("/shop")) {
                 req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
+            } else if (path.contains("/singleProduct")) {
+                int id = Integer.parseInt(req.getParameter("id"));
+
+                Product product = productsDao.findProductById(id);
+
+                req.setAttribute("product", product);
+                req.getRequestDispatcher("/WEB-INF/views/single.jsp").forward(req,resp);
+
             }
         }else if (action.equals("findProductsByName")) {
             String name = req.getParameter("name");

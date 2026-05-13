@@ -84,7 +84,7 @@
       });
       localStorage.setItem('orders', JSON.stringify(orders));
       closePopup();
-      window.location.href = 'Cart.html';
+      window.location.href = 'cart.jsp';
     }
 
     document.addEventListener('keydown', function (e) {

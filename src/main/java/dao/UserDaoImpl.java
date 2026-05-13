@@ -11,12 +11,13 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao{
 
+    CartDao cartDao = new CartDaoImpl();
 
     @Override
     public boolean addUser(User user) {
         String query = "INSERT INTO users(first_name, last_name,DOB,email,phone, address, password) VALUES(?,?,?,?,?,?,?)";
         try(Connection connection = DatabaseConnection.getConnection()){
-            PreparedStatement ps = connection.prepareStatement(query);
+            PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
             ps.setDate(3, Date.valueOf(user.getDob()));
@@ -29,6 +30,15 @@ public class UserDaoImpl implements UserDao{
             ps.setString(7, BCrypt.hashpw(user.getPassword(), salt));
 
             int rowsAffected = ps.executeUpdate();
+
+            // get the id of order
+            int id = 0;
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                id =  rs.getInt(1);
+
+                cartDao.createCart(id);
+            }
 
             return rowsAffected >= 1;
 

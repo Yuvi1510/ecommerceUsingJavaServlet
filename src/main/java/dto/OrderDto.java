@@ -1,10 +1,12 @@
-package model;
+package dto;
 
 import enums.OrderStatus;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Order {
+public class OrderDto {
     private int orderId;
     private LocalDate date;
     private Double subTotal;
@@ -14,19 +16,7 @@ public class Order {
     private OrderStatus orderStatus;
     private int userId;
 
-    public Order( Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus) {
-        this(subTotal, taxAmount, deliveryCharge, totalAmount, orderStatus, 0);
-    }
-
-    public Order( Double subTotal, Double taxAmount, Double deliveryCharge, Double totalAmount, OrderStatus orderStatus, int userId) {
-        this.date = LocalDate.now();
-        this.subTotal = subTotal;
-        this.taxAmount = taxAmount;
-        this.deliveryCharge = deliveryCharge;
-        this.totalAmount = totalAmount;
-        this.orderStatus = orderStatus;
-        this.userId = userId;
-    }
+    List<OrderItemDto> orderItems = new ArrayList<>();
 
     public int getOrderId() {
         return orderId;
@@ -90,5 +80,13 @@ public class Order {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public List<OrderItemDto> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItemDto> orderItems) {
+        this.orderItems = orderItems;
     }
 }
