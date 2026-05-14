@@ -28,7 +28,8 @@
 
             <li class="icon"><a href="${pageContext.request.contextPath}/service"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
             <li class="icon">
-                <a href="${pageContext.request.contextPath}/cart"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
+                <a href="${pageContext.request.contextPath}/cart"><i class="bx bx-shopping-bag icon"></i>  <span>cart</span>
+                    <span id="cart-count">0</span></a>
             </li>
             <li class="icon">
                 <a href="${pageContext.request.contextPath}/login"><i class="bx bx-user icon"></i><span>login</span></a>
