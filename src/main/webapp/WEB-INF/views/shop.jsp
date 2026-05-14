@@ -94,7 +94,7 @@
       <p class="popup-subtitle">You have selected immediate checkout for:</p>
       <form action="${pageContext.request.contextPath}/order" method="post" class="popup-details">
         <div class="detail-row">
-          <input hidden name="action" value="create" style="border: none" class="value" ></input>
+          <input hidden name="action" value="buy-now" style="border: none" class="value" ></input>
         </div>
         <div class="detail-row">
           <span class="label">Id</span>
@@ -129,6 +129,14 @@
 
 
   <script src="${pageContext.request.contextPath}/static/js/user/shop.js"></script>
+<script>
+  const closeMessage = (id) =>{
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  }
+</script>
 </body>
 
 </html>

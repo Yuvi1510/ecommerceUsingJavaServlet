@@ -80,12 +80,7 @@
     </section>
 </main>
 
-<footer class="footer">
-    <div class="row">
-        <div class="footer-one"></div>
-        <p>Fatafat Kin is Nepal’s premier destination for fast, reliable, and premium online shopping.
-            Bringing the best of tech and fashion directly to your doorstep.</p>
-    </div>
-</footer>
+<jsp:include page="fragments/footer.jsp"/>
+
 </body>
 </html>

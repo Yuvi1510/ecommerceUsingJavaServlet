@@ -23,7 +23,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean addOrder(Order order, List<CartItem> items) {
+    public boolean buyNow(Order order, List<CartItem> items) {
         String query = "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -61,6 +61,155 @@ public class OrderDaoImpl implements OrderDao {
         } catch (Exception e) {
             System.out.println("Error adding order: " + e.getMessage());
         }
+        return false;
+    }
+
+    @Override
+    public boolean createOrder(int userId) {
+
+        String getCartQuery =
+                "SELECT cart_id FROM carts WHERE user_id = ?";
+
+        String getCartItemsQuery =
+                "SELECT * FROM cart_items WHERE cart_id = ?";
+
+        String insertOrderQuery =
+                "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+        String insertOrderItemQuery =
+                "INSERT INTO order_items(order_quantity, amount, order_id, product_id) " +
+                        "VALUES(?, ?, ?, ?)";
+
+        String deleteCartItemsQuery =
+                "DELETE FROM cart_items WHERE cart_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection()) {
+
+            // Transaction start
+            connection.setAutoCommit(false);
+
+            int cartId = 0;
+
+            // Get cart id
+            try (PreparedStatement ps = connection.prepareStatement(getCartQuery)) {
+
+                ps.setInt(1, userId);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    cartId = rs.getInt("cart_id");
+                } else {
+                    return false;
+                }
+            }
+
+            // Get cart items
+            List<CartItem> cartItems = new ArrayList<>();
+
+            double subtotal = 0;
+
+            try (PreparedStatement ps = connection.prepareStatement(getCartItemsQuery)) {
+
+                ps.setInt(1, cartId);
+
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+
+                    CartItem cartItem = new CartItem(
+                            rs.getInt("total_items"),
+                            rs.getDouble("total_price"),
+                            rs.getInt("cart_id"),
+                            rs.getInt("product_id")
+                    );
+
+                    cartItem.setCartItemId(rs.getInt("cart_item_id"));
+
+                    subtotal += cartItem.getTotalPrice();
+
+                    cartItems.add(cartItem);
+                }
+            }
+
+            // Empty cart check
+            if (cartItems.isEmpty()) {
+                return false;
+            }
+
+            // Calculate totals
+            double taxAmount = subtotal * 0.13;
+            double deliveryCharge = 150;
+            double totalAmount = subtotal + taxAmount + deliveryCharge;
+
+            int orderId = 0;
+
+            // Create order
+            try (PreparedStatement ps = connection.prepareStatement(
+                    insertOrderQuery,
+                    Statement.RETURN_GENERATED_KEYS
+            )) {
+
+                ps.setDate(1, Date.valueOf(LocalDate.now()));
+                ps.setDouble(2, subtotal);
+                ps.setDouble(3, taxAmount);
+                ps.setDouble(4, deliveryCharge);
+                ps.setDouble(5, totalAmount);
+                ps.setString(6, OrderStatus.PENDING.name());
+                ps.setInt(7, userId);
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected <= 0) {
+                    connection.rollback();
+                    return false;
+                }
+
+                ResultSet rs = ps.getGeneratedKeys();
+
+                if (rs.next()) {
+                    orderId = rs.getInt(1);
+                } else {
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            // Create order items
+            try (PreparedStatement ps = connection.prepareStatement(insertOrderItemQuery)) {
+
+                for (CartItem item : cartItems) {
+
+                    ps.setInt(1, item.getTotalItems());
+                    ps.setDouble(2, item.getTotalPrice());
+                    ps.setInt(3, orderId);
+                    ps.setInt(4, item.getProductId());
+
+                    ps.addBatch();
+                }
+
+                ps.executeBatch();
+            }
+
+            // Remove cart items
+            try (PreparedStatement ps = connection.prepareStatement(deleteCartItemsQuery)) {
+
+                ps.setInt(1, cartId);
+
+                ps.executeUpdate();
+            }
+
+            // Commit transaction
+            connection.commit();
+
+            System.out.println("order completed");
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

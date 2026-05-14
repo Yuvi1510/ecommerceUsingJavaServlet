@@ -13,7 +13,7 @@
  <jsp:include page="fragments/navbar.jsp"/>
 
   <section id="home">
-    <div class="container">
+    <div class="container" style="padding-left: 90px;">
       <h5>EXCLUSIVE OFFERS</h5>
       <h1><span>Best Deals</span> This Season</h1>
       <p>

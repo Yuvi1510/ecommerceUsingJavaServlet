@@ -165,65 +165,78 @@ h6{
 
 <jsp:include page="fragments/navbar.jsp"/>
 
-<section class=
-                 "single-product" style="padding-top: 140px;">
-
+<div style="padding-top: 140px;">
     <c:if test="${not empty success}">
-        <div id="successMessage" style="display: flex; background-color: #7af67c; color: white">
+        <div id="successMessage" style="display: flex; ">
+               <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
+
                 ${success}
 
-            <button
+                    <button
 
-                    onclick="closeMessage('successMessage')"
-                    style="color: red; padding:0 5px">
-                X
-            </button>
+                            onclick="closeMessage('successMessage')"
+                            style="color: red; padding:0 5px; margin-left: 10px">
+                        X
+                    </button>
+               </p>
+
+
         </div>
     </c:if>
     <c:if test="${not empty error}">
-        <div id="errorMessage" style="display: flex; background-color: #f85656; color: white">
-                ${error}
+        <div id="errorMessage" style="display: flex; ">
+            <p style="background-color: #f85656; color: white; margin: auto; padding: 0 10px;">
 
-            <button
+                    ${error}
 
-                    onclick="closeMessage('errorMessage')"
-                    style="color: black; padding:0 5px">
-                X
-            </button>
+                        <button
+
+                                onclick="closeMessage('errorMessage')"
+                                style="color: black; padding:0 5px; margin-left: 10px;">
+                            X
+                        </button>
+            </p>
+
+
         </div>
     </c:if>
 
-    <div class="single-row">
-    <div class="single-image" style="overflow: hidden;">
-      <img src="${pageContext.request.contextPath}/images/${product.imagePath}" id="MainImg" />
-    </div>
-  </div>
+    <section class="single-product" >
+
+        <div class="single-row">
+            <div class="single-image" style="overflow: hidden;">
+                <img src="${pageContext.request.contextPath}/images/${product.imagePath}" id="MainImg" />
+            </div>
+        </div>
 
         <div class="description">
-        <h6>${product.name}</h6>
-<%--        <h3>${product.description}</h3>--%>
-        <h2>Rs ${product.price}</h2>
-        <div>
-        <input class="number" type="number" name="quantity" value="1">
+            <h6>${product.name}</h6>
+            <%--        <h3>${product.description}</h3>--%>
+            <h2>Rs ${product.price}</h2>
+            <div>
+                <input class="number" type="number" name="quantity" value="1">
 
-            <form action="${pageContext.request.contextPath}/cart" method="post">
-                <input hidden name="action" value="add">
-                <input hidden name="productId" value="${product.productId}">
-                <button type="submit" class="btn">Add TO Cart</button>
-            </form>
+                <form action="${pageContext.request.contextPath}/cart" method="post">
+                    <input hidden name="action" value="add">
+                    <input hidden name="productId" value="${product.productId}">
+                    <button type="submit" class="btn">Add TO Cart</button>
+                </form>
 
-        <h4>Product Details</h4>
-          <p>${product.description}</p>
+                <h4>Product Details</h4>
+                <p>${product.description}</p>
 
-       </div>
-<%--       <div id="cart-popup" class="popup">--%>
-<%--    <div class="popup-content">--%>
-<%--        <i class='bx bx-check-circle'></i>--%>
-<%--        <p>Item added to cart successfully!</p>--%>
-<%--    </div>--%>
-<%--</div>--%>
-       </div>
+            </div>
+            <%--       <div id="cart-popup" class="popup">--%>
+            <%--    <div class="popup-content">--%>
+            <%--        <i class='bx bx-check-circle'></i>--%>
+            <%--        <p>Item added to cart successfully!</p>--%>
+            <%--    </div>--%>
+            <%--</div>--%>
+        </div>
     </section>
+</div>
+
+
 
 <jsp:include page="fragments/footer.jsp"/>
 

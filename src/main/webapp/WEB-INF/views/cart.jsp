@@ -109,7 +109,7 @@
                   <div class="cart-item-info">
 
                     <img
-                            src="${pageContext.request.contextPath}/${item.imagePath}"
+                            src="${pageContext.request.contextPath}/images/${item.imagePath}"
                             alt="${item.name}"
                             class="cart-item-image"
                     />
@@ -276,7 +276,10 @@
       <div class="modal-body"></div>
       <div class="modal-footer">
         <button onclick="window.location.href = 'shop.html'" class="modal-btn btn-cancel">Continue Shopping</button>
-        <button class="modal-btn btn-confirm-checkout">Confirm and Pay</button>
+        <form action="${pageContext.request.contextPath}/order" method="post">
+          <input hidden name="action" value="create">
+          <button type="submit" style="padding: 10px 20px; border-radius: 5px; background-color: #20cf20">Confirm and Pay</button>
+        </form>
       </div>
     </div>
   </div>
@@ -303,7 +306,7 @@
 <!-- ===== FOOTER  ===== -->
 <jsp:include page="fragments/footer.jsp"/>
 
-  <script src="JS/cart.js"></script>
+  <script src="${pageContext.request.contextPath}/static/js/user/cart.js"></script>
 </body>
 
 </html>

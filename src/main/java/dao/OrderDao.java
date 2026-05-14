@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderDao {
-    boolean addOrder(Order order, List<CartItem> productIds);
+    boolean buyNow(Order order, List<CartItem> productIds);
+    boolean createOrder(int userId);
     List<Order> findAllOrders();
     Order findOrderById(int orderId);
     List<OrderDto> findOrderByUserId(int userId);

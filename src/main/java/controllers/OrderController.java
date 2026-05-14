@@ -69,7 +69,7 @@ public class OrderController extends HttpServlet {
             return;
         }
 
-        if("create".equals(action)){
+        if("buy-now".equals(action)){
             System.out.println(req.getParameter("id"));
             System.out.println(req.getParameter("subTotal"));
             Order order = ModelUtils.getOrderFromRequest(req);
@@ -84,18 +84,32 @@ public class OrderController extends HttpServlet {
 
             CartItem cartItem = new CartItem(1, amount, 0, productId);
 
-            boolean success = orderDao.addOrder(order, List.of(cartItem));
+            boolean success = orderDao.buyNow(order, List.of(cartItem));
 
             if(success){
                 System.out.println("New order created!");
                 List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
                 req.setAttribute("orders", orders);
                 req.setAttribute("success","Order created successfully");
-                req.getRequestDispatcher("/WEB-INF/views/user/orders.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
             }else {
                 System.out.println("something went wrong");
                 resp.sendRedirect(req.getContextPath() + "/home");
             }
+        } else if ("create".equals(action)) {
+            System.out.println("Creating order");
+            boolean success = orderDao.createOrder(user.getUserId());
+            if(success){
+                System.out.println("New order created!");
+                List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
+                req.setAttribute("orders", orders);
+                req.setAttribute("success","Order created successfully");
+                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
+            }else {
+                System.out.println("something went wrong");
+                resp.sendRedirect(req.getContextPath() + "/cart");
+            }
+
         }
     }
 }

@@ -5,117 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Orders</title>
-
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/order.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/order.css">
 </head>
-<body>
+<body style="display: block; ">
 
 <!-- ===== NAVBAR ===== -->
+
+
 <jsp:include page="fragments/navbar.jsp"/>
+    <div class="container" style="margin-top: 80px; min-height: 1200px; overflow: scroll">
 
-<div class="container">
+        <h1>My Orders</h1>
 
-    <h1>My Orders</h1>
+        <c:if test="${not empty success}">
+            <div id="successMessage" style="display: flex; ">
+                <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
 
-    <c:choose>
-        <c:when test="${not empty error}">
-            <p style="color: red; text-align: center; padding: 5px;">
-                <c:out value="${error}" />
-            </p>
-        </c:when>
-        <c:when test="${not empty success}">
-            <p style="color: green; text-align: center; padding: 5px;">
-                <c:out value="${success}" />
-            </p>
-        </c:when>
-    </c:choose>
+                        ${success}
 
-    <c:choose>
-        <c:when test="${empty orders}">
-            <div id="empty">
-                <img src="${pageContext.request.contextPath}/static/images/order-img.jpeg" class="empty-img" alt="No Orders">
-                <h2>No Orders</h2>
-                <h3>You haven't placed any orders yet</h3>
+                    <button
+
+                            onclick="closeMessage('successMessage')"
+                            style="color: red; padding:0 5px; margin-left: 10px">
+                        X
+                    </button>
+                </p>
+
+
             </div>
-        </c:when>
+        </c:if>
+        <c:if test="${not empty error}">
+            <div id="errorMessage" style="display: flex; ">
+                <p style="background-color: #f85656; color: white; margin: auto; padding: 0 10px;">
 
-        <c:otherwise>
-            <div id="orders-container">
+                        ${error}
 
-                <c:forEach var="order" items="${orders}">
-                    <div class="order-wrapper">
+                    <button
 
-                        <div class="order-card">
-                            <div class="order-header">
-                                <h3>Order #${order.orderId}</h3>
-                                <span class="order-date">Placed on: ${order.date}</span>
-                            </div>
+                            onclick="closeMessage('errorMessage')"
+                            style="color: black; padding:0 5px; margin-left: 10px;">
+                        X
+                    </button>
+                </p>
 
-                            <div class="order-details">
-                                <div class="order-info">
-                                    <p><strong>Order Status:</strong>
-                                        <span class="status-badge status-${order.orderStatus}">
-                                                ${order.orderStatus}
-                                        </span>
-                                    </p>
-                                    <p><strong>Total Amount:</strong> <span class="total-amount">Rs ${order.totalAmount}</span></p>
+
+            </div>
+        </c:if>
+
+
+        <c:choose>
+            <c:when test="${empty orders}">
+                <div id="empty">
+                    <img src="${pageContext.request.contextPath}/static/images/order-img.jpeg" class="empty-img" alt="No Orders">
+                    <h2>No Orders</h2>
+                    <h3>You haven't placed any orders yet</h3>
+                </div>
+            </c:when>
+
+            <c:otherwise>
+                <div id="orders-container">
+
+                    <c:forEach var="order" items="${orders}">
+                        <div class="order-wrapper">
+
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <h3>Order #${order.orderId}</h3>
+                                    <span class="order-date">Placed on: ${order.date}</span>
                                 </div>
-                            </div>
 
-                            <div class="order-items">
-                                <h4>Items in this order:</h4>
+                                <div class="order-details">
+                                    <div class="order-info">
+                                        <p><strong>Order Status:</strong>
+                                            <span class="status-badge status-${order.orderStatus}">
+                                                    ${order.orderStatus}
+                                            </span>
+                                        </p>
+                                        <p><strong>Total Amount:</strong> <span class="total-amount">Rs ${order.totalAmount}</span></p>
+                                    </div>
+                                </div>
 
-                                <div class="items-list">
-                                    <c:forEach var="item" items="${order.orderItems}">
-                                        <div class="item-card">
-                                            <img src="${pageContext.request.contextPath}/images/${item.imagePath}"
-                                                 alt="${item.name}"
-                                                 class="item-image"
+                                <div class="order-items">
+                                    <h4>Items in this order:</h4>
 
-                                            <div class="item-details">
-                                                <h5>${item.name}</h5>
-                                                <p class="item-description">${item.description}</p>
-                                                <div class="item-price-info">
-                                                    <span class="item-price">Rs ${item.price}</span>
-                                                    <span class="item-quantity">Quantity: ${item.orderQuantity}</span>
-                                                    <span class="item-total">Total: Rs ${item.amount}</span>
+                                    <div class="items-list">
+                                        <c:forEach var="item" items="${order.orderItems}">
+                                            <div class="item-card">
+                                                <img src="${pageContext.request.contextPath}/images/${item.imagePath}"
+                                                     alt="${item.name}"
+                                                     class="item-image"/>
+
+                                                <div class="item-details">
+                                                    <h5>${item.name}</h5>
+                                                    <p class="item-description">${item.description}</p>
+                                                    <div class="item-price-info">
+                                                        <span class="item-price">Rs ${item.price}</span>
+                                                        <span class="item-quantity">Quantity: ${item.orderQuantity}</span>
+                                                        <span class="item-total">Total: Rs ${item.amount}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </c:forEach>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+
+                                <div class="order-actions">
+                                    <c:if test="${order.orderStatus == 'PENDING'}">
+                                        <a href="${pageContext.request.contextPath}/order?action=cancel&id=${order.orderId}" class="btn-cancel" >
+                                            Cancel Order
+                                        </a>
+                                    </c:if>
+                                    <c:if test="${order.orderStatus == 'DELIVERED'}">
+                                        <button class="btn-review" onclick="writeReview(${order.orderId})">
+                                            Write a Review
+                                        </button>
+                                    </c:if>
+                                    <button class="btn-track">
+                                        Track Order
+                                    </button>
                                 </div>
                             </div>
 
-                            <div class="order-actions">
-                                <c:if test="${order.orderStatus == 'PENDING'}">
-                                    <a href="${pageContext.request.contextPath}/order?action=cancel&id=${order.orderId}" class="btn-cancel" >
-                                        Cancel Order
-                                    </a>
-                                </c:if>
-                                <c:if test="${order.orderStatus == 'DELIVERED'}">
-                                    <button class="btn-review" onclick="writeReview(${order.orderId})">
-                                        Write a Review
-                                    </button>
-                                </c:if>
-                                <button class="btn-track">
-                                    Track Order
-                                </button>
-                            </div>
                         </div>
+                    </c:forEach>
 
-                    </div>
-                </c:forEach>
+                </div>
+            </c:otherwise>
 
-            </div>
-        </c:otherwise>
+        </c:choose>
+    </div>
 
-    </c:choose>
+<jsp:include page="fragments/footer.jsp"/>
 
-    <jsp:include page="fragments/footer.jsp"/>
-
-
-</div>
 
 <!-- JS LINK -->
 <script>

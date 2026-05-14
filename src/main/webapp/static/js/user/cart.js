@@ -181,18 +181,18 @@
         });
 
         // Confirm buttons inside checkout modals
-        document.querySelectorAll('.btn-confirm-checkout').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const modalId = btn.closest('.modal-overlay').id;
-                if(modalId === 'buyNowModal'){
-                    alert("Redirecting to secure payment gateway for single item...");
-                } else if (modalId === 'cartCheckoutModal'){
-                    alert("Redirecting to secure payment gateway for full cart...");
-                }
-                
-                closeModal(modalId);
-            });
-        });
+        // document.querySelectorAll('.btn-confirm-checkout').forEach(btn => {
+        //     btn.addEventListener('click', () => {
+        //         const modalId = btn.closest('.modal-overlay').id;
+        //         if(modalId === 'buyNowModal'){
+        //             alert("Redirecting to secure payment gateway for single item...");
+        //         } else if (modalId === 'cartCheckoutModal'){
+        //             alert("Redirecting to secure payment gateway for full cart...");
+        //         }
+        //
+        //         closeModal(modalId);
+        //     });
+        // });
 
         // =========================================
         // --- NEW JS FOR CONFIRM DELETE BUTTON ---
