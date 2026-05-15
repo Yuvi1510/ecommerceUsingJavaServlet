@@ -63,6 +63,27 @@ button:hover {
   align-items: center;
 }
 
+#cart-count {
+  position: absolute;
+  top: -3px;
+  right: 32px;
+  background-color: #ff523b;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden; /* Hide until at least 1 item is added */
+}
+
+#cart-count.show {
+  visibility: visible;
+}
+
 /* Logo Styling */
 
 .logo img {
