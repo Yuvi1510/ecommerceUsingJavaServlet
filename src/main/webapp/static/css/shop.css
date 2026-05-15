@@ -163,7 +163,7 @@
     visibility: visible;
 }
 
-     .shortcut-links {
+.shortcut-links {
          position: fixed;
          top: 0;
          right: -350px;

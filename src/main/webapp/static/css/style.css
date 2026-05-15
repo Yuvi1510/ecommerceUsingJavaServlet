@@ -96,45 +96,33 @@ button:hover {
 
 .search-container {
   display: flex;
-
   flex: 0 1 400px;
-
   margin: 0 20px;
-
-  color: #000;
 }
 
 .search-input {
   width: 100%;
-
   padding: 8px 15px;
-
-  border: none;
-
+  border: 1px solid #ddd;
   border-radius: 4px 0 0 4px;
-
   outline: none;
 }
 
 .search-btn {
   background: #f39c12;
-
   border: none;
-
   padding: 8px 12px;
-
   border-radius: 0 4px 4px 0;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
 }
 
 .search-icon {
   width: 18px;
 }
+
+
 
 /* Navigation Links */
 
