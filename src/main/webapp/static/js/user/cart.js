@@ -1,212 +1,333 @@
- // Format currency display Rs. X,XXX
-    function formatRs(amount) {
-        return "Rs. " + amount.toLocaleString('en-IN');
+// Format currency display Rs. X,XXX
+function formatRs(amount) {
+    return "Rs. " + amount.toLocaleString('en-IN');
+}
+
+// Convert "Rs. 1,500" -> 1500
+function parseRs(stringRs) {
+    return parseInt(stringRs.replace(/[Rs. ,]/g, '')) || 0;
+}
+
+// Update cart totals dynamically
+function updateCartTotals() {
+
+    const cartItems = document.querySelectorAll('.cart-item');
+
+    let subtotal = 0;
+    let totalItemsCount = 0;
+
+    cartItems.forEach(item => {
+
+        const priceDisplay =
+            item.querySelector('.item-price-display').textContent;
+
+        const price = parseRs(priceDisplay);
+
+        const quantity =
+            parseInt(item.querySelector('.quantity-input').value);
+
+        const itemSubtotal = price * quantity;
+
+        item.querySelector('.item-subtotal-display').textContent =
+            formatRs(itemSubtotal);
+
+        subtotal += itemSubtotal;
+
+        totalItemsCount += quantity;
+    });
+
+    const shippingFee = subtotal > 0 ? 150 : 0;
+
+    const grandTotal = subtotal + shippingFee;
+
+    document.getElementById('cartSubtotalDisplay').textContent =
+        formatRs(subtotal);
+
+    document.getElementById('shippingFeeDisplay').textContent =
+        formatRs(shippingFee);
+
+    document.getElementById('cartTotalDisplay').textContent =
+        formatRs(grandTotal);
+
+    const itemCountDisplay =
+        document.getElementById('itemCountDisplay');
+
+    if (totalItemsCount === 0) {
+
+        itemCountDisplay.textContent = "Your cart is empty.";
+
+        // Reload page to show empty cart state
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+
+    } else {
+
+        itemCountDisplay.textContent =
+            `${totalItemsCount} Item${totalItemsCount > 1 ? 's' : ''} in your cart`;
     }
+}
 
-    // New helper to strip "Rs. " and "," and get integer
-    function parseRs(stringRs) {
-        // Rs. 1,500 -> 1500
-        return parseInt(stringRs.replace(/[Rs. ,]/g, '')) || 0;
-    }
-
-    // =========================================
-    // --- UPDATED LOGIC TO PARSE HTML PRICE ---
-    // =========================================
-    function updateCartTotals() {
-        const cartItems = document.querySelectorAll('.cart-item');
-        let subtotal = 0;
-        let totalItemsCount = 0;
-
-        cartItems.forEach(item => {
-            // New logic: read the price directly from the display element
-            const priceDisplay = item.querySelector('.item-price-display').textContent;
-            const price = parseRs(priceDisplay);
-
-            const quantity = parseInt(item.querySelector('.quantity-input').value);
-            const itemSubtotal = price * quantity;
-            item.querySelector('.item-subtotal-display').textContent = formatRs(itemSubtotal);
-            subtotal += itemSubtotal;
-            totalItemsCount += quantity;
+// Function to update quantity via AJAX
+async function updateQuantity(cartItemId, newQuantity) {
+    try {
+        const response = await fetch('${pageContext.request.contextPath}/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=update&cartItemId=${cartItemId}&quantity=${newQuantity}`
         });
 
-        const shippingFee = subtotal > 0 ? 150 : 0;
-        const grandTotal = subtotal + shippingFee;
-
-        document.getElementById('cartSubtotalDisplay').textContent = formatRs(subtotal);
-        document.getElementById('shippingFeeDisplay').textContent = formatRs(shippingFee);
-        document.getElementById('cartTotalDisplay').textContent = formatRs(grandTotal);
-
-        const itemCountDisplay = document.getElementById('itemCountDisplay');
-        if (totalItemsCount === 0) {
-            itemCountDisplay.textContent = "Your cart is empty.";
-        } else {
-            itemCountDisplay.textContent = `${totalItemsCount} Item${totalItemsCount > 1 ? 's' : ''} in your cart`;
+        if (!response.ok) {
+            throw new Error('Failed to update quantity');
         }
+
+        return true;
+    } catch (error) {
+        console.error('Error updating quantity:', error);
+        return false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const cartTableBody =
+        document.getElementById('cartTableBody');
+
+    // Modal functions
+    function openModal(modalId, htmlContent = null) {
+
+        const modal =
+            document.getElementById(modalId);
+
+        if (htmlContent) {
+
+            const modalBody =
+                modal.querySelector('.modal-body');
+
+            if (modalBody) {
+                modalBody.innerHTML = htmlContent;
+            }
+        }
+
+        modal.classList.add('show');
     }
 
-    // Main JavaScript
-    document.addEventListener('DOMContentLoaded', () => {
-        const cartTableBody = document.getElementById('cartTableBody');
+    function closeModal(modalId) {
 
-        // =========================================
-        // --- UPDATED MODAL HANDLING FOR DELETE ---
-        // =========================================
-        
-        // Variable to temporarily store the row targeted for deletion
-        let rowToDelete = null; 
+        document
+            .getElementById(modalId)
+            .classList
+            .remove('show');
+    }
 
-        // General Modal Handling Functions
-        function openModal(modalId, htmlContent = null) {
-            const modalOverlay = document.getElementById(modalId);
-            // Only update body if content is provided (delete modal doesn't need dynamic body update)
-            if (htmlContent) {
-                modalOverlay.querySelector('.modal-body').innerHTML = htmlContent;
-            }
-            modalOverlay.classList.add('show');
-        }
+    // Close modal logic
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-            // Reset rowToDelete when closing any modal to be safe
-            rowToDelete = null; 
-        }
+        modal.querySelectorAll('.close-modal, .btn-cancel')
+            .forEach(btn => {
 
-        // Global listeners for closing any modal via its cancel buttons, 'X', or background click
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.querySelectorAll('.close-modal, .modal-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    // Specific logic for confirm buttons is handled separately
-                    if (!btn.classList.contains('btn-confirm-checkout') && !btn.classList.contains('btn-confirm-delete')) {
-                        closeModal(modal.id);
-                    }
+                btn.addEventListener('click', () => {
+                    closeModal(modal.id);
                 });
             });
 
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal.id);
-                }
-            });
+        modal.addEventListener('click', (e) => {
 
-            modal.querySelector('.modal-content').addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal(modal.id);
+            }
+        });
+
+        modal.querySelector('.modal-content')
+            .addEventListener('click', (e) => {
                 e.stopPropagation();
             });
-        });
-
-
-        // Event Delegation for Table Clicks
-        cartTableBody.addEventListener('click', (event) => {
-            const target = event.target;
-            const row = target.closest('.cart-item');
-            if (!row) return;
-
-            // Handle Quantity Minus
-            if (target.classList.contains('minus') || target.closest('.minus')) {
-                const input = row.querySelector('.quantity-input');
-                let currentVal = parseInt(input.value);
-                if (currentVal > 1) {
-                    input.value = currentVal - 1;
-                    updateCartTotals();
-                }
-                event.preventDefault();
-            }
-
-            // Handle Quantity Plus
-            if (target.classList.contains('plus') || target.closest('.plus')) {
-                const input = row.querySelector('.quantity-input');
-                let currentVal = parseInt(input.value);
-                input.value = currentVal + 1;
-                updateCartTotals();
-                event.preventDefault();
-            }
-
-            // =========================================
-            // --- UPDATED JS FOR DELETE POPUP ---
-            // =========================================
-            if (target.classList.contains('remove-btn') || target.closest('.remove-btn')) {
-                
-                // 1. Get the item name to display in popup
-                const itemName = row.querySelector('.cart-item-details h4').textContent;
-                document.getElementById('deleteItemName').textContent = itemName;
-
-                // 2. Store the reference to the row to be deleted
-                rowToDelete = row; 
-
-                // 3. Open the beautiful delete modal
-                openModal('deleteConfirmModal'); 
-                
-                event.preventDefault();
-            }
-
-            // Buy Now logic
-            if (target.classList.contains('buy-now-item-btn') || target.closest('.buy-now-item-btn')) {
-                const productName = row.querySelector('.cart-item-details h4').textContent;
-                const quantity = row.querySelector('.quantity-input').value;
-                const subtotalDisplay = row.querySelector('.item-subtotal-display').textContent;
-
-                const htmlContent = `
-                    <p>You have selected immediate checkout for:</p>
-                    <p>Item: <strong>${productName}</strong></p>
-                    <p>Quantity: ${quantity}</p>
-                    <p>Item Subtotal: <strong>${subtotalDisplay}</strong></p>
-                    <p>(Shipping fee of Rs. 150 will be applied at payment)</p>
-                `;
-
-                openModal('buyNowModal', htmlContent);
-
-                event.preventDefault();
-            }
-        });
-
-        // Grand Checkout logic
-        document.getElementById('proceedCheckoutBtn').addEventListener('click', (event) => {
-            const totalItemsCountHTML = document.getElementById('itemCountDisplay').textContent;
-            
-            if (totalItemsCountHTML === "Your cart is empty.") {
-                alert("Your cart is empty. Add items before checking out.");
-            } else {
-                const grandTotal = document.getElementById('cartTotalDisplay').textContent;
-                const totalItems = totalItemsCountHTML.split(' ')[0];
-
-                const htmlContent = `
-                    <p>You are about to checkout with your entire cart.</p>
-                    <p>Total Items: <strong>${totalItems}</strong></p>
-                    <p>Grand Total to Pay (inc. shipping): <strong class="highlight-price">${grandTotal}</strong></p>
-                    <p>Please confirm your order details before proceeding to payment.</p>
-                `;
-
-                openModal('cartCheckoutModal', htmlContent);
-            }
-            event.preventDefault();
-        });
-
-        // Confirm buttons inside checkout modals
-        // document.querySelectorAll('.btn-confirm-checkout').forEach(btn => {
-        //     btn.addEventListener('click', () => {
-        //         const modalId = btn.closest('.modal-overlay').id;
-        //         if(modalId === 'buyNowModal'){
-        //             alert("Redirecting to secure payment gateway for single item...");
-        //         } else if (modalId === 'cartCheckoutModal'){
-        //             alert("Redirecting to secure payment gateway for full cart...");
-        //         }
-        //
-        //         closeModal(modalId);
-        //     });
-        // });
-
-        // =========================================
-        // --- NEW JS FOR CONFIRM DELETE BUTTON ---
-        // =========================================
-        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-            if (rowToDelete) {
-                // 1. Perform the actual deletion
-                rowToDelete.remove();
-                // 2. Update totals
-                updateCartTotals();
-                // 3. Close the modal
-                closeModal('deleteConfirmModal');
-            }
-        });
-
-        updateCartTotals();
     });
+
+    // Cart table events
+    cartTableBody.addEventListener('click', async (event) => {
+
+        const target = event.target;
+
+        const row = target.closest('.cart-item');
+
+        if (!row) return;
+
+        // MINUS BUTTON
+        if (
+            target.classList.contains('minus') ||
+            target.closest('.minus')
+        ) {
+
+            event.preventDefault();
+
+            const input =
+                row.querySelector('.quantity-input');
+
+            let currentVal = parseInt(input.value);
+
+            if (currentVal > 1) {
+
+                const newVal = currentVal - 1;
+                const cartItemId = target.getAttribute('data-cart-item-id') ||
+                    target.closest('.minus').getAttribute('data-cart-item-id');
+
+                // Update via AJAX
+                const success = await updateQuantity(cartItemId, newVal);
+
+                if (success) {
+                    input.value = newVal;
+                    updateCartTotals();
+                } else {
+                    alert('Failed to update quantity. Please try again.');
+                }
+            }
+        }
+
+        // PLUS BUTTON
+        if (
+            target.classList.contains('plus') ||
+            target.closest('.plus')
+        ) {
+
+            event.preventDefault();
+
+            const input =
+                row.querySelector('.quantity-input');
+
+            let currentVal = parseInt(input.value);
+
+            const newVal = currentVal + 1;
+            const cartItemId = target.getAttribute('data-cart-item-id') ||
+                target.closest('.plus').getAttribute('data-cart-item-id');
+
+            // Update via AJAX
+            const success = await updateQuantity(cartItemId, newVal);
+
+            if (success) {
+                input.value = newVal;
+                updateCartTotals();
+            } else {
+                alert('Failed to update quantity. Please try again.');
+            }
+        }
+
+        // DELETE BUTTON - FIXED LOGIC
+        if (
+            target.classList.contains('remove-btn') ||
+            target.closest('.remove-btn')
+        ) {
+
+            event.preventDefault();
+
+            const itemName =
+                row.querySelector('.cart-item-details h4').textContent;
+
+            document.getElementById('deleteItemName').textContent =
+                itemName;
+
+            // Get cart item id from the button's data attribute or from the hidden input in the row
+            let cartItemId;
+
+            // Check if there's a hidden input in the row
+            const hiddenInput = row.querySelector('input[name="cartItemId"]');
+            if (hiddenInput) {
+                cartItemId = hiddenInput.value;
+            } else {
+                // Try to get from the remove button's data attribute
+                const removeBtn = target.closest('.remove-btn');
+                cartItemId = removeBtn.getAttribute('data-cart-item-id');
+            }
+
+            console.log('Deleting cart item ID:', cartItemId); // Debug log
+
+            // Set modal hidden input
+            document.getElementById('deleteCartItemId').value =
+                cartItemId;
+
+            openModal('deleteConfirmModal');
+        }
+
+        // BUY NOW BUTTON
+        if (
+            target.classList.contains('buy-now-item-btn') ||
+            target.closest('.buy-now-item-btn')
+        ) {
+
+            event.preventDefault();
+
+            const productName =
+                row.querySelector('.cart-item-details h4').textContent;
+
+            const quantity =
+                row.querySelector('.quantity-input').value;
+
+            const subtotalDisplay =
+                row.querySelector('.item-subtotal-display').textContent;
+
+            const htmlContent = `
+                <p>You have selected immediate checkout for:</p>
+                <p>Item: <strong>${productName}</strong></p>
+                <p>Quantity: ${quantity}</p>
+                <p>Item Subtotal: <strong>${subtotalDisplay}</strong></p>
+                <p>(Shipping fee of Rs. 150 will be applied at payment)</p>
+            `;
+
+            openModal('buyNowModal', htmlContent);
+        }
+    });
+
+    // Handle delete form submission
+    const deleteForm = document.getElementById('deleteCartForm');
+    if (deleteForm) {
+        deleteForm.addEventListener('submit', function(e) {
+            console.log('Delete form submitted with cartItemId:',
+                document.getElementById('deleteCartItemId').value);
+            // Form will submit normally to the server
+        });
+    }
+
+    // FULL CART CHECKOUT
+    const checkoutBtn = document.getElementById('proceedCheckoutBtn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', (event) => {
+
+            event.preventDefault();
+
+            const totalItemsText =
+                document.getElementById('itemCountDisplay').textContent;
+
+            if (totalItemsText === "Your cart is empty.") {
+
+                alert("Your cart is empty. Add items before checking out.");
+
+                return;
+            }
+
+            const grandTotal =
+                document.getElementById('cartTotalDisplay').textContent;
+
+            const totalItems =
+                totalItemsText.split(' ')[0];
+
+            const htmlContent = `
+                <p>You are about to checkout with your entire cart.</p>
+                <p>Total Items: <strong>${totalItems}</strong></p>
+                <p>
+                    Grand Total to Pay:
+                    <strong class="highlight-price">
+                        ${grandTotal}
+                    </strong>
+                </p>
+                <p>Please confirm your order before payment.</p>
+            `;
+
+            openModal('cartCheckoutModal', htmlContent);
+        });
+    }
+
+    // Initial totals
+    updateCartTotals();
+});

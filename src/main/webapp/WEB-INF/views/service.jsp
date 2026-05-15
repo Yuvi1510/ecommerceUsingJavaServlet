@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <html lang="en">
 
 <head>
@@ -9,40 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/style.css">
-    <link rel="stylesheet" href="CSS/customer-service.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/customer-service.css">
 </head>
 
 <body>
-   <nav class="navbar">
-    <div class="navbar-item">
-      <div class="logo">
-        <img src="images/download.png" alt="FataFat Kin Logo" />
-      </div>
-
-      <div class="search-container">
-        <input type="text" placeholder="Search product" class="search-input" />
-        <button class="search-btn">
-          <img src="images/search.png" class="search-icon" />
-        </button>
-      </div>
-
-      <ul class="nav-links">
-        <li><a href="index.jsp">Home</a></li>
-        <li><a href="shop.jsp">Shop</a></li>
-        <li><a class="active" href="about.html">About</a></li>
-        <li><a href="order.jsp">My order</a></li>
-
-        <li class="icon"><a href="service.html"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
-        <li class="icon">
-          <a href="cart.html"><i class="bx bx-shopping-bag icon"></i><span>cart</span></a>
-        </li>
-        <li class="icon">
-          <a href="login.html"><i class="bx bx-user icon"></i><span>login</span></a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+   <jsp:include page="fragments/navbar.jsp"/>
 
     <main class="support-page">
         <header class="support-hero">
@@ -136,37 +109,11 @@
             </form>
         </section>
     </main>
-<footer class="footer">
-    <div class="row">
-      <div class="footer-one">
-        <img src="images/download.png" alt="Logo" />
-        <p>Shop the best of Nepal from the comfort of home with Fatafat Kin.</p>
-      </div>
-      <div class="footer-one">
-        <h5>Featured</h5>
-        <ul>
-          <li><a href="#">new arrivals</a></li>
-          <li><a href="#">shoes</a></li>
-        </ul>
-      </div>
-      <div class="footer-one">
-        <h5>Contact</h5>
-        <p>123 STREET NAME, CITY, US</p>
-        <p>(123) 456-7890</p>
-      </div>
-    </div>
-    <div class="payment">
-      <div class="payment-img">
-        <div class="image">
-          <img src="images/spring/esewa.jpg" />
-          <img src="images/spring/khalti.png" />
-        </div>
-        <p>© 2026 Fatafat Kin. All Rights Reserved</p>
-      </div>
-    </div>
-  </footer>
 
-    <script src="Js/CustomerService.js"></script>
+   <jsp:include page="fragments/footer.jsp"/>
+
+
 </body>
+    <script src="Js/CustomerService.js"></script>
 
 </html>

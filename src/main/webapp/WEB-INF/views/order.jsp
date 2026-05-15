@@ -19,7 +19,6 @@
     <div class="container" style="margin-top: 80px; min-height: 1200px; overflow: scroll">
 
         <h1>My Orders</h1>
-
         <c:if test="${not empty success}">
             <div id="successMessage" style="display: flex; ">
                 <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
@@ -143,6 +142,14 @@
 
 <!-- JS LINK -->
 <script>
+
+    const closeMessage = (id) =>{
+        const element = document.getElementById(id);
+        if (element) {
+            element.style.display = "none";
+        }
+    }
+
     const orderContainer = document.getElementById("order");
 const empty = document.getElementById("empty");
 const clearBtn = document.getElementById("clearBtn");

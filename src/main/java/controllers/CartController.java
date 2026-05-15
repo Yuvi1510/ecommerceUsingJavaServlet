@@ -41,9 +41,25 @@ public class CartController extends HttpServlet {
         String action = req.getParameter("action");
         User user = (User) SessionUtil.getAttribute(req, "user");
 
+        // if user is null then user is not logged in so show error msg
+        if(user == null){
+            req.setAttribute("error", "Please login first!");
+            req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
+            return;
+        }
+
         if("add".equals(action)){
             int productId = Integer.parseInt(req.getParameter("productId"));
-            boolean success = cartDao.addToCart(user.getUserId(), productId);
+            int quantity = Integer.parseInt(req.getParameter("quantity"));
+
+            if(quantity <=0 ){
+                req.setAttribute("error", "Quantity must be greater than 0");
+                Product product = productsDao.findProductById(productId);
+
+                req.setAttribute("product", product);
+                req.getRequestDispatcher("/WEB-INF/views/single.jsp").forward(req,resp);
+            }
+            boolean success = cartDao.addToCart(user.getUserId(), productId, quantity);
              // get the product
             Product product = productsDao.findProductById(productId);
             // set the product in the request
@@ -59,6 +75,33 @@ public class CartController extends HttpServlet {
         }else if("remove".equals(action)){
             int cartItemId = Integer.parseInt(req.getParameter("cartItemId"));
             boolean success = cartDao.removeFromCart(user.getUserId(), cartItemId);
+
+            if(success){
+                // attach a success msg
+                req.setAttribute("success", "Item successfully removed");
+            }else {
+
+                req.setAttribute("error", "Failed to remove item");
+            }
+            List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());
+            req.setAttribute("cartItems", cartItems);
+            req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req,resp);
+        }else if("updateQuantity".equals(action)){
+            int cartItemId = Integer.parseInt(req.getParameter("cartItemId"));
+            int quantity = Integer.parseInt(req.getParameter("quantity"));
+
+            boolean success = cartDao.updateCartItemQuantity(user.getUserId(), cartItemId, quantity);
+
+            if(success){
+                // attach a success msg
+                req.setAttribute("success", "Item quantity successfully updated");
+            }else {
+
+                req.setAttribute("error", "Failed to update item quantity");
+            }
+            List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());
+            req.setAttribute("cartItems", cartItems);
+            req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req,resp);
         }
     }
 }

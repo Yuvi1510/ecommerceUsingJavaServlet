@@ -47,10 +47,15 @@ public class ProductsController extends HttpServlet {
             req.setAttribute("products", products);
             req.setAttribute("categories", categories);
 
+            for(Product product: products){
+                System.out.println(product.getName());
+            }
+
             if(path.contains("/products")){
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             } else if (path.contains("/shop")) {
+                System.out.println("forwarding to shop");
                 req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
             } else if (path.contains("/singleProduct")) {
                 int id = Integer.parseInt(req.getParameter("id"));

@@ -1,3 +1,5 @@
+Here is the complete JSP code with the new update quantity modal and logic integrated.
+```jsp
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <html lang="en">
@@ -12,9 +14,7 @@
   <style>
     .quantity-btn:hover {
       background-color: #f39c12;
-      /* Changes background to orange */
       color: #fff;
-      /* Optional: Changes text to white for better contrast */
     }
 
     .quantity-input {
@@ -63,10 +63,103 @@
       min-width: 150px;
     }
 
-    /* Hover: Remove icon turns orange */
     .remove-btn:hover {
       background-color: #fff;
+    }
 
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-header i {
+      font-size: 24px;
+      color: #e74c3c;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close-modal:hover {
+      color: #333;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-cancel {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .btn-cancel:hover {
+      background-color: #d0d0d0;
+    }
+
+    .btn-confirm-delete {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .btn-confirm-delete:hover {
+      background-color: #c0392b;
     }
   </style>
 </head>
@@ -76,237 +169,442 @@
 <!-- ===== NAVBAR ===== -->
 <jsp:include page="fragments/navbar.jsp"/>
 
+<section class="shop">
+  <div class="cart-container" id="cartRoot">
+    <div class="cart-header">
+      <h3>Shopping Carts</h3>
+      <p id="itemCountDisplay">
+        ${cartItems.size()} Items in your cart
+      </p>
+    </div>
 
-  <section class="shop">
-    <div class="cart-container" id="cartRoot">
-      <div class="cart-header">
-        <h3>Shopping Carts</h3>
-        <p id="itemCountDisplay">
-          ${cartItems.size()} Items in your cart
+    <c:if test="${not empty success}">
+      <div id="successMessage" style="display: flex; ">
+        <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
+            ${success}
+          <button onclick="closeMessage('successMessage')" style="color: red; padding:0 5px; margin-left: 10px">
+            X
+          </button>
         </p>
       </div>
-      <table class="cart-table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="cartTableBody">
+    </c:if>
 
-        <c:choose>
+    <c:if test="${not empty error}">
+      <div id="errorMessage" style="display: flex; ">
+        <p style="background-color: #f85656; color: white; margin: auto; padding: 0 10px;">
+            ${error}
+          <button onclick="closeMessage('errorMessage')" style="color: red; padding:0 5px; margin-left: 10px;">
+            X
+          </button>
+        </p>
+      </div>
+    </c:if>
 
-          <c:when test="${not empty cartItems}">
-
-            <c:forEach var="item" items="${cartItems}">
-
-              <tr class="cart-item" data-price="${item.price}">
-
-                <td>
-                  <div class="cart-item-info">
-
-                    <img
-                            src="${pageContext.request.contextPath}/images/${item.imagePath}"
-                            alt="${item.name}"
-                            class="cart-item-image"
-                    />
-
-                    <div class="cart-item-details">
-                      <h4>${item.name}</h4>
-                      <p>${item.description}</p>
-                    </div>
-
+    <table class="cart-table">
+      <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody id="cartTableBody">
+      <c:choose>
+        <c:when test="${not empty cartItems}">
+          <c:forEach var="item" items="${cartItems}">
+            <tr class="cart-item" data-price="${item.price}">
+              <td>
+                <div class="cart-item-info">
+                  <img
+                          src="${pageContext.request.contextPath}/images/${item.imagePath}"
+                          alt="${item.name}"
+                          class="cart-item-image"
+                  />
+                  <div class="cart-item-details">
+                    <h4>${item.name}</h4>
+                    <p>${item.description}</p>
                   </div>
-                </td>
+                </div>
+              </td>
 
-                <td class="item-price-display">
-                  Rs. ${item.price}
-                </td>
+              <td class="item-price-display">
+                Rs. ${item.price}
+              </td>
 
-                <td>
-                  <div class="quantity-control">
+              <td>
+                <div class="quantity-control">
+                  <button class="quantity-btn minus">
+                    -
+                  </button>
+                  <input
+                          type="text"
+                          value="${item.totalItems}"
+                          class="quantity-input"
+                          readonly
+                  />
+                  <button class="quantity-btn plus">
+                    +
+                  </button>
+                </div>
+              </td>
 
-                    <button
-                            class="quantity-btn minus"
-                            data-cart-item-id="${item.cartItemId}">
-                      -
-                    </button>
+              <td class="item-subtotal-display">
+                Rs. ${item.totalPrice}
+              </td>
 
-                    <input
-                            type="text"
-                            value="${item.totalItems}"
-                            class="quantity-input"
-                            readonly
-                    />
-
-                    <button
-                            class="quantity-btn plus"
-                            data-cart-item-id="${item.cartItemId}">
-                      +
-                    </button>
-
-                  </div>
-                </td>
-
-                <td class="item-subtotal-display">
-                  Rs. ${item.totalPrice}
-                </td>
-
-                <td>
-
-                  <div class="action-group">
-
-                    <form
-                            action="${pageContext.request.contextPath}/remove-cart-item"
-                            method="post"
-                    >
-
-                      <input
-                              type="hidden"
-                              name="cartItemId"
-                              value="${item.cartItemId}"
-                      />
-
-                      <button class="remove-btn" type="submit">
-                        <i class="bx bx-trash"></i>
-                      </button>
-
-                    </form>
-
-                    <button class="buy-now-item-btn">
-                      BUY NOW
-                    </button>
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-            </c:forEach>
-
-          </c:when>
-
-          <c:otherwise>
-
-            <tr>
-              <td colspan="5" style="text-align:center; padding: 30px;">
-                Your cart is empty
+              <td>
+                <div class="action-group">
+                  <button class="remove-btn" data-cart-item-id="${item.cartItemId}">
+                    <i class="bx bx-trash"></i>
+                  </button>
+                  <button class="buy-now-item-btn">
+                    BUY NOW
+                  </button>
+                </div>
               </td>
             </tr>
+          </c:forEach>
+        </c:when>
+        <c:otherwise>
+          <tr>
+            <td colspan="5" style="text-align:center; padding: 30px;">
+              Your cart is empty
+            </td>
+          </tr>
+        </c:otherwise>
+      </c:choose>
+      </tbody>
+    </table>
 
-          </c:otherwise>
+    <c:set var="subtotal" value="${0}" />
+    <c:forEach var="item" items="${cartItems}">
+      <c:set var="subtotal" value="${subtotal + item.totalPrice}" />
+    </c:forEach>
+    <c:set var="shippingFee" value="${subtotal > 0 ? 150 : 0}" />
+    <c:set var="total" value="${subtotal + shippingFee}" />
 
-        </c:choose>
-
-        </tbody>
-      </table>
-      <c:set var="subtotal" value="${0}" />
-
-      <c:forEach var="item" items="${cartItems}">
-        <c:set var="subtotal" value="${subtotal + item.totalPrice}" />
-      </c:forEach>
-
-      <c:set var="shippingFee" value="${subtotal > 0 ? 150 : 0}" />
-
-      <c:set var="total" value="${subtotal + shippingFee}" />
-
-      <div class="cart-summary">
-
-        <div class="summary-box">
-
-          <div class="summary-row">
-            <span>Subtotal</span>
-
-            <span id="cartSubtotalDisplay">
-                Rs. ${subtotal}
-            </span>
-          </div>
-
-          <div class="summary-row">
-            <span>Shipping Fee</span>
-
-            <span id="shippingFeeDisplay">
-                Rs. ${shippingFee}
-            </span>
-          </div>
-
-          <div class="summary-row total">
-            <span>Total</span>
-
-            <span id="cartTotalDisplay">
-                Rs. ${total}
-            </span>
-          </div>
-
-          <button class="checkout-btn" id="proceedCheckoutBtn">
-            Proceed to Checkout
-          </button>
-
+    <div class="cart-summary">
+      <div class="summary-box">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotalDisplay">
+            Rs. ${subtotal}
+          </span>
         </div>
-
-      </div>
-  </section>
-
-  <div class="modal-overlay" id="buyNowModal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div class="modal-header">
-        <i class="bx bx-check-circle"></i>
-        <h3>Buy Now Confirmed</h3>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer">
-        <button class="modal-btn btn-cancel">Cancel</button>
-        <button class="modal-btn btn-confirm-checkout">Proceed to Payment</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="cartCheckoutModal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div class="modal-header">
-        <i class="bx bx-shopping-bag"></i>
-        <h3>Secure Checkout</h3>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer">
-        <button onclick="window.location.href = 'shop.html'" class="modal-btn btn-cancel">Continue Shopping</button>
-        <form action="${pageContext.request.contextPath}/order" method="post">
-          <input hidden name="action" value="create">
-          <button type="submit" style="padding: 10px 20px; border-radius: 5px; background-color: #20cf20">Confirm and Pay</button>
-        </form>
+        <div class="summary-row">
+          <span>Shipping Fee</span>
+          <span id="shippingFeeDisplay">
+            Rs. ${shippingFee}
+          </span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="cartTotalDisplay">
+            Rs. ${total}
+          </span>
+        </div>
+        <button class="checkout-btn" id="proceedCheckoutBtn">
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   </div>
+</section>
 
-  <div class="modal-overlay" id="deleteConfirmModal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div class="modal-header">
-        <i class="bx bx-trash"></i>
-        <h3>Remove Item?</h3>
-      </div>
+<!-- Buy Now Modal -->
+<div class="modal-overlay" id="buyNowModal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-header">
+      <i class="bx bx-check-circle"></i>
+      <h3>Buy Now Confirmed</h3>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-footer">
+      <button class="modal-btn btn-cancel">Cancel</button>
+      <button class="modal-btn btn-confirm-checkout">Proceed to Payment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Checkout Modal -->
+<div class="modal-overlay" id="cartCheckoutModal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-header">
+      <i class="bx bx-shopping-bag"></i>
+      <h3>Secure Checkout</h3>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-footer">
+      <button class="modal-btn btn-cancel">Continue Shopping</button>
+      <form action="${pageContext.request.contextPath}/order" method="post">
+        <input type="hidden" name="action" value="create">
+        <button type="submit" class="modal-btn btn-confirm-checkout">Confirm and Pay</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteConfirmModal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-header">
+      <i class="bx bx-trash"></i>
+      <h3>Remove Item?</h3>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to remove <strong id="deleteItemName">this item</strong> from your cart?</p>
+      <p>This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="modal-btn btn-cancel">Cancel</button>
+      <form action="${pageContext.request.contextPath}/cart" method="post" id="deleteCartForm">
+        <input type="hidden" name="action" value="remove">
+        <input type="hidden" name="cartItemId" id="deleteCartItemId">
+        <button type="submit" class="modal-btn btn-confirm-delete">Remove Item</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Update Quantity Modal -->
+<div class="modal-overlay" id="updateQuantityModal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+
+    <div class="modal-header">
+      <i class="bx bx-edit"></i>
+      <h3>Update Quantity</h3>
+    </div>
+
+    <form action="${pageContext.request.contextPath}/cart" method="post">
+
       <div class="modal-body">
-        <p>Are you sure you want to remove <strong id="deleteItemName">this item</strong> from your cart?</p>
-        <p>This action cannot be undone.</p>
+
+        <input type="hidden" name="action" value="updateQuantity">
+
+        <input
+                type="hidden"
+                name="cartItemId"
+                id="updateCartItemId"
+        >
+
+        <label
+                for="updateQuantityInput"
+                style="display:block; margin-bottom:10px; font-weight:bold;"
+        >
+          Enter Quantity
+        </label>
+
+        <input
+                type="number"
+                name="quantity"
+                id="updateQuantityInput"
+                min="1"
+                value="1"
+                required
+                style="
+                  width:100%;
+                  padding:12px;
+                  border:1px solid #ccc;
+                  border-radius:6px;
+                  font-size:16px;
+                "
+        >
+
       </div>
+
       <div class="modal-footer">
-        <button class="modal-btn btn-cancel">Cancel</button>
-        <button class="modal-btn btn-confirm-delete" id="confirmDeleteBtn">Remove Item</button>
+        <button type="button" class="modal-btn btn-cancel">
+          Cancel
+        </button>
+
+        <button type="submit" class="modal-btn btn-confirm-checkout">
+          Update
+        </button>
       </div>
-    </div>
+
+    </form>
   </div>
+</div>
 
-
-<!-- ===== FOOTER  ===== -->
+<!-- ===== FOOTER ===== -->
 <jsp:include page="fragments/footer.jsp"/>
 
-  <script src="${pageContext.request.contextPath}/static/js/user/cart.js"></script>
-</body>
+<script>
+  // Close message function
+  const closeMessage = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = "none";
+    }
+  }
 
+  // Format currency
+  function formatRs(amount) {
+    return "Rs. " + amount.toLocaleString('en-IN');
+  }
+
+  function parseRs(stringRs) {
+    return parseInt(stringRs.replace(/[Rs. ,]/g, '')) || 0;
+  }
+
+  // Update cart totals
+  function updateCartTotals() {
+    const cartItems = document.querySelectorAll('.cart-item');
+    let subtotal = 0;
+    let totalItemsCount = 0;
+
+    cartItems.forEach(item => {
+      const priceDisplay = item.querySelector('.item-price-display').textContent;
+      const price = parseRs(priceDisplay);
+      const quantity = parseInt(item.querySelector('.quantity-input').value);
+      const itemSubtotal = price * quantity;
+
+      item.querySelector('.item-subtotal-display').textContent = formatRs(itemSubtotal);
+      subtotal += itemSubtotal;
+      totalItemsCount += quantity;
+    });
+
+    const shippingFee = subtotal > 0 ? 150 : 0;
+    const grandTotal = subtotal + shippingFee;
+
+    document.getElementById('cartSubtotalDisplay').textContent = formatRs(subtotal);
+    document.getElementById('shippingFeeDisplay').textContent = formatRs(shippingFee);
+    document.getElementById('cartTotalDisplay').textContent = formatRs(grandTotal);
+
+    const itemCountDisplay = document.getElementById('itemCountDisplay');
+    if (totalItemsCount === 0) {
+      itemCountDisplay.textContent = "Your cart is empty.";
+    } else {
+      itemCountDisplay.textContent = `${totalItemsCount} Item${totalItemsCount > 1 ? 's' : ''} in your cart`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cartTableBody = document.getElementById('cartTableBody');
+    if (!cartTableBody) return;
+
+    // Modal functions
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('show');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('show');
+    }
+
+    // Close modal buttons
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.querySelectorAll('.close-modal, .btn-cancel').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(modal.id));
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal.id);
+      });
+    });
+
+    // Cart table events
+    cartTableBody.addEventListener('click', (event) => {
+      const target = event.target;
+      const row = target.closest('.cart-item');
+      if (!row) return;
+
+      // Minus button
+      if (target.classList.contains('minus') || target.closest('.minus')) {
+        event.preventDefault();
+
+        const currentQuantity = row.querySelector('.quantity-input').value;
+        const cartItemId = row.querySelector('.remove-btn').getAttribute('data-cart-item-id');
+
+        document.getElementById('updateCartItemId').value = cartItemId;
+        document.getElementById('updateQuantityInput').value = Math.max(parseInt(currentQuantity) - 1, 1);
+
+        openModal('updateQuantityModal');
+      }
+
+      // Plus button
+      if (target.classList.contains('plus') || target.closest('.plus')) {
+        event.preventDefault();
+
+        const currentQuantity = row.querySelector('.quantity-input').value;
+        const cartItemId = row.querySelector('.remove-btn').getAttribute('data-cart-item-id');
+
+        document.getElementById('updateCartItemId').value = cartItemId;
+        document.getElementById('updateQuantityInput').value = parseInt(currentQuantity) + 1;
+
+        openModal('updateQuantityModal');
+      }
+
+      // Delete button
+      if (target.classList.contains('remove-btn') || target.closest('.remove-btn')) {
+        event.preventDefault();
+
+        const removeBtn = target.classList.contains('remove-btn') ? target : target.closest('.remove-btn');
+        const cartItemId = removeBtn.getAttribute('data-cart-item-id');
+
+        const itemName = row.querySelector('.cart-item-details h4').textContent;
+        document.getElementById('deleteItemName').textContent = itemName;
+        document.getElementById('deleteCartItemId').value = cartItemId;
+
+        openModal('deleteConfirmModal');
+      }
+
+      // Buy now button
+      if (target.classList.contains('buy-now-item-btn') || target.closest('.buy-now-item-btn')) {
+        event.preventDefault();
+        const productName = row.querySelector('.cart-item-details h4').textContent;
+        const quantity = row.querySelector('.quantity-input').value;
+        const subtotalDisplay = row.querySelector('.item-subtotal-display').textContent;
+
+        const htmlContent = `
+                <p>You have selected immediate checkout for:</p>
+                <p>Item: <strong>${productName}</strong></p>
+                <p>Quantity: ${quantity}</p>
+                <p>Item Subtotal: <strong>${subtotalDisplay}</strong></p>
+                <p>(Shipping fee of Rs. 150 will be applied at payment)</p>
+            `;
+
+        const modal = document.getElementById('buyNowModal');
+        modal.querySelector('.modal-body').innerHTML = htmlContent;
+        openModal('buyNowModal');
+      }
+    });
+
+    // Proceed to checkout
+    document.getElementById('proceedCheckoutBtn').addEventListener('click', (event) => {
+      event.preventDefault();
+
+      const totalItemsText = document.getElementById('itemCountDisplay').textContent;
+      if (totalItemsText === "Your cart is empty.") {
+        alert("Your cart is empty. Add items before checking out.");
+        return;
+      }
+
+      const grandTotal = document.getElementById('cartTotalDisplay').textContent;
+      const totalItems = totalItemsText.split(' ')[0];
+
+      const htmlContent = `
+            <p>You are about to checkout with your entire cart.</p>
+            <p>Total Items: <strong>${totalItems}</strong></p>
+            <p>Grand Total to Pay: <strong>${grandTotal}</strong></p>
+            <p>Please confirm your order before payment.</p>
+        `;
+
+      const modal = document.getElementById('cartCheckoutModal');
+      modal.querySelector('.modal-body').innerHTML = htmlContent;
+      openModal('cartCheckoutModal');
+    });
+
+    // Initial totals
+    updateCartTotals();
+  });
+</script>
+
+</body>
 </html>

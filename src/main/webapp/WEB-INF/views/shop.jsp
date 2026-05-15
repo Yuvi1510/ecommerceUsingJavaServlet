@@ -44,10 +44,10 @@
 
         <!-- SCROLLABLE PRODUCTS AREA -->
         <div class="shop-products-area">
-          <div class="product-list">
+          <div class="product-list" style="grid-template-columns: repeat(3, 1fr);">
 
             <%-- Iterates through the 'products' list, starting at index 0 and stopping at index 3 (4 items total) --%>
-            <c:forEach var="product" items="${products}" begin="0" end="3">
+            <c:forEach var="product" items="${products}" >
               <div class="product-container">
                 <div class="img-box" style="width: 100%; height: 300px; object-fit:contain; object-position: center center;"
                 >

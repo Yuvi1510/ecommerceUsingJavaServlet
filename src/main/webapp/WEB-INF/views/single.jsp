@@ -168,17 +168,17 @@ h6{
 <div style="padding-top: 140px;">
     <c:if test="${not empty success}">
         <div id="successMessage" style="display: flex; ">
-               <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
+            <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
 
-                ${success}
+                    ${success}
 
-                    <button
+                <button
 
-                            onclick="closeMessage('successMessage')"
-                            style="color: red; padding:0 5px; margin-left: 10px">
-                        X
-                    </button>
-               </p>
+                        onclick="closeMessage('successMessage')"
+                        style="color: red; padding:0 5px; margin-left: 10px">
+                    X
+                </button>
+            </p>
 
 
         </div>
@@ -189,18 +189,17 @@ h6{
 
                     ${error}
 
-                        <button
+                <button
 
-                                onclick="closeMessage('errorMessage')"
-                                style="color: black; padding:0 5px; margin-left: 10px;">
-                            X
-                        </button>
+                        onclick="closeMessage('errorMessage')"
+                        style="color: red; padding:0 5px; margin-left: 10px;">
+                    X
+                </button>
             </p>
 
 
         </div>
     </c:if>
-
     <section class="single-product" >
 
         <div class="single-row">
@@ -214,9 +213,9 @@ h6{
             <%--        <h3>${product.description}</h3>--%>
             <h2>Rs ${product.price}</h2>
             <div>
-                <input class="number" type="number" name="quantity" value="1">
 
                 <form action="${pageContext.request.contextPath}/cart" method="post">
+                <input class="number" type="number" name="quantity" value="1">
                     <input hidden name="action" value="add">
                     <input hidden name="productId" value="${product.productId}">
                     <button type="submit" class="btn">Add TO Cart</button>
@@ -235,8 +234,6 @@ h6{
         </div>
     </section>
 </div>
-
-
 
 <jsp:include page="fragments/footer.jsp"/>
 

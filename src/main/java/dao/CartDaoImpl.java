@@ -37,7 +37,7 @@ public class CartDaoImpl implements CartDao{
     }
 
     @Override
-    public boolean addToCart(int userId, int productId) {
+    public boolean addToCart(int userId, int productId, int quantity) {
 
         String getProductQuery =
                 "SELECT price FROM products WHERE product_id = ?";
@@ -104,7 +104,7 @@ public class CartDaoImpl implements CartDao{
             // Insert new cart item
             try (PreparedStatement ps = connection.prepareStatement(insertCartItemQuery)) {
 
-                ps.setInt(1, 1);
+                ps.setInt(1, quantity);
                 ps.setDouble(2, productPrice);
                 ps.setInt(3, cartId);
                 ps.setInt(4, productId);
