@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 80px;
 }
 
 .single-image img {
@@ -159,6 +160,26 @@ h6{
 .popup-content i {
     font-size: 24px;
 }
+#cart-count {
+    position: absolute;
+    top: -3px;
+    right: 32px;
+    background-color: #ff523b; /* Matches your theme red/coral */
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden; /* Hide until at least 1 item is added */
+}
+
+#cart-count.show {
+    visibility: visible;
+}
  </style>
 </head>
 <body style="display: flex; flex-direction: column;">
@@ -281,53 +302,8 @@ h6{
 </div>
 
 
-<script src="${pageContext.request.contextPath}/static/js/user/shop.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/user/single.js"></script>
 
-   <script>
-       const closeMessage = (id) =>{
-           const element = document.getElementById(id);
-           if (element) {
-               element.style.display = "none";
-           }
-       }
-    //Grab the big image by its ID
-    var MainImg = document.getElementById("MainImg");
-    
-    // Grab all the small images into a list (array)
-    var smallimg = document.getElementsByClassName("small-img");
 
-    // Set up the click function for each small image
-    smallimg[0].onclick = function() { MainImg.src = smallimg[0].src; };
-    smallimg[1].onclick = function() { MainImg.src = smallimg[1].src; };
-    smallimg[2].onclick = function() { MainImg.src = smallimg[2].src; };
-    smallimg[3].onclick = function() { MainImg.src = smallimg[3].src; };
-
- 
-    // Gallery Swap Logic
-    var MainImg = document.getElementById("MainImg");
-    var smallimg = document.getElementsByClassName("small-img");
-
-    for (let i = 0; i < smallimg.length; i++) {
-        smallimg[i].onclick = function() {
-            MainImg.src = smallimg[i].src;
-        };
-    }
-
-    // Popup Logic
-    const addToCartBtn = document.querySelector('.description .btn');
-    const cartPopup = document.getElementById('cart-popup');
-
-    addToCartBtn.onclick = function() {
-        // Force show
-        cartPopup.classList.add('show');
-        console.log("Popup shown"); 
-        // Hide after 3 seconds
-        setTimeout(function() {
-            cartPopup.classList.remove('show');
-            console.log("Popup hidden");
-        }, 3000);
-    };
-
-</script>
 </body>
 </html>
