@@ -103,11 +103,18 @@
             <button type="submit" class="btn register-btn">Register</button>
             <p>Or Register Social Platforms</p>
             <div class="social-icons">
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo" class="google-logo"></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook"></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub"></a>
-                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn"></a>
-
+                <a href="${pageContext.request.contextPath}/oauth?provider=google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                </a>
+                <a href="${pageContext.request.contextPath}/oauth?provider=facebook">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" alt="Facebook">
+                </a>
+                <a href="${pageContext.request.contextPath}/oauth?provider=github">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+                </a>
+                <a href="${pageContext.request.contextPath}/oauth?provider=linkedin">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn">
+                </a>
             </div>
         </form>
     </div>
