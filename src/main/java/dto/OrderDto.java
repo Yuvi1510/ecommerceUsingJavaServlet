@@ -16,10 +16,20 @@ public class OrderDto {
     private OrderStatus orderStatus;
     private int userId;
 
+    private String userEmail;
+
     List<OrderItemDto> orderItems = new ArrayList<>();
 
     public int getOrderId() {
         return orderId;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public void setOrderId(int orderId) {

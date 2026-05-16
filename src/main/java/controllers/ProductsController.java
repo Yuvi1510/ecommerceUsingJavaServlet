@@ -14,6 +14,7 @@ import jakarta.servlet.http.Part;
 import model.Category;
 import model.Product;
 import util.ModelUtils;
+import util.SessionUtil;
 
 import javax.management.modelmbean.ModelMBean;
 import java.io.IOException;
@@ -40,6 +41,9 @@ public class ProductsController extends HttpServlet {
         String path = uri.substring(contextPath.length());
         System.out.println(path);
 
+        // remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
 
         if(action == null){
             List<Product> products = productsDao.findAllProducts();

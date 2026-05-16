@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderDao {
     boolean buyNow(Order order, List<CartItem> productIds);
     boolean createOrder(int userId);
-    List<Order> findAllOrders();
+    List<OrderDto> findAllOrders();
     Order findOrderById(int orderId);
     List<OrderDto> findOrderByUserId(int userId);
     List<Order> findOrderByUserEmail(String email);

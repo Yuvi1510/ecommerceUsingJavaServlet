@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public boolean addUser(User user) {
-        String query = "INSERT INTO users(first_name, last_name,DOB,email,phone, address, password) VALUES(?,?,?,?,?,?,?)";
+        String query = "INSERT INTO users(first_name, last_name,DOB,email,phone, address, password, role) VALUES(?,?,?,?,?,?,?,?)";
         try(Connection connection = DatabaseConnection.getConnection()){
             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getFirstName());
@@ -28,6 +28,7 @@ public class UserDaoImpl implements UserDao{
             // generate salt
             String salt = BCrypt.gensalt();
             ps.setString(7, BCrypt.hashpw(user.getPassword(), salt));
+            ps.setString(8, user.getRole().toString());
 
             int rowsAffected = ps.executeUpdate();
 

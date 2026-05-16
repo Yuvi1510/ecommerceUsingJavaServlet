@@ -1,0 +1,345 @@
+/* Order Management Styles - Admin Theme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #f4f6fb;
+    --panel: #ffffff;
+    --header: #16324f;
+    --sidebar: #0f2238;
+    --accent: #2a7de1;
+    --text: #18212b;
+    --muted: #566273;
+    --line: #d9e1ec;
+    --ok: #1f8a4c;
+    --warn: #d58a00;
+    --danger: #cc3a3a;
+}
+
+#orders-page {
+    width: 100%;
+    background: var(--panel);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.orders-header {
+    margin-bottom: 20px;
+}
+
+.orders-header h2 {
+    color: var(--header);
+    font-size: 24px;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.filter-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* Messages */
+.message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    position: relative;
+    font-weight: 500;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.close-msg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: inherit;
+    font-weight: bold;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--bg);
+    border-radius: 8px;
+}
+
+.empty-state h3 {
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: var(--muted);
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.orders-table th,
+.orders-table td {
+    border: 1px solid var(--line);
+    padding: 12px;
+    text-align: left;
+}
+
+.orders-table th {
+    background: var(--header);
+    color: white;
+    font-weight: 600;
+}
+
+.orders-table tr:nth-child(even) {
+    background: var(--bg);
+}
+
+.orders-table tr:hover {
+    background: #e8f0fe;
+}
+
+.total-amount {
+    font-weight: bold;
+    color: var(--ok);
+}
+
+/* Status Dropdown */
+.status-dropdown {
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.status-dropdown:hover {
+    border-color: var(--accent);
+}
+
+/* View Items Button */
+.view-items-btn {
+    padding: 6px 12px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.view-items-btn:hover {
+    background: #1e6bc7;
+}
+
+/* Order Items Container */
+.order-items-container {
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.order-items-container h4 {
+    color: var(--header);
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+}
+
+.items-table th,
+.items-table td {
+    border: 1px solid var(--line);
+    padding: 8px;
+    text-align: left;
+}
+
+.items-table th {
+    background: #e9ecef;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.item-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Modal Popup */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--line);
+}
+
+.modal-header h3 {
+    color: var(--header);
+    font-size: 18px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.modal-close:hover {
+    color: var(--danger);
+}
+
+.form-group {
+    padding: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+#statusChangeMessage {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--line);
+    justify-content: flex-end;
+}
+
+.btn-cancel-modal {
+    padding: 8px 16px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-cancel-modal:hover {
+    background: #5a6268;
+}
+
+.btn-confirm {
+    padding: 8px 16px;
+    background: var(--ok);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-confirm:hover {
+    background: #166534;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .orders-table {
+        font-size: 12px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        padding: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}

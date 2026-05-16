@@ -178,25 +178,18 @@ Here is the complete JSP code with the new update quantity modal and logic integ
       </p>
     </div>
 
+    <!-- Success/Error Messages -->
     <c:if test="${not empty success}">
-      <div id="successMessage" style="display: flex; ">
-        <p style="background-color: #7af67c; color: white; margin: auto; padding:0 10px;">
-            ${success}
-          <button onclick="closeMessage('successMessage')" style="color: red; padding:0 5px; margin-left: 10px">
-            X
-          </button>
-        </p>
+      <div id="successMessage" style="display:flex; justify-content: space-between; background: #d1fae5; padding: 12px; border-radius: 10px; margin: 10px 0; color: #065f46; font-weight: 500; max-width: 600px; margin:auto;">
+          ${success}
+        <button onclick="document.getElementById('successMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #065f46;">✕</button>
       </div>
     </c:if>
 
     <c:if test="${not empty error}">
-      <div id="errorMessage" style="display: flex; ">
-        <p style="background-color: #f85656; color: white; margin: auto; padding: 0 10px;">
-            ${error}
-          <button onclick="closeMessage('errorMessage')" style="color: red; padding:0 5px; margin-left: 10px;">
-            X
-          </button>
-        </p>
+      <div id="errorMessage" style="display:flex; justify-content: space-between; background: #fee2e2; padding: 12px; border-radius: 10px; margin: 10px 0; color: #991b1b; font-weight: 500;">
+          ${error}
+        <button onclick="document.getElementById('errorMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #991b1b;">✕</button>
       </div>
     </c:if>
 

@@ -1,6 +1,7 @@
 package util;
 
 import enums.OrderStatus;
+import enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import model.Order;
 import model.OrderItem;
@@ -21,7 +22,8 @@ public class ModelUtils {
                 request.getParameter("email"),
                 request.getParameter("phone"),
                 request.getParameter("address"),
-                request.getParameter("password")
+                request.getParameter("password"),
+                Role.ROLE_USER
         );
     }
     public static User getUserFromResultSet(ResultSet rs) throws SQLException {

@@ -28,6 +28,9 @@ public class CartController extends HttpServlet {
         String action = req.getParameter("action");
         User user = (User) SessionUtil.getAttribute(req, "user");
 
+        // remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
 
         if(action==null){
             List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import util.ModelUtils;
+import util.SessionUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,14 +23,9 @@ public class AdminController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         String by = req.getParameter("by");
-
-//        // by mean searching user by email or id
-//        // if this check is not made action==null condition will be true and all users will be displayed
-//        // first check if by is not null because if by is null and i do by.equals() it will give null pointer exception
-//        if(by != null && (by.equals("email") || by.equals("id"))){
-//            req.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(req, resp);
-//            return;
-//        }
+// remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
 
         // if action is null find all users and forward to dashboard
         if(action == null){

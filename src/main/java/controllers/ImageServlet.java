@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import util.SessionUtil;
 
 import java.io.*;
 
@@ -26,6 +27,10 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // remove the msg from session
+        SessionUtil.removeAttribute(request, "success");
+        SessionUtil.removeAttribute(request,"error");
 
         // Extract filename from URL
         String pathInfo = request.getPathInfo(); // /abc.jpg

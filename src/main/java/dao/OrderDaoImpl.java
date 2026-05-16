@@ -214,24 +214,104 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllOrders() {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM orders ORDER BY order_id DESC";
+    public List<OrderDto> findAllOrders() {
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+        String query = """
+        SELECT 
+            o.order_id,
+            o.date,
+            o.sub_total,
+            o.tax_amount,
+            o.delivery_charge,
+            o.total_amount,
+            o.status,
+            o.user_id,
+
+            u.email,
+
+            oi.order_item_id,
+            oi.order_quantity,
+            oi.amount,
+            oi.product_id,
+
+            p.name,
+            p.description,
+            p.image_path,
+            p.price
+
+        FROM orders o
+
+        JOIN users u
+            ON o.user_id = u.user_id
+
+        JOIN order_items oi
+            ON o.order_id = oi.order_id
+
+        JOIN products p
+            ON oi.product_id = p.product_id
+
+        ORDER BY o.date ASC
+    """;
+
+        try (Connection connection = DatabaseConnection.getConnection()) {
+
+            Map<Integer, OrderDto> orderMap = new LinkedHashMap<>();
+
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Order order = ModelUtils.getOrderFromResultSet(rs);
-                orders.add(order);
+
+                int orderId = rs.getInt("order_id");
+
+                OrderDto orderDto = orderMap.get(orderId);
+
+                // Create order only once
+                if (orderDto == null) {
+
+                    orderDto = new OrderDto();
+
+                    orderDto.setOrderId(orderId);
+                    orderDto.setDate(rs.getDate("date").toLocalDate());
+                    orderDto.setSubTotal(rs.getDouble("sub_total"));
+                    orderDto.setTaxAmount(rs.getDouble("tax_amount"));
+                    orderDto.setDeliveryCharge(rs.getDouble("delivery_charge"));
+                    orderDto.setTotalAmount(rs.getDouble("total_amount"));
+                    orderDto.setOrderStatus(
+                            OrderStatus.valueOf(rs.getString("status"))
+                    );
+                    orderDto.setUserId(rs.getInt("user_id"));
+
+                    // Set user email
+                    orderDto.setUserEmail(rs.getString("email"));
+
+                    orderMap.put(orderId, orderDto);
+                }
+
+                // Create order item
+                OrderItemDto itemDto = new OrderItemDto();
+
+                itemDto.setOrderItemId(rs.getInt("order_item_id"));
+                itemDto.setOrderQuantity(rs.getInt("order_quantity"));
+                itemDto.setAmount(rs.getDouble("amount"));
+                itemDto.setOrderId(orderId);
+                itemDto.setProductId(rs.getInt("product_id"));
+
+                itemDto.setName(rs.getString("name"));
+                itemDto.setDescription(rs.getString("description"));
+                itemDto.setImagePath(rs.getString("image_path"));
+                itemDto.setPrice(rs.getDouble("price"));
+
+                // Add item to order
+                orderDto.getOrderItems().add(itemDto);
             }
 
-        } catch (Exception e) {
-            System.out.println("Error finding all orders: " + e.getMessage());
-        }
+            return new ArrayList<>(orderMap.values());
 
-        return orders;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -285,7 +365,7 @@ public class OrderDaoImpl implements OrderDao {
         ON oi.product_id = p.product_id
 
     WHERE o.user_id = ?
-    ORDER BY o.order_id DESC
+    ORDER BY o.date ASC
 """;
 
         try(Connection connection = DatabaseConnection.getConnection()){

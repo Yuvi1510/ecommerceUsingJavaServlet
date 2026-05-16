@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Category;
+import util.SessionUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +20,9 @@ public class CategoriesController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-
+// remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
         if(action == null){
             List<Category> categories = categoryDao.getAllCategories();
             req.setAttribute("categories", categories);

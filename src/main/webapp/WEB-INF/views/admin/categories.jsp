@@ -33,9 +33,27 @@
 
     <div class="content-container">
         <div class="content" id="users-page">
+
             <h2>Categories Management</h2>
+
+
+            <!-- Success/Error Messages -->
+            <c:if test="${not empty success}">
+                <div id="successMessage" style="display:flex; justify-content: space-between; background: #d1fae5; padding: 12px; border-radius: 10px; margin: 10px 0; color: #065f46; font-weight: 500; max-width: 600px; margin:auto;">
+                        ${success}
+                    <button onclick="document.getElementById('successMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #065f46;">✕</button>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty error}">
+                <div id="errorMessage" style="display:flex; justify-content: space-between; background: #fee2e2; padding: 12px; border-radius: 10px; margin: 10px 0; color: #991b1b; font-weight: 500;">
+                        ${error}
+                    <button onclick="document.getElementById('errorMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #991b1b;">✕</button>
+                </div>
+            </c:if>
+
             <div class="buttons">
-                <a href="/categories"><button >All Categories</button></a>
+                <a href="${pageContext.request.contextPath}/categories"><button >All Categories</button></a>
                 <button onclick="changeContent('add')">Add Category</button>
                </div>
 
@@ -69,13 +87,22 @@
                </c:if>
             </div>
         </div>
-        <div id="categories-page"></div>
-        <div id="products-page"></div>
-        <div id="orders-page"></div>
-        <div id="reports-page"></div>
+<%--        <div id="categories-page"></div>--%>
+<%--        <div id="products-page"></div>--%>
+<%--        <div id="orders-page"></div>--%>
+<%--        <div id="reports-page"></div>--%>
     </div>
 
 </main>
+
+<script>
+    const closeMessage = (id) =>{
+        const element = document.getElementById(id);
+        if (element) {
+            element.style.display = "none";
+        }
+    }
+</script>
 
 </body>
 </html>

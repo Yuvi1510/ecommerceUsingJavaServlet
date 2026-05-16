@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: user
@@ -20,7 +21,7 @@
             </button>
         </div>
 
-        <ul class="nav-links">
+        <ul class="nav-links" style="align-items: center">
             <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
             <li><a href="${pageContext.request.contextPath}/shop">Shop</a></li>
             <li><a  href="${pageContext.request.contextPath}/about">About</a></li>
@@ -29,11 +30,26 @@
             <li class="icon"><a href="${pageContext.request.contextPath}/service"><i class="bx bx-help-circle icon"></i><span>Service</span></a></li>
             <li class="icon">
                 <a href="${pageContext.request.contextPath}/cart"><i class="bx bx-shopping-bag icon"></i>  <span>cart</span>
-                    <span id="cart-count">0</span></a>
+<%--                    <span id="cart-count">0</span>--%>
+                </a>
             </li>
-            <li class="icon">
-                <a href="${pageContext.request.contextPath}/login"><i class="bx bx-user icon"></i><span>login</span></a>
-            </li>
+
+            <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <p style="color: black; font-weight: bold;">
+                        ${sessionScope.user.firstName} ${sessionScope.user.lastName}
+                    </p>
+                    <li class="icon">
+                        <a href="${pageContext.request.contextPath}/logout"><i class="bx bx-user icon"></i><span>logout</span></a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="icon">
+                        <a href="${pageContext.request.contextPath}/login"><i class="bx bx-user icon"></i><span>login</span></a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+
         </ul>
     </div>
 </nav>

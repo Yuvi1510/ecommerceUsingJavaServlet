@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Product;
+import util.SessionUtil;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -20,12 +21,17 @@ public class IndexController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req,resp);
+        // remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
+
+
         List<Product> products = productsDao.findAllProducts();
 
         Collections.shuffle(products);
         List<Product> topPicks = products.subList(0, Math.min(products.size(), 4));
         req.setAttribute("topPicks", topPicks);
+        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req,resp);
     }
 
 //    @Override

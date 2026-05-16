@@ -1,5 +1,7 @@
 package model;
 
+import enums.Role;
+
 import java.time.LocalDate;
 
 public class User {
@@ -11,11 +13,12 @@ public class User {
     private String phone;
     private String address;
     private String password;
+    private Role role;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, LocalDate dob, String email, String phone, String address, String password) {
+    public User(String firstName, String lastName, LocalDate dob, String email, String phone, String address, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -23,9 +26,20 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.password = password;
+        this.role = role;
     }
 
+    public boolean hasRole(Role role){
+        return  this.role == role;
+    }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public int getUserId() {
         return userId;

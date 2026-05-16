@@ -13,13 +13,26 @@ import util.SessionUtil;
 
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet({"/login","/logout"})
 public class AuthController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // remove the msg from session
+        SessionUtil.removeAttribute(req, "success");
+        SessionUtil.removeAttribute(req,"error");
+
+        String uri = req.getRequestURI();
+        String contextPath = req.getContextPath();
+        String path = uri.substring(contextPath.length());
+
+        if (path.contains("/logout")){
+            SessionUtil.invalidateSession(req);
+        }
+
+
         req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
     }
 

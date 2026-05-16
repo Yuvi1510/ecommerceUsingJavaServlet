@@ -1,7 +1,7 @@
 package controllers;
 
-import dao.OrderDao;
-import dao.OrderDaoImpl;
+import dao.*;
+import dto.CartItemDto;
 import dto.OrderDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.CartItem;
 import model.Order;
+import model.Product;
 import model.User;
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Or;
 import util.ModelUtils;
 import enums.OrderStatus;
 import util.SessionUtil;
@@ -18,9 +20,11 @@ import util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/order","/my-orders"})
+@WebServlet({"/orders","/my-orders"})
 public class OrderController extends HttpServlet {
     OrderDao orderDao = new OrderDaoImpl();
+    CartDao cartDao = new CartDaoImpl();
+    ProductsDao productsDao = new ProductsDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,26 +33,42 @@ public class OrderController extends HttpServlet {
         User user = (User) SessionUtil.getAttribute(req, "user");
 
         if(user == null){
-            req.setAttribute("error", "Please login first!");
+            SessionUtil.setAttribute(req, "error", "Please login first!");
             req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
             return;
         }
 
-        if(action == null){
-            List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
+        // remove the msg from session
+            SessionUtil.removeAttribute(req, "success");
+            SessionUtil.removeAttribute(req,"error");
 
-            req.setAttribute("orders", orders);
-            req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
+
+        String uri = req.getRequestURI();
+        String contextPath = req.getContextPath();
+        String path = uri.substring(contextPath.length());
+
+        if(action == null){
+
+            if(path.contains("/my-order")){
+                List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
+                req.setAttribute("orders", orders);
+
+                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
+            }else if(path.contains("/orders")){
+                List<OrderDto> orders = orderDao.findAllOrders();
+                req.setAttribute("orders", orders);
+
+                req.getRequestDispatcher("/WEB-INF/views/admin/adminOrders.jsp").forward(req,resp);
+            }
         }else if ("cancel".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
 
             boolean success = orderDao.updateOrderStatus(id, OrderStatus.CANCELLED);
 
             if(success){
-                req.setAttribute("success", "Order successfully cancelled");
+                SessionUtil.setAttribute(req, "success", "Order successfully cancelled");
             }else {
-
-                req.setAttribute("error", "Failed to cancel order");
+                SessionUtil.setAttribute(req, "error", "Failed to cancel order");
             }
 
             List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
@@ -64,7 +84,7 @@ public class OrderController extends HttpServlet {
         User user = (User) SessionUtil.getAttribute(req, "user");
 
         if(user == null){
-            req.setAttribute("error", "Please login first!");
+            SessionUtil.setAttribute(req, "error", "Please login first!");
             req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
             return;
         }
@@ -87,29 +107,38 @@ public class OrderController extends HttpServlet {
             boolean success = orderDao.buyNow(order, List.of(cartItem));
 
             if(success){
-                System.out.println("New order created!");
-                List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
-                req.setAttribute("orders", orders);
-                req.setAttribute("success","Order created successfully");
-                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
+                SessionUtil.setAttribute(req, "success", "Order created successfully");
+                resp.sendRedirect(req.getContextPath() + "/my-orders");
             }else {
-                System.out.println("something went wrong");
-                resp.sendRedirect(req.getContextPath() + "/home");
+                SessionUtil.setAttribute(req, "error", "Failed to create order");
+                resp.sendRedirect(req.getContextPath() + "/my-orders");
             }
         } else if ("create".equals(action)) {
             System.out.println("Creating order");
             boolean success = orderDao.createOrder(user.getUserId());
             if(success){
-                System.out.println("New order created!");
-                List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
-                req.setAttribute("orders", orders);
-                req.setAttribute("success","Order created successfully");
-                req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
+                SessionUtil.setAttribute(req, "success", "Order created successfully");
+                resp.sendRedirect(req.getContextPath() + "/my-orders");
             }else {
-                System.out.println("something went wrong");
+                SessionUtil.setAttribute(req, "error", "Failed to create order");
                 resp.sendRedirect(req.getContextPath() + "/cart");
             }
 
+        } else if ("updateStatus".equals(action)) {
+            int orderId = Integer.parseInt(req.getParameter("orderId"));
+            OrderStatus orderStatus = OrderStatus.valueOf(req.getParameter("status"));
+
+            boolean success = orderDao.updateOrderStatus(orderId, orderStatus);
+
+            List<OrderDto> orders = orderDao.findAllOrders();
+            req.setAttribute("orders", orders);
+
+            if(success){
+                SessionUtil.setAttribute(req, "success", "Order status successfully updated");
+            }else {
+                SessionUtil.setAttribute(req, "error", "Failed to update order status");
+            }
+            resp.sendRedirect(req.getContextPath() + "/orders");
         }
     }
 }

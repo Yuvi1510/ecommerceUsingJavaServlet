@@ -11,6 +11,7 @@ public class OrderItemDto {
     private String imagePath;
     private Double price;
 
+
     public int getOrderItemId() {
         return orderItemId;
     }
