@@ -36,7 +36,7 @@
 
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
-                    <p style="color: black; font-weight: bold;">
+                    <p style="color: black; font-weight: bold;text-transform: capitalize;">
                         ${sessionScope.user.firstName} ${sessionScope.user.lastName}
                     </p>
                     <li class="icon">

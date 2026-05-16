@@ -28,15 +28,15 @@
 <header>
     <h1>Fatafat-Kin</h1>
     <span>Admin Dashboard</span>
-    <button class="logout-btn"><a href="">Logout</a></button>
+    <a href="${pageContext.request.contextPath}/logout"><button class="logout-btn">Logout</button></a>
 </header>
 
 <main>
     <aside>
         <a href="${pageContext.request.contextPath}/dashboard/users"><button class="option ">Users</button></a>
-        <a href="${pageContext.request.contextPath}/dashboardcategories"><button class="option ">Categories</button></a>
-        <a href="${pageContext.request.contextPath}/dashboardproducts"><button class="option active">Products</button></a>
-        <a href="${pageContext.request.contextPath}/dashboardorders"><button class="option">Orders</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/categories"><button class="option ">Categories</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/products"><button class="option active">Products</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/orders"><button class="option">Orders</button></a>
         <a href="${pageContext.request.contextPath}/dashboard/reports"><button class="option">Reports</button></a>
     </aside>
 

@@ -40,6 +40,7 @@ public class ModelUtils {
         user.setPhone(rs.getString("phone"));
         user.setAddress(rs.getString("address"));
         user.setPassword(rs.getString("password"));
+        user.setRole(Role.valueOf(rs.getString("role")));
 
         return user;
     }

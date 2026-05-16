@@ -7,7 +7,7 @@ Here is the complete JSP code with the new update quantity modal and logic integ
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>test - Shopping Cart</title>
+  <title>Shopping Cart</title>
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/cart.css" />
@@ -251,9 +251,6 @@ Here is the complete JSP code with the new update quantity modal and logic integ
                 <div class="action-group">
                   <button class="remove-btn" data-cart-item-id="${item.cartItemId}">
                     <i class="bx bx-trash"></i>
-                  </button>
-                  <button class="buy-now-item-btn">
-                    BUY NOW
                   </button>
                 </div>
               </td>

@@ -2,6 +2,7 @@ package controllers;
 
 import dao.UserDao;
 import dao.UserDaoImpl;
+import enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -62,7 +63,11 @@ public class AuthController extends HttpServlet {
 //           CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
            SessionUtil.setAttribute(req, "success", "Login successful");
 
-           resp.sendRedirect(req.getContextPath() + "/home");
+           if(user.hasRole(Role.ROLE_ADMIN)){
+               resp.sendRedirect(req.getContextPath() + "/dashboard/users");
+           }else {
+               resp.sendRedirect(req.getContextPath() + "/home");
+           }
        }
     }
 

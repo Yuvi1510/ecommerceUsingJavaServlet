@@ -22,8 +22,8 @@
 <body>
 <header>
   <h1>Fatafat-Kin</h1>
-  <span>Order management</span>
-  <a href=""><button class="logout-btn">Logout</button></a>
+  <span>Admin Dashboard</span>
+  <a href="${pageContext.request.contextPath}/logout"><button class="logout-btn">Logout</button></a>
 </header>
 
 <main>

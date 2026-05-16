@@ -20,7 +20,7 @@ import util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/dashboard/orders","/my-orders"})
+@WebServlet({"/dashboard/orders","/my-orders","/orders"})
 public class OrderController extends HttpServlet {
     OrderDao orderDao = new OrderDaoImpl();
     CartDao cartDao = new CartDaoImpl();
@@ -30,16 +30,6 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         User user = (User) SessionUtil.getAttribute(req, "user");
-
-
-        // if np user in session then redirect to login
-//        if(user == null){
-//            SessionUtil.setAttribute(req, "error", "Please login first!");
-//            resp.sendRedirect(req.getContextPath() + "/login");
-//            return;
-//        }
-
-
 
         // remove the msg from session
         String success = (String) SessionUtil.getAttribute(req, "success");
@@ -82,10 +72,7 @@ public class OrderController extends HttpServlet {
                 SessionUtil.setAttribute(req, "error", "Failed to cancel order");
             }
 
-            List<OrderDto> orders = orderDao.findOrderByUserId(user.getUserId());
-
-            req.setAttribute("orders", orders);
-            req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req, resp);
+           resp.sendRedirect(req.getContextPath() + "/my-orders");
         }
     }
 

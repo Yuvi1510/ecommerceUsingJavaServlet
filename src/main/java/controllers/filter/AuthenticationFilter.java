@@ -62,16 +62,19 @@ public class AuthenticationFilter implements Filter {
         if(!isLoggedIn && !isAuthPage){
             req.setAttribute("error", "Please login first!");
             req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, res);
-            return;
-        }
-
-
-        if(path.contains("/dashboard/")){
-            if(isLoggedIn && user.hasRole(Role.ROLE_ADMIN)){
-                chain.doFilter(req, res);
-            }else {
-
+        }else {
+            if(path.equals("/dashboard")){
+                req.getRequestDispatcher("/WEB-INF/error404.jsp").forward(req, res);
+                return;
             }
+
+            // if path has dashboard check role and allow only admin
+            if(path.contains("/dashboard/") && !user.hasRole(Role.ROLE_ADMIN)){
+                    req.getRequestDispatcher("/WEB-INF/views/accessDenied.jsp").forward(req, res);
+                    return;
+            }
+
+            chain.doFilter(req, res);
         }
     }
 }

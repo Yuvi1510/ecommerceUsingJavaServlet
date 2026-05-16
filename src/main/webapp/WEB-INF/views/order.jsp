@@ -309,7 +309,7 @@
 
                             <div class="order-actions">
                                 <c:if test="${order.orderStatus == 'PENDING'}">
-                                    <a href="${pageContext.request.contextPath}/order?action=cancel&id=${order.orderId}" class="btn-cancel" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel Order</a>
+                                    <a href="${pageContext.request.contextPath}/orders?action=cancel&id=${order.orderId}" class="btn-cancel" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel Order</a>
                                 </c:if>
                                 <c:if test="${order.orderStatus == 'DELIVERED'}">
                                     <button class="btn-review" onclick="writeReview(${order.orderId})">Write a Review</button>
