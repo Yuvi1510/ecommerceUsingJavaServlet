@@ -33,11 +33,11 @@
 
 <main>
     <aside>
-        <a href="dashboard"><button class="option ">Users</button></a>
-        <a href="categories"><button class="option ">Categories</button></a>
-        <a href="products"><button class="option active">Products</button></a>
-        <a href="orders"><button class="option">Orders</button></a>
-        <a href="reports"><button class="option">Reports</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/users"><button class="option ">Users</button></a>
+        <a href="${pageContext.request.contextPath}/dashboardcategories"><button class="option ">Categories</button></a>
+        <a href="${pageContext.request.contextPath}/dashboardproducts"><button class="option active">Products</button></a>
+        <a href="${pageContext.request.contextPath}/dashboardorders"><button class="option">Orders</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/reports"><button class="option">Reports</button></a>
     </aside>
 
     <div class="content-container">
@@ -61,7 +61,7 @@
 
 
             <div class="buttons">
-                <a href="${pageContext.request.contextPath}/products"><button >All Products</button></a>
+                <a href="${pageContext.request.contextPath}/dashboard/products"><button >All Products</button></a>
                 <button onclick="changeContent('addProduct', '${pageContext.request.contextPath}')">Add Product</button>
                 <button onclick="changeContent('findProductsByName', '${pageContext.request.contextPath}')">Find Product By Name</button>
                 <button onclick="changeContent('findProductsByCategory', '${pageContext.request.contextPath}')">Find Product By Category</button>
@@ -99,8 +99,8 @@
                                   </c:if>
                               </c:forEach>
                               <td>
-                                  <button onclick="editProduct('${product.productId}','${product.name}','${product.description}','${pageContext.request.contextPath}/images/${product.imagePath}','${product.price}','${product.quantity}','${product.categoryId}', categories, ${pageContext.request.contextPath})">Edit</button>
-                                  <button onclick="deleteProduct('${product.productId}','${product.name}','${product.description}','${product.imagePath}','${product.price}','${product.quantity}','${product.categoryId}', categories, ${pageContext.request.contextPath})" class="btn-danger">Delete</button>
+                                  <button onclick="editProduct('${product.productId}','${product.name}','${product.description}','${pageContext.request.contextPath}/images/${product.imagePath}','${product.price}','${product.quantity}','${product.categoryId}', categories, '${pageContext.request.contextPath}')">Edit</button>
+                                  <button onclick="deleteProduct('${product.productId}','${product.name}','${product.description}','${product.imagePath}','${product.price}','${product.quantity}','${product.categoryId}', categories, '${pageContext.request.contextPath}')" class="btn-danger">Delete</button>
                               </td>
                           </tr>
                       </c:forEach>
@@ -108,24 +108,10 @@
                    </table>
                </c:if>
 
-<%--                <form action="" method="post">--%>
-<%--                    <div>--%>
-<%--                        <label for="category">Category: </label>--%>
-<%--                        <select name="category" id="">--%>
-<%--                            <option value="sports">Sports</option>--%>
-<%--                            <option value="electronics">Electronics</option>--%>
-<%--                            <option value="fashion">Fashion</option>--%>
-<%--                        </select>--%>
-<%--                    </div>--%>
-<%--                    <button type="submit">Find Product</button>--%>
-<%--                </form>--%>
 
             </div>
         </div>
-<%--        <div id="categories-page"></div>--%>
-<%--        <div id="products-page"></div>--%>
-<%--        <div id="orders-page"></div>--%>
-<%--        <div id="reports-page"></div>--%>
+
     </div>
 
 </main>

@@ -1,13 +1,17 @@
 package controllers.filter;
 
 
+import enums.Role;
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
 import util.SessionUtil;
 
 import java.io.IOException;
 
+@WebFilter("/*")
 public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -30,13 +34,44 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        boolean isLoggedIn = SessionUtil.getAttribute(req, "user") != null;
+        // allow everyone to access login and register page
+        if(path.contains("/singleProduct") || path.contains("/login") || path.contains("/images") || path.contains("/register") || path.contains("/about") || path.contains("/home") || path.contains("/shop") || path.contains("/service") || path.contains("/logout")){
+            chain.doFilter(req, res);
+            return;
+        }
+
+        // check if user is logged in
+        User user = (User) SessionUtil.getAttribute(req, "user");
+
+        // if np user in session then redirect to login
+//        if((path.contains("/my-orders") || path.contains("/carts"))){
+//            if(user == null) {
+//                SessionUtil.setAttribute(req, "error", "Please login first!");
+//                res.sendRedirect(req.getContextPath() + "/login");
+//                return;
+//            }else {
+//                chain.doFilter(req, res);
+//                return;
+//            }
+//        }
+
+        boolean isLoggedIn = user != null;
         boolean isAuthPage = "/login".equals(path) || "/register".equals(path);
 
         // not logged in and trying to access other pages
         if(!isLoggedIn && !isAuthPage){
-            res.sendRedirect(contextPath + "/login");
+            req.setAttribute("error", "Please login first!");
+            req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, res);
             return;
+        }
+
+
+        if(path.contains("/dashboard/")){
+            if(isLoggedIn && user.hasRole(Role.ROLE_ADMIN)){
+                chain.doFilter(req, res);
+            }else {
+
+            }
         }
     }
 }

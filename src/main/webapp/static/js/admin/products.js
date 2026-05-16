@@ -12,7 +12,7 @@ function changeContent(contentId, contextPath){
 
     if(contentId === "addProduct"){
         element.innerHTML = `
-          <form action="${contextPath}/products" method="post" enctype="multipart/form-data">
+          <form action="${contextPath}/dashboard/products" method="post" enctype="multipart/form-data">
           <input name="action" value="add" hidden>
                             <div>
                                 <label for="name">Name: </label>
@@ -40,12 +40,12 @@ function changeContent(contentId, contextPath){
                             <input type="file" name="image" accept="image/jpeg, image/png, image/gif" required>
                             <div>
                             <button type="submit">Add Product</button>
-                            <a href="${contextPath}/products"><button type="button">Cancel</button></a>
+                            <a href="${contextPath}/dashboard/products"><button type="button">Cancel</button></a>
                             </div>
                         </form>`;
     }else if(contentId === "findProductsByName"){
         element.innerHTML = ` 
-        <form action="${contextPath}/products" method="get">
+        <form action="${contextPath}/dashboard/products" method="get">
             <input name="action" hidden value="findProductsByName">
             <div>
                 <label for="name">Name: </label>
@@ -53,12 +53,12 @@ function changeContent(contentId, contextPath){
             </div>
             <div>
                 <button type="submit">Find Product</button>
-                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+                <a href="${contextPath}/dashboard/products"><button type="button" class="btn-danger">Cancel</button></a>
             </div>
         </form>`;
     }else if(contentId === "findProductsByCategory"){
         element.innerHTML = ` 
-        <form action="${contextPath}/products" method="get">
+        <form action="${contextPath}/dashboard/products" method="get">
             <input name="action" hidden value="findProductsByCategory">
             <div>
                 <label for="category">Category: </label>
@@ -68,12 +68,12 @@ function changeContent(contentId, contextPath){
             </div>
             <div>
                 <button type="submit">Find Product</button>
-                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+                <a href="${contextPath}/dashboard/products"><button type="button" class="btn-danger">Cancel</button></a>
             </div>
         </form>`;
     }else if(contentId === "findProductsById"){
         element.innerHTML = ` 
-        <form action="${contextPath}/products" method="get">
+        <form action="${contextPath}/dashboard/products" method="get">
             <input name="action" hidden value="findProductsById">
             <div>
                 <label for="id">ID: </label>
@@ -81,7 +81,7 @@ function changeContent(contentId, contextPath){
             </div>
             <div>
                 <button type="submit">Find Product</button>
-                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+                <a href="${contextPath}/dashboard/products"><button type="button" class="btn-danger">Cancel</button></a>
             </div>
         </form>`;
     }
@@ -95,7 +95,7 @@ function editProduct(id, name, description, image, price, quantity, categoryId, 
 `).join("");
 
     document.getElementById('inner-content').innerHTML = `
-        <form action="${contextPath}/products" method="get" enctype="multipart/form-data">
+        <form action="${contextPath}/dashboard/products" method="get" enctype="multipart/form-data">
             <input type="text" name="action" value="edit" hidden>
             <input type="text" name="id" value="${id}" hidden>
             <div>
@@ -127,7 +127,7 @@ function editProduct(id, name, description, image, price, quantity, categoryId, 
             </div>
             <div>
                 <button type="submit">Update Product</button>
-                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+                <a href="${contextPath}/dashboard/products"><button type="button" class="btn-danger">Cancel</button></a>
             </div>
         </form>`;
 }
@@ -140,7 +140,7 @@ function deleteProduct(id, name, description, image, price, quantity, categoryId
 `).join("");
 
     document.getElementById('inner-content').innerHTML = `
-        <form action="${contextPath}/products" method="post">
+        <form action="${contextPath}/dashboard/products" method="post">
             <input type="text" name="action" value="delete" hidden>
             <input type="text" name="id" value="${id}" hidden>
             <div>
@@ -171,7 +171,7 @@ function deleteProduct(id, name, description, image, price, quantity, categoryId
             </div>
             <div>
                 <button class="btn-danger" type="submit">Delete Product</button>
-                <a href="${contextPath}/products"><button type="button">Cancel</button></a>
+                <a href="${contextPath}/dashboard/products"><button type="button">Cancel</button></a>
             </div>
         </form>`;
 }

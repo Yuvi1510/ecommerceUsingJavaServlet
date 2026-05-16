@@ -14,7 +14,7 @@ import util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/dashboard")
+@WebServlet("/dashboard/users")
 public class UserController extends HttpServlet {
     private final UserDao userDao = new UserDaoImpl();
 
@@ -57,10 +57,14 @@ public class UserController extends HttpServlet {
         String action = req.getParameter("action");
 
         if(action.equals("add")){
-            userDao.addUser(ModelUtils.getUserFromRequest(req));
-            List<User> users = userDao.findAllUsers();
-            req.setAttribute("users", users);
-            resp.sendRedirect(req.getContextPath() + "/dashboard");
+            boolean success = userDao.addUser(ModelUtils.getUserFromRequest(req));
+            if(success){
+                SessionUtil.setAttribute(req, "success", "User added successfully");
+            }else {
+                SessionUtil.setAttribute(req, "error", "Failed to add user");
+
+            }
+            resp.sendRedirect(req.getContextPath() + "/dashboard/users");
         }else if(action.equals("findById")){
             int id = Integer.parseInt( req.getParameter("userId"));
             User user = userDao.findUserById(id);
@@ -80,17 +84,21 @@ public class UserController extends HttpServlet {
             boolean success = userDao.updateUser(user, id);
 
             if(success){
-                resp.sendRedirect(req.getContextPath() + "/dashboard");
+                SessionUtil.setAttribute(req, "success", "User successfully updated");
+            }else {
+                SessionUtil.setAttribute(req, "error", "Failed to update user");
             }
-            req.setAttribute("error", "Unable to update user.");
+                resp.sendRedirect(req.getContextPath() + "/dashboard/users");
         }else if(action.equals("delete")){
             System.out.println(req.getParameter("userId"));
             int id = Integer.parseInt(req.getParameter("userId"));
             boolean success = userDao.deleteUser(id);
             if(success){
-                resp.sendRedirect(req.getContextPath() + "/dashboard");
+            SessionUtil.setAttribute(req, "success", "Unable to delete user.");
+            }else {
+            SessionUtil.setAttribute(req, "error", "Unable to delete user.");
             }
-            req.setAttribute("error", "Unable to delete user.");
+                resp.sendRedirect(req.getContextPath() + "/dashboard/users");
         }
     }
 }

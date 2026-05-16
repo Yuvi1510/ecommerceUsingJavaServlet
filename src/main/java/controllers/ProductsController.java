@@ -22,7 +22,7 @@ import javax.management.modelmbean.ModelMBean;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/products","/shop","/singleProduct"})
+@WebServlet({"/dashboard/products","/shop","/singleProduct"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
 maxFileSize = 1024 * 1024 * 10, // 10 MB
 maxRequestSize = 1024 * 1024 * 50) // 50 MB
@@ -77,7 +77,7 @@ public class ProductsController extends HttpServlet {
                 System.out.println(product.getName());
             }
 
-            if(path.contains("/products")){
+            if(path.contains("/dashboard/products")){
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             } else if (path.contains("/shop")) {
@@ -96,25 +96,21 @@ public class ProductsController extends HttpServlet {
             String name = req.getParameter("name");
 
             List<Product> products = productsDao.findProductsByName(name);
+            req.setAttribute("products", products);
+            req.setAttribute("categories", categoryDao.getAllCategories());
 
             if(products == null){
                 req.setAttribute("error", "No products found!");
-                req.setAttribute("categories", categoryDao.getAllCategories());
-                if(path.contains("/products")){
-                    req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
-
-                }else {
-                    req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
-                }
-
             }
 
-            if(path.contains("/products")){
-            resp.sendRedirect(req.getContextPath() +"/products");
+            if(path.contains("/dashboard/products")){
+                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             }else {
-            resp.sendRedirect(req.getContextPath() +"/shop");
+                req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
             }
+
+
 
         } else if (action.equals("findProductsByCategory")) {
             int categoryId = Integer.parseInt(req.getParameter("category"));
@@ -122,18 +118,12 @@ public class ProductsController extends HttpServlet {
 
             if(products == null){
                 req.setAttribute("error", "No products found!");
-                if(path.contains("/products")){
-                    req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
-
-                }else {
-                    req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
-                }
             }
             req.setAttribute("products", products);
             // while doing forward we need to add categories as well
             // otherwise when we click on find products by category, categories will be null and no options will be shown
             req.setAttribute("categories",categoryDao.getAllCategories());
-            if(path.contains("/products")){
+            if(path.contains("/dashboard/products")){
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             }else {
@@ -152,7 +142,7 @@ public class ProductsController extends HttpServlet {
                 req.setAttribute("products", List.of(product));
                 req.setAttribute("categories",categoryDao.getAllCategories());
             }
-            if(path.contains("/products")){
+            if(path.contains("/dashboard/products")){
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             }else {
@@ -174,7 +164,8 @@ public class ProductsController extends HttpServlet {
                 SessionUtil.setAttribute(req,"error", "Unable to add product");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
             }
-            resp.sendRedirect(req.getContextPath() +"/products");
+                SessionUtil.setAttribute(req,"success", "Product added successfully");
+            resp.sendRedirect(req.getContextPath() +"/dashboard/products");
         } else if (action.equals("edit")) {
             Product product = ModelUtils.getProductFromRequest(req);
             int id = Integer.parseInt(req.getParameter("id"));
@@ -202,7 +193,7 @@ public class ProductsController extends HttpServlet {
                 SessionUtil.setAttribute(req, "success", "Product deleted successfully");
 
             }
-            resp.sendRedirect(req.getContextPath() +"/products");
+            resp.sendRedirect(req.getContextPath() +"/dashboard/products");
 
         }
     }

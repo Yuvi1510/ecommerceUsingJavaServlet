@@ -20,7 +20,7 @@ import util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/orders","/my-orders"})
+@WebServlet({"/dashboard/orders","/my-orders"})
 public class OrderController extends HttpServlet {
     OrderDao orderDao = new OrderDaoImpl();
     CartDao cartDao = new CartDaoImpl();
@@ -33,11 +33,11 @@ public class OrderController extends HttpServlet {
 
 
         // if np user in session then redirect to login
-        if(user == null){
-            SessionUtil.setAttribute(req, "error", "Please login first!");
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
+//        if(user == null){
+//            SessionUtil.setAttribute(req, "error", "Please login first!");
+//            resp.sendRedirect(req.getContextPath() + "/login");
+//            return;
+//        }
 
 
 
@@ -65,7 +65,7 @@ public class OrderController extends HttpServlet {
                 req.setAttribute("orders", orders);
 
                 req.getRequestDispatcher("/WEB-INF/views/order.jsp").forward(req,resp);
-            }else if(path.contains("/orders")){
+            }else if(path.contains("/dashboard/orders")){
                 List<OrderDto> orders = orderDao.findAllOrders();
                 req.setAttribute("orders", orders);
 
@@ -146,7 +146,7 @@ public class OrderController extends HttpServlet {
             }else {
                 SessionUtil.setAttribute(req, "error", "Failed to update order status");
             }
-            resp.sendRedirect(req.getContextPath() + "/orders");
+            resp.sendRedirect(req.getContextPath() + "/dashboard/orders");
         }
     }
 }

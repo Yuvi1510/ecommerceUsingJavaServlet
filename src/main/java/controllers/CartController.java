@@ -29,11 +29,11 @@ public class CartController extends HttpServlet {
         User user = (User) SessionUtil.getAttribute(req, "user");
 
         // if np user in session then redirect to login
-        if(user == null){
-            SessionUtil.setAttribute(req, "error", "Please login first!");
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
+//        if(user == null){
+//            SessionUtil.setAttribute(req, "error", "Please login first!");
+//            resp.sendRedirect(req.getContextPath() + "/login");
+//            return;
+//        }
 
 
         // remove the msg from session

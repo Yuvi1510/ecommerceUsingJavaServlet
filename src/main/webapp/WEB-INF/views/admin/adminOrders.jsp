@@ -28,11 +28,11 @@
 
 <main>
   <aside>
-    <a href="dashboard"><button class="option  ">Users</button></a>
-    <a href="categories"><button class="option ">Categories</button></a>
-    <a href="products"><button class="option">Products</button></a>
-    <a href="orders"><button class="option active">Orders</button></a>
-    <a href="reports"><button class="option">Reports</button></a>
+    <a href="${pageContext.request.contextPath}/dashboard//dashboard/users"><button class="option  ">Users</button></a>
+    <a href="${pageContext.request.contextPath}/dashboard/categories"><button class="option ">Categories</button></a>
+    <a href="${pageContext.request.contextPath}/dashboard/products"><button class="option">Products</button></a>
+    <a href="${pageContext.request.contextPath}/dashboard/orders"><button class="option active">Orders</button></a>
+    <a href="${pageContext.request.contextPath}/dashboard/reports"><button class="option">Reports</button></a>
   </aside>
 
   <div class="content-container">
@@ -170,7 +170,7 @@
           <h3>Update Order Status</h3>
           <button class="modal-close" onclick="closeModal()">×</button>
         </div>
-        <form id="statusUpdateForm" method="POST" action="${pageContext.request.contextPath}/orders">
+        <form id="statusUpdateForm" method="POST" action="${pageContext.request.contextPath}/dashboard/orders">
           <input type="hidden" name="action" value="updateStatus">
           <input type="hidden" name="orderId" id="modalOrderId">
           <input type="hidden" name="status" id="modalStatus">

@@ -14,7 +14,7 @@ import util.SessionUtil;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/categories")
+@WebServlet("/dashboard/categories")
 public class CategoriesController extends HttpServlet {
     private final CategoryDao categoryDao = new  CategoryDaoImpl();
 
@@ -52,6 +52,7 @@ public class CategoriesController extends HttpServlet {
             if(!success || name.equals("test")){
                 SessionUtil.setAttribute(req, "error","Unable to add category");
             }
+                SessionUtil.setAttribute(req, "success","Category successfully added");
 
             resp.sendRedirect(req.getContextPath() + "/categories");
 
@@ -64,6 +65,7 @@ public class CategoriesController extends HttpServlet {
             if(!success){
                 SessionUtil.setAttribute(req, "error","Unable to update category");
             }
+                SessionUtil.setAttribute(req, "success","Category successfully updated");
             resp.sendRedirect(req.getContextPath() + "/categories");
         }else if(action.equals("delete")){
             int id = Integer.parseInt(req.getParameter("id"));
@@ -75,6 +77,7 @@ public class CategoriesController extends HttpServlet {
                 SessionUtil.setAttribute(req, "error","Unable to delete category");
 //                req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req,resp);
             }
+                SessionUtil.setAttribute(req, "error","Category successfully deleted");
             resp.sendRedirect(req.getContextPath() + "/categories");
         }
     }
