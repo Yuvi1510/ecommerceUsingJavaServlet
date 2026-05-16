@@ -4,7 +4,7 @@ function changeContent(contentId){
     if(contentId === "add"){
         element.innerHTML = `
     
-       <form action="/categories" method="post">
+       <form action="${pageContext.request.contextPath}/categories" method="post">
        <input name="action" value="add" hidden>
        <div>
     <h2>Add Category</h2>
@@ -25,7 +25,7 @@ function changeContent(contentId){
 function edit(categoryId, categoryName){
         document.getElementById("inner-content").innerHTML = `
     
-       <form action="/categories" method="post">
+       <form action="${pageContext.request.contextPath}/categories" method="post">
        <input name="action" value="edit" hidden>
        <div>
     <h2>Edit Category</h2>
@@ -50,7 +50,7 @@ function edit(categoryId, categoryName){
 function deleteCategory(categoryId, categoryName){
 
     document.getElementById("inner-content").innerHTML = `
-       <form action="/categories" method="post">
+       <form action="${pageContext.request.contextPath}/categories" method="post">
        <input name="action" value="delete" hidden>
                     <div>
                         <label for="id">Category Id: </label>

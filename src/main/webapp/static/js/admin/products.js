@@ -1,6 +1,4 @@
-
-
-function changeContent(contentId){
+function changeContent(contentId, contextPath){
     let options = categories.map(cat => `
     <option value="${cat.id}" >
         ${cat.name}
@@ -14,7 +12,7 @@ function changeContent(contentId){
 
     if(contentId === "addProduct"){
         element.innerHTML = `
-          <form action="/products" method="post" enctype="multipart/form-data">
+          <form action="${contextPath}/products" method="post" enctype="multipart/form-data">
           <input name="action" value="add" hidden>
                             <div>
                                 <label for="name">Name: </label>
@@ -24,10 +22,6 @@ function changeContent(contentId){
                                 <label for="description">Description: </label>
                                 <input type="text" name="description">
                             </div>
-<!--                            <div>-->
-<!--                                <label for="image">Image: </label>-->
-<!--                                <input type="text" name="image">-->
-<!--                            </div>-->
                             <div>
                                 <label for="price">Price: </label>
                                 <input type="text" name="price">
@@ -46,57 +40,54 @@ function changeContent(contentId){
                             <input type="file" name="image" accept="image/jpeg, image/png, image/gif" required>
                             <div>
                             <button type="submit">Add Product</button>
-                            <a href="/products"><button >Cancel</button></a>
-</div>
+                            <a href="${contextPath}/products"><button type="button">Cancel</button></a>
+                            </div>
                         </form>`;
     }else if(contentId === "findProductsByName"){
-        element.innerHTML = ` <form action="/products" method="post">
- <input name="action" hidden value="findProductsByName">
-                        <div>
-                            <label for="name">Name: </label>
-                            <input type="text" name="name">
-                        </div>
-                        <div>
-                            <button type="submit">Find Product</button>
-                            <a href="/products" class="btn-danger"><button >Cancel</button></a>
-                        </div>
-                    </form>`;
+        element.innerHTML = ` 
+        <form action="${contextPath}/products" method="get">
+            <input name="action" hidden value="findProductsByName">
+            <div>
+                <label for="name">Name: </label>
+                <input type="text" name="name">
+            </div>
+            <div>
+                <button type="submit">Find Product</button>
+                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+            </div>
+        </form>`;
     }else if(contentId === "findProductsByCategory"){
-        element.innerHTML = ` <form action="/products" method="post">
-         <input name="action" hidden value="findProductsByCategory">
-
-                        <div>
-                            <label for="category">Category: </label>
-                            <select name="category" id="">
-                                ${options}
-                            </select>
-                        </div>
-                       <div>
-                            <button  type="submit">Find Product</button>
-                            <a href="/products"><button class="btn-danger" >Cancel</button></a>
-                            
-</div>
-                    </form>`;
-
+        element.innerHTML = ` 
+        <form action="${contextPath}/products" method="get">
+            <input name="action" hidden value="findProductsByCategory">
+            <div>
+                <label for="category">Category: </label>
+                <select name="category" id="">
+                    ${options}
+                </select>
+            </div>
+            <div>
+                <button type="submit">Find Product</button>
+                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+            </div>
+        </form>`;
     }else if(contentId === "findProductsById"){
-        element.innerHTML = ` <form action="/products" method="post">
-  <input name="action" hidden value="findProductsById">
-
-                        <div>
-                            <label for="id">ID: </label>
-                            <input type="text" name="productId">
-                        </div>
-                       <div>
-                            <button  type="submit">Find Product</button>
-                            <a href="/products"><button class="btn-danger">Cancel</button></a>
-                            
-</div>
-                    </form>`;
+        element.innerHTML = ` 
+        <form action="${contextPath}/products" method="get">
+            <input name="action" hidden value="findProductsById">
+            <div>
+                <label for="id">ID: </label>
+                <input type="text" name="productId">
+            </div>
+            <div>
+                <button type="submit">Find Product</button>
+                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+            </div>
+        </form>`;
     }
 }
 
-
-function editProduct(id, name, description, image, price, quantity,categoryId, categories){
+function editProduct(id, name, description, image, price, quantity, categoryId, categories, contextPath){
     let options = categories.map(cat => `
     <option value="${cat.id}" ${cat.id == categoryId ? "selected" : ""}>
         ${cat.name}
@@ -104,85 +95,83 @@ function editProduct(id, name, description, image, price, quantity,categoryId, c
 `).join("");
 
     document.getElementById('inner-content').innerHTML = `
-          <form action="/products" method="post" enctype="multipart/form-data">
-          <input type="text" name="action" value="edit" hidden>
-          <input type="text" name="id" value="${id}" hidden>
-                            <div>
-                                <label for="name">Name: </label>
-                                <input type="text" name="name" value="${name}">
-                            </div>
-                            <div>
-                                <label for="description">Description: </label>
-                                <input type="text" name="description" value="${description}">
-                            </div>
-                           
-                            <div>
-                                <label for="price">Price: </label>
-                                <input type="text" value="${price}" name="price">
-                            </div>
-                            <div>
-                                <label for="quantity">Quantity: </label>
-                                <input type="text" value="${quantity}" name="quantity">
-                            </div>
-                            <div>
-                                <label for="category">Category: </label>
-                                  <select name="category" id="">
-                                 ${options}
-                                </select>
-                            </div>
-                             <div>
-                                <label for="image">Image: </label>
-                                <img style="height: 200px; width: 150px; object-fit: cover; object-position: center center;" src="${image}" alt="${name}">
-                                <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
-                            </div>
-                             <div>
-                            <button  type="submit">Update Product</button>
-                            <button class="btn-danger"><a href="/products">Cancel</a></button>
-                            
-</div>
-                        </form>`;
+        <form action="${contextPath}/products" method="get" enctype="multipart/form-data">
+            <input type="text" name="action" value="edit" hidden>
+            <input type="text" name="id" value="${id}" hidden>
+            <div>
+                <label for="name">Name: </label>
+                <input type="text" name="name" value="${name}">
+            </div>
+            <div>
+                <label for="description">Description: </label>
+                <input type="text" name="description" value="${description}">
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input type="text" value="${price}" name="price">
+            </div>
+            <div>
+                <label for="quantity">Quantity: </label>
+                <input type="text" value="${quantity}" name="quantity">
+            </div>
+            <div>
+                <label for="category">Category: </label>
+                <select name="category" id="">
+                    ${options}
+                </select>
+            </div>
+            <div>
+                <label for="image">Image: </label>
+                <img style="height: 200px; width: 150px; object-fit: cover; object-position: center center;" src="${image}" alt="${name}">
+                <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
+            </div>
+            <div>
+                <button type="submit">Update Product</button>
+                <a href="${contextPath}/products"><button type="button" class="btn-danger">Cancel</button></a>
+            </div>
+        </form>`;
 }
 
-function deleteProduct(id, name, description, image, price, quantity, categoryId, categories){
+function deleteProduct(id, name, description, image, price, quantity, categoryId, categories, contextPath){
     let options = categories.map(cat => `
     <option value="${cat.id}" ${cat.id == categoryId ? "selected" : ""}>
         ${cat.name}
     </option>
 `).join("");
+
     document.getElementById('inner-content').innerHTML = `
-          <form action="/products" method="post">
-          <input type="text" name="action" value="delete" hidden>
-          <input type="text" name="id" value="${id}" hidden>
-                            <div>
-                                <label for="name">Name: </label>
-                                <input disabled type="text" name="name" value="${name}">
-                            </div>
-                            <div>
-                                <label for="description">Description: </label>
-                                <input disabled type="text" name="description" value="${description}">
-                            </div>
-                            <div>
-                                <label for="image">Image: </label>
-                                <input disabled type="text" value="${image}" name="image">
-                            </div>
-                            <div>
-                                <label for="price">Price: </label>
-                                <input disabled type="text" value="${price}" name="price">
-                            </div>
-                            <div>
-                                <label for="quantity">Quantity: </label>
-                                <input disabled type="text" value="${quantity}" name="quantity">
-                            </div>
-                            <div>
-                                 <label for="category">Category: </label>
-                                  <select name="category" disabled  id="">
-                                ${options}
-                                </select>
-                            </div>
-                            <div>
-                            <button class="btn-danger" type="submit">Delete Product</button>
-                            <a href="/products"><button >Cancel</button></a>
-                            
-</div>
-                        </form>`;
+        <form action="${contextPath}/products" method="post">
+            <input type="text" name="action" value="delete" hidden>
+            <input type="text" name="id" value="${id}" hidden>
+            <div>
+                <label for="name">Name: </label>
+                <input disabled type="text" name="name" value="${name}">
+            </div>
+            <div>
+                <label for="description">Description: </label>
+                <input disabled type="text" name="description" value="${description}">
+            </div>
+            <div>
+                <label for="image">Image: </label>
+                <input disabled type="text" value="${image}" name="image">
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input disabled type="text" value="${price}" name="price">
+            </div>
+            <div>
+                <label for="quantity">Quantity: </label>
+                <input disabled type="text" value="${quantity}" name="quantity">
+            </div>
+            <div>
+                <label for="category">Category: </label>
+                <select name="category" disabled id="">
+                    ${options}
+                </select>
+            </div>
+            <div>
+                <button class="btn-danger" type="submit">Delete Product</button>
+                <a href="${contextPath}/products"><button type="button">Cancel</button></a>
+            </div>
+        </form>`;
 }

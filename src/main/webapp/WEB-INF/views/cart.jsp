@@ -333,7 +333,7 @@ Here is the complete JSP code with the new update quantity modal and logic integ
     <div class="modal-body"></div>
     <div class="modal-footer">
       <button class="modal-btn btn-cancel">Continue Shopping</button>
-      <form action="${pageContext.request.contextPath}/order" method="post">
+      <form action="${pageContext.request.contextPath}/orders" method="post">
         <input type="hidden" name="action" value="create">
         <button type="submit" class="modal-btn btn-confirm-checkout">Confirm and Pay</button>
       </form>

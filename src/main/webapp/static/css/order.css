@@ -73,9 +73,10 @@ body {
     transition: 0.3s ease;
 }
 
-.order-card:hover {
-    transform: translateY(-3px);
-}
+/*.order-card:hover {*/
+/*    transform: translateY(-3px);*/
+/*    z-index: -999;*/
+/*}*/
 
 /* HEADER */
 .order-header {

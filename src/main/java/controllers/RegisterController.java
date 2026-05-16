@@ -1,5 +1,6 @@
 package controllers;
 
+import com.mysql.cj.Session;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import jakarta.servlet.ServletException;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import util.ModelUtils;
+import util.SessionUtil;
 
 import java.io.IOException;
 
@@ -23,9 +25,10 @@ public class RegisterController extends HttpServlet {
         boolean success = userDao.addUser(user);
 
         if(success){
+            SessionUtil.setAttribute(req, "success", "Registration successful! Please login");
             resp.sendRedirect(req.getContextPath() + "/login");
         }else {
-            req.setAttribute("error", "Unable to register!");
+            SessionUtil.setAttribute(req,"error", "Unable to register!");
             req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
         }
     }

@@ -21,10 +21,18 @@ public class IndexController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // remove the msg from session
-        SessionUtil.removeAttribute(req, "success");
-        SessionUtil.removeAttribute(req,"error");
 
+// remove the msg from session
+        String success = (String) SessionUtil.getAttribute(req, "success");
+        if (success != null) {
+            req.setAttribute("success", success);
+            SessionUtil.removeAttribute(req, "success");
+        }
+        String error = (String) SessionUtil.getAttribute(req, "error");
+        if (error != null) {
+            req.setAttribute("error", error);
+            SessionUtil.removeAttribute(req, "error");
+        }
 
         List<Product> products = productsDao.findAllProducts();
 

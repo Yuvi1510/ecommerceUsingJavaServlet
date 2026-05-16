@@ -14,9 +14,7 @@ public class AboutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // remove the msg from session
-        SessionUtil.removeAttribute(req, "success");
-        SessionUtil.removeAttribute(req,"error");
+
         req.getRequestDispatcher("/WEB-INF/views/about.jsp").forward(req, resp);
     }
 }

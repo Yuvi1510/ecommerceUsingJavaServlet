@@ -28,19 +28,30 @@ public class OrderController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        System.out.println("getting otders");
         String action = req.getParameter("action");
         User user = (User) SessionUtil.getAttribute(req, "user");
 
+
+        // if np user in session then redirect to login
         if(user == null){
             SessionUtil.setAttribute(req, "error", "Please login first!");
-            req.getRequestDispatcher("/WEB-INF/views/auth.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
+
+
         // remove the msg from session
+        String success = (String) SessionUtil.getAttribute(req, "success");
+        if (success != null) {
+            req.setAttribute("success", success);
             SessionUtil.removeAttribute(req, "success");
-            SessionUtil.removeAttribute(req,"error");
+        }
+        String error = (String) SessionUtil.getAttribute(req, "error");
+        if (error != null) {
+            req.setAttribute("error", error);
+            SessionUtil.removeAttribute(req, "error");
+        }
 
 
         String uri = req.getRequestURI();
@@ -63,9 +74,9 @@ public class OrderController extends HttpServlet {
         }else if ("cancel".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
 
-            boolean success = orderDao.updateOrderStatus(id, OrderStatus.CANCELLED);
+            boolean successful = orderDao.updateOrderStatus(id, OrderStatus.CANCELLED);
 
-            if(success){
+            if(successful){
                 SessionUtil.setAttribute(req, "success", "Order successfully cancelled");
             }else {
                 SessionUtil.setAttribute(req, "error", "Failed to cancel order");
@@ -111,7 +122,7 @@ public class OrderController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/my-orders");
             }else {
                 SessionUtil.setAttribute(req, "error", "Failed to create order");
-                resp.sendRedirect(req.getContextPath() + "/my-orders");
+                resp.sendRedirect(req.getContextPath() + "/shop");
             }
         } else if ("create".equals(action)) {
             System.out.println("Creating order");
@@ -129,9 +140,6 @@ public class OrderController extends HttpServlet {
             OrderStatus orderStatus = OrderStatus.valueOf(req.getParameter("status"));
 
             boolean success = orderDao.updateOrderStatus(orderId, orderStatus);
-
-            List<OrderDto> orders = orderDao.findAllOrders();
-            req.setAttribute("orders", orders);
 
             if(success){
                 SessionUtil.setAttribute(req, "success", "Order status successfully updated");

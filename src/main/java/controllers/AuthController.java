@@ -20,9 +20,19 @@ public class AuthController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
         // remove the msg from session
-        SessionUtil.removeAttribute(req, "success");
-        SessionUtil.removeAttribute(req,"error");
+        String success = (String) SessionUtil.getAttribute(req, "success");
+        if (success != null) {
+            req.setAttribute("success", success);
+            SessionUtil.removeAttribute(req, "success");
+        }
+        String error = (String) SessionUtil.getAttribute(req, "error");
+        if (error != null) {
+            req.setAttribute("error", error);
+            SessionUtil.removeAttribute(req, "error");
+        }
 
         String uri = req.getRequestURI();
         String contextPath = req.getContextPath();
@@ -50,6 +60,7 @@ public class AuthController extends HttpServlet {
            SessionUtil.setAttribute(req, "user", user);
 
 //           CookieUtil.addCookie(response, "username", user.getUsername(), 24 * 60 * 60);
+           SessionUtil.setAttribute(req, "success", "Login successful");
 
            resp.sendRedirect(req.getContextPath() + "/home");
        }

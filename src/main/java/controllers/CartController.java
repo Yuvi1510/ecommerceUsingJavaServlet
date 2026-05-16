@@ -28,9 +28,25 @@ public class CartController extends HttpServlet {
         String action = req.getParameter("action");
         User user = (User) SessionUtil.getAttribute(req, "user");
 
+        // if np user in session then redirect to login
+        if(user == null){
+            SessionUtil.setAttribute(req, "error", "Please login first!");
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
+
         // remove the msg from session
-        SessionUtil.removeAttribute(req, "success");
-        SessionUtil.removeAttribute(req,"error");
+        String success = (String) SessionUtil.getAttribute(req, "success");
+        if (success != null) {
+            req.setAttribute("success", success);
+            SessionUtil.removeAttribute(req, "success");
+        }
+        String error = (String) SessionUtil.getAttribute(req, "error");
+        if (error != null) {
+            req.setAttribute("error", error);
+            SessionUtil.removeAttribute(req, "error");
+        }
 
         if(action==null){
             List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());
@@ -72,7 +88,7 @@ public class CartController extends HttpServlet {
                 req.setAttribute("success", "Product successfully added to cart");
             }else {
 
-                req.setAttribute("error", "Failed to add product to cart");
+                req.setAttribute( "error", "Failed to add product to cart");
             }
             req.getRequestDispatcher("/WEB-INF/views/single.jsp").forward(req,resp);
         }else if("remove".equals(action)){
@@ -81,14 +97,13 @@ public class CartController extends HttpServlet {
 
             if(success){
                 // attach a success msg
-                req.setAttribute("success", "Item successfully removed");
+                SessionUtil.setAttribute(req,"success", "Item successfully removed");
             }else {
 
-                req.setAttribute("error", "Failed to remove item");
+                SessionUtil.setAttribute(req,"error", "Failed to remove item");
             }
-            List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());
-            req.setAttribute("cartItems", cartItems);
-            req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req,resp);
+           resp.sendRedirect(req.getContextPath() + "/cart");
+
         }else if("updateQuantity".equals(action)){
             int cartItemId = Integer.parseInt(req.getParameter("cartItemId"));
             int quantity = Integer.parseInt(req.getParameter("quantity"));
@@ -97,14 +112,12 @@ public class CartController extends HttpServlet {
 
             if(success){
                 // attach a success msg
-                req.setAttribute("success", "Item quantity successfully updated");
+                SessionUtil.setAttribute(req,"success", "Item quantity successfully updated");
             }else {
 
-                req.setAttribute("error", "Failed to update item quantity");
+                SessionUtil.setAttribute(req, "error", "Failed to update item quantity");
             }
-            List<CartItemDto> cartItems = cartDao.getAllCartItems(user.getUserId());
-            req.setAttribute("cartItems", cartItems);
-            req.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(req,resp);
+            resp.sendRedirect(req.getContextPath() + "/cart");
         }
     }
 }

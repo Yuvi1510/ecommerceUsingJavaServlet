@@ -4,6 +4,7 @@ import dao.CategoryDao;
 import dao.CategoryDaoImpl;
 import dao.ProductsDao;
 import dao.ProductsDaoImpl;
+import enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.Category;
 import model.Product;
+import model.User;
 import util.ModelUtils;
 import util.SessionUtil;
 
@@ -32,6 +34,18 @@ public class ProductsController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
+        // remove the msg from session
+        String success = (String) SessionUtil.getAttribute(req, "success");
+        if (success != null) {
+            req.setAttribute("success", success);
+            SessionUtil.removeAttribute(req, "success");
+        }
+        String error = (String) SessionUtil.getAttribute(req, "error");
+        if (error != null) {
+            req.setAttribute("error", error);
+            SessionUtil.removeAttribute(req, "error");
+        }
+
         String uri = req.getRequestURI();
         System.out.println(uri);
 
@@ -41,9 +55,17 @@ public class ProductsController extends HttpServlet {
         String path = uri.substring(contextPath.length());
         System.out.println(path);
 
-        // remove the msg from session
-        SessionUtil.removeAttribute(req, "success");
-        SessionUtil.removeAttribute(req,"error");
+        User user = (User) SessionUtil.getAttribute(req, "user");
+
+        // /products is only for admin so
+        // if not log ined or if the user does not have an admin role then send back to auth
+//        if(path.contains("/products") && (user == null || !user.hasRole(Role.ROLE_ADMIN))){
+//            SessionUtil.setAttribute(req, "error", "Please login if you are an admin!");
+//            resp.sendRedirect(req.getContextPath() + "/login");
+//            return;
+//        }
+
+
 
         if(action == null){
             List<Product> products = productsDao.findAllProducts();
@@ -149,7 +171,7 @@ public class ProductsController extends HttpServlet {
             boolean success = productsDao.addProduct(req);
 
             if(!success) {
-                req.setAttribute("error", "Unable to add product");
+                SessionUtil.setAttribute(req,"error", "Unable to add product");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
             }
             resp.sendRedirect(req.getContextPath() +"/products");
@@ -159,8 +181,9 @@ public class ProductsController extends HttpServlet {
             boolean success = productsDao.updateProduct(req,id);
 
             if(!success){
-                req.setAttribute("error", "Unable to update product!");
+                SessionUtil.setAttribute(req,"error", "Unable to update product!");
             }else {
+                SessionUtil.setAttribute(req,"success","Product updated successfully!");
                 req.setAttribute("products", List.of(product));
                 req.setAttribute("categories",categoryDao.getAllCategories());
             }
@@ -172,8 +195,11 @@ public class ProductsController extends HttpServlet {
             boolean success = productsDao.deleteProduct(id);
 
             if(!success){
-                req.setAttribute("error", "No products found!");
+                SessionUtil.setAttribute(req, "error", "No products found!");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
+
+            }else {
+                SessionUtil.setAttribute(req, "success", "Product deleted successfully");
 
             }
             resp.sendRedirect(req.getContextPath() +"/products");

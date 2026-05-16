@@ -291,7 +291,7 @@
                             </div>
 
                             <div class="order-items">
-                                <h4>🛍 Items in this order:</h4>
+                                <h4>Items in this order:</h4>
                                 <div class="items-list">
                                     <c:forEach var="item" items="${order.orderItems}">
                                         <div class="item-card">
