@@ -95,7 +95,7 @@ function editProduct(id, name, description, image, price, quantity, categoryId, 
 `).join("");
 
     document.getElementById('inner-content').innerHTML = `
-        <form action="${contextPath}/dashboard/products" method="get" enctype="multipart/form-data">
+        <form action="${contextPath}/dashboard/products" method="post" enctype="multipart/form-data">
             <input type="text" name="action" value="edit" hidden>
             <input type="text" name="id" value="${id}" hidden>
             <div>

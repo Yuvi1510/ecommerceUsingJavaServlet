@@ -66,6 +66,7 @@
                 <button onclick="changeContent('findProductsByName', '${pageContext.request.contextPath}')">Find Product By Name</button>
                 <button onclick="changeContent('findProductsByCategory', '${pageContext.request.contextPath}')">Find Product By Category</button>
                 <button onclick="changeContent('findProductsById', '${pageContext.request.contextPath}')">Find Product By ID</button>
+                <a href="${pageContext.request.contextPath}/dashboard/lowStockProducts" ><button style="background-color: #ff4e4e">Low Stock</button></a>
             </div>
             <div id="inner-content" class="form-container">
                <c:if test="${not empty products}">
@@ -91,7 +92,9 @@
                               <td>${product.description}</td>
                               <td>${product.imagePath}</td>
                               <td>${product.price}</td>
-                              <td>${product.quantity}</td>
+                              <td style="background-color: ${product.quantity < 10 ? '#f87f7f' : ''};">
+                                      ${product.quantity}
+                              </td>
 
                               <c:forEach var="cat" items="${categories}">
                                   <c:if test="${cat.categoryId == product.categoryId}">

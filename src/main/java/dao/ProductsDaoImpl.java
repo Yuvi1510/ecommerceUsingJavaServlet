@@ -156,25 +156,44 @@ public class ProductsDaoImpl implements ProductsDao {
              PreparedStatement ps = connection.prepareStatement(query)) {
 
             Part image = request.getPart("image");
-            String imageName = image.getSubmittedFileName();
 
-            if(!Validation.isValidImageExtension(imageName)){
-                SessionUtil.setAttribute(request, "error", "Invalid image extension!");
-                return false;
+            Product existingProduct = findProductById(id);
+            String uniqueImageName = existingProduct.getImagePath(); // keep old image by default
+
+            if(image != null && image.getSize() > 0){
+
+                String imageName = image.getSubmittedFileName();
+
+                String extension = imageName.substring(imageName.lastIndexOf("."));
+
+                uniqueImageName = System.currentTimeMillis() + "_"
+                        + System.nanoTime() + extension;
+
+                InputStream is = image.getInputStream();
+
+                byte[] data = new byte[is.available()];
+
+                is.read(data);
+
+                String path = "C:" + File.separator + "fatafat-kin"
+                        + File.separator + "uploads"
+                        + File.separator + "products"
+                        + File.separator + uniqueImageName;
+
+                FileOutputStream fos = new FileOutputStream(path);
+
+                fos.write(data);
+
+                fos.close();
             }
-
-            String uploadFolder = "static/images/" + imageName;
-            String filePath = mainFolder + "/" + uploadFolder;
-            // write the image
-            image.write(filePath);
 
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
-            ps.setString(3, uploadFolder);
+            ps.setString(3, uniqueImageName);
             ps.setDouble(4, product.getPrice());
             ps.setInt(5, product.getQuantity());
             ps.setInt(6, product.getCategoryId());
-            ps.setDate(7, Date.valueOf(product.getDate()));
+            ps.setInt(7, id);
 
             int rowsAffected = ps.executeUpdate();
 
@@ -225,56 +244,77 @@ public class ProductsDaoImpl implements ProductsDao {
     }
 
     @Override
-    public List<Product> findTopProducts() {
-      String query = "SELECT p.*, SUM(oi.order_quantity) AS total_quantity_sold,SUM(oi.amount) AS total_revenue FROM orders o " +
-                "INNER JOIN order_items oi ON o.order_id=oi.order_id  " +
-                "INNER JOIN products p ON p.product_id = oi.product_id " +
-                "WHERE o.status='confirmed' " +
-                "GROUP BY p.product_id " +
-                "ORDER BY total_quantity_sold DESC " +
-                "LIMIT 4";
+    public List<Product> findLowStockProducts() {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM products WHERE quantity < 10";
 
-        List<Product> topProducts = new ArrayList<>();
-
-        try(Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement ps = connection.prepareStatement(query)){
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query);
+        ) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
                 Product product = ModelUtils.getProductFromResultSet(rs);
-                topProducts.add(product);
+                products.add(product);
             }
 
-            return topProducts;
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error finding all products: " + e.getMessage());
         }
 
-        return null;
-
+        return products;
     }
 
-    @Override
-    public List<Product> findLatestProducts() {
-        String query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 4";
-        List<Product> latestProducts = new ArrayList<>();
-
-        try(Connection connection = DatabaseConnection.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                Product product = ModelUtils.getProductFromResultSet(rs);
-                latestProducts.add(product);
-            }
-
-            return latestProducts;
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-        return null;
-    }
+//    @Override
+//    public List<Product> findTopProducts() {
+//      String query = "SELECT p.*, SUM(oi.order_quantity) AS total_quantity_sold,SUM(oi.amount) AS total_revenue FROM orders o " +
+//                "INNER JOIN order_items oi ON o.order_id=oi.order_id  " +
+//                "INNER JOIN products p ON p.product_id = oi.product_id " +
+//                "WHERE o.status='confirmed' " +
+//                "GROUP BY p.product_id " +
+//                "ORDER BY total_quantity_sold DESC " +
+//                "LIMIT 4";
+//
+//        List<Product> topProducts = new ArrayList<>();
+//
+//        try(Connection connection = DatabaseConnection.getConnection();
+//            PreparedStatement ps = connection.prepareStatement(query)){
+//            ResultSet rs = ps.executeQuery();
+//
+//            while(rs.next()){
+//                Product product = ModelUtils.getProductFromResultSet(rs);
+//                topProducts.add(product);
+//            }
+//
+//            return topProducts;
+//        }catch (SQLException e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//        return null;
+//
+//    }
+//
+//    @Override
+//    public List<Product> findLatestProducts() {
+//        String query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 4";
+//        List<Product> latestProducts = new ArrayList<>();
+//
+//        try(Connection connection = DatabaseConnection.getConnection();
+//        PreparedStatement ps = connection.prepareStatement(query)){
+//            ResultSet rs = ps.executeQuery();
+//
+//            while(rs.next()){
+//                Product product = ModelUtils.getProductFromResultSet(rs);
+//                latestProducts.add(product);
+//            }
+//
+//            return latestProducts;
+//        }catch (SQLException e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//        return null;
+//    }
 
 
 //

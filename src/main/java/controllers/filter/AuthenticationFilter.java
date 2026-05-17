@@ -35,7 +35,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         // allow everyone to access login and register page
-        if(path.contains("/singleProduct") || path.contains("/login") || path.contains("/images") || path.contains("/register") || path.contains("/about") || path.contains("/home") || path.contains("/shop") || path.contains("/service") || path.contains("/logout")){
+        if(path.equals("/") || path.contains("/singleProduct") || path.contains("/login") || path.contains("/images") || path.contains("/register") || path.contains("/about") || path.contains("/home") || path.contains("/shop") || path.contains("/service") || path.contains("/logout")){
             chain.doFilter(req, res);
             return;
         }

@@ -102,7 +102,7 @@ public class OrderController extends HttpServlet {
 
             CartItem cartItem = new CartItem(1, amount, 0, productId);
 
-            boolean success = orderDao.buyNow(order, List.of(cartItem));
+            boolean success = orderDao.buyNow(order, cartItem);
 
             if(success){
                 SessionUtil.setAttribute(req, "success", "Order created successfully");

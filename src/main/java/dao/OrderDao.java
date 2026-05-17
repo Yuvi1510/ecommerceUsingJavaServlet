@@ -9,15 +9,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderDao {
-    boolean buyNow(Order order, List<CartItem> productIds);
+    boolean buyNow(Order order, CartItem cartItem);
     boolean createOrder(int userId);
     List<OrderDto> findAllOrders();
-    Order findOrderById(int orderId);
+//    Order findOrderById(int orderId);
     List<OrderDto> findOrderByUserId(int userId);
-    List<Order> findOrderByUserEmail(String email);
-    List<Order> findOrderByStatus(OrderStatus orderStatus);
-    boolean updateOrder(Order order, int orderId);
-    boolean deleteOrder(int orderId);
-    List<Order> findOrdersByDateRange(LocalDate startDate, LocalDate endDate);
+//    List<Order> findOrderByUserEmail(String email);
+//    List<Order> findOrderByStatus(OrderStatus orderStatus);
+//    boolean updateOrder(Order order, int orderId);
+//    boolean deleteOrder(int orderId);
+//    List<Order> findOrdersByDateRange(LocalDate startDate, LocalDate endDate);
     boolean updateOrderStatus(int orderId, OrderStatus newStatus);
 }

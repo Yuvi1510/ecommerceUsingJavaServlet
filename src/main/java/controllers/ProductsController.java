@@ -22,7 +22,7 @@ import javax.management.modelmbean.ModelMBean;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/dashboard/products","/shop","/singleProduct"})
+@WebServlet({"/dashboard/products","/shop","/singleProduct","/dashboard/lowStockProducts"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
 maxFileSize = 1024 * 1024 * 10, // 10 MB
 maxRequestSize = 1024 * 1024 * 50) // 50 MB
@@ -91,6 +91,11 @@ public class ProductsController extends HttpServlet {
                 req.setAttribute("product", product);
                 req.getRequestDispatcher("/WEB-INF/views/single.jsp").forward(req,resp);
 
+            }else if(path.contains("/dashboard/lowStockProducts")){
+                List<Product> lowStockProducts = productsDao.findLowStockProducts();
+                req.setAttribute("products", lowStockProducts);
+                req.setAttribute("categories", categories);
+                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
             }
         }else if (action.equals("findProductsByName")) {
             String name = req.getParameter("name");
@@ -186,7 +191,7 @@ public class ProductsController extends HttpServlet {
             boolean success = productsDao.deleteProduct(id);
 
             if(!success){
-                SessionUtil.setAttribute(req, "error", "No products found!");
+                SessionUtil.setAttribute(req, "error", "Failed to delete product!");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
 
             }else {
