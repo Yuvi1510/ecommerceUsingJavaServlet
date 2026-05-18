@@ -47,7 +47,9 @@ public class ProductsDaoImpl implements ProductsDao {
             is.read(data);
 
 //          C:\fatafat-kin\\uploads\products
-            String path = "C:" + File.separator + "fatafat-kin"+ File.separator + "uploads" + File.separator+ "products" + File.separator + uniqueImageName;
+//            String path = "C:" + File.separator + "fatafat-kin"+ File.separator + "uploads" + File.separator+ "products" + File.separator + uniqueImageName;
+            String path =  request.getServletContext().getRealPath("/") + File.separator + "static" + File.separator + "images" + File.separator + "uploads" + uniqueImageName;
+//            String path = System.getProperty("user.home") + File.separator + "coursework" + File.separator + "images" + File.separator + uniqueImageName;
             System.out.println(path);
 
             FileOutputStream fos = new FileOutputStream(path);
@@ -179,6 +181,8 @@ public class ProductsDaoImpl implements ProductsDao {
                         + File.separator + "uploads"
                         + File.separator + "products"
                         + File.separator + uniqueImageName;
+
+//                String path = System.getProperty("user.home") + File.separator + "coursework" + File.separator + "images" + File.separator + uniqueImageName;
 
                 FileOutputStream fos = new FileOutputStream(path);
 

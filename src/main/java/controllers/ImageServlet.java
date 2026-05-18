@@ -19,15 +19,19 @@ import java.io.*;
 @WebServlet("/images/*")
 public class ImageServlet extends HttpServlet {
 
-    private static final String IMAGE_DIR =
-            "C:" + File.separator + "fatafat-kin" +
-                    File.separator + "uploads" +
-                    File.separator + "products";
+//    private static final String IMAGE_DIR =
+//            "C:" + File.separator + "fatafat-kin" +
+//                    File.separator + "uploads" +
+//                    File.separator + "products";
+
+
+//    private static final String IMAGE_DIR = System.getProperty("user.home") + File.separator + "coursework" + File.separator + "images";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String IMAGE_DIR =  request.getServletContext().getRealPath("/") + File.separator + "static" + File.separator + "images" + File.separator + "uploads";
         // remove the msg from session
         SessionUtil.removeAttribute(request, "success");
         SessionUtil.removeAttribute(request,"error");

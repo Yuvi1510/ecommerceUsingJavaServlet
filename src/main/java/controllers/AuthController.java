@@ -41,6 +41,8 @@ public class AuthController extends HttpServlet {
 
         if (path.contains("/logout")){
             SessionUtil.invalidateSession(req);
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
         }
 
 

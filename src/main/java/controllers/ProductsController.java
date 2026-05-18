@@ -168,8 +168,9 @@ public class ProductsController extends HttpServlet {
             if(!success) {
                 SessionUtil.setAttribute(req,"error", "Unable to add product");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
+                return;
             }
-                SessionUtil.setAttribute(req,"success", "Product added successfully");
+            SessionUtil.setAttribute(req,"success", "Product added successfully");
             resp.sendRedirect(req.getContextPath() +"/dashboard/products");
         } else if (action.equals("edit")) {
             Product product = ModelUtils.getProductFromRequest(req);
@@ -193,6 +194,7 @@ public class ProductsController extends HttpServlet {
             if(!success){
                 SessionUtil.setAttribute(req, "error", "Failed to delete product!");
                 req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
+                return;
 
             }else {
                 SessionUtil.setAttribute(req, "success", "Product deleted successfully");
