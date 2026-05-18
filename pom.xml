@@ -13,6 +13,7 @@
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <cargo.servlet.port>9090</cargo.servlet.port>
     </properties>
 
     <dependencies>
@@ -87,6 +88,11 @@
                             <extractDir>${project.build.directory}/extracts</extractDir>
                         </zipUrlInstaller>
                     </container>
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+                        </properties>
+                    </configuration>
                     <deployables>
                         <deployable>
                             <groupId>${project.groupId}</groupId>
