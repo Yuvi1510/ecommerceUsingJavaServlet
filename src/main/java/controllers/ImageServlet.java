@@ -32,9 +32,7 @@ public class ImageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String IMAGE_DIR =  request.getServletContext().getRealPath("/") + File.separator + "static" + File.separator + "images" + File.separator + "uploads";
-        // remove the msg from session
-        SessionUtil.removeAttribute(request, "success");
-        SessionUtil.removeAttribute(request,"error");
+
 
         // Extract filename from URL
         String pathInfo = request.getPathInfo(); // /abc.jpg
