@@ -181,7 +181,7 @@ public class ProductsController extends HttpServlet {
                 SessionUtil.setAttribute(req,"error", "Unable to update product!");
             }else {
                 SessionUtil.setAttribute(req,"success","Product updated successfully!");
-                req.setAttribute("products", List.of(product));
+                req.setAttribute("products", List.of(productsDao.findProductById(id)));
                 req.setAttribute("categories",categoryDao.getAllCategories());
             }
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
@@ -193,8 +193,6 @@ public class ProductsController extends HttpServlet {
 
             if(!success){
                 SessionUtil.setAttribute(req, "error", "Failed to delete product!");
-                req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req, resp);
-                return;
 
             }else {
                 SessionUtil.setAttribute(req, "success", "Product deleted successfully");
