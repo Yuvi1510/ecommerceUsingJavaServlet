@@ -57,9 +57,6 @@
             </div>
 
             <div id="inner-content" class="form-container">
-                <c:if test="${not empty error}">
-                    <span style="color: red;">${error}</span>
-                </c:if>
                 <c:if test="${not empty categories}">
                     <table>
                         <caption>All Categories</caption>

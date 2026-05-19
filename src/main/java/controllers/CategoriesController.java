@@ -38,6 +38,7 @@ public class CategoriesController extends HttpServlet {
         if(action == null){
             List<Category> categories = categoryDao.getAllCategories();
             req.setAttribute("categories", categories);
+            System.out.println("forwarding to categories");
             req.getRequestDispatcher("/WEB-INF/views/admin/categories.jsp").forward(req,resp);
         }
     }
@@ -49,12 +50,14 @@ public class CategoriesController extends HttpServlet {
         if(action.equals("add")){
             String name = req.getParameter("name").trim();
             boolean success = categoryDao.addCategory(new Category(name));
-            if(!success || name.equals("test")){
+            if(!success){
                 SessionUtil.setAttribute(req, "error","Unable to add category");
-            }
+            }else{
                 SessionUtil.setAttribute(req, "success","Category successfully added");
+            }
 
-            resp.sendRedirect(req.getContextPath() + "/categories");
+            System.out.println("redirecting to categories");
+            resp.sendRedirect(req.getContextPath() + "/dashboard/categories");
 
         }else if(action.equals("edit")){
             int id = Integer.parseInt(req.getParameter("id"));
@@ -66,7 +69,7 @@ public class CategoriesController extends HttpServlet {
                 SessionUtil.setAttribute(req, "error","Unable to update category");
             }
                 SessionUtil.setAttribute(req, "success","Category successfully updated");
-            resp.sendRedirect(req.getContextPath() + "/categories");
+            resp.sendRedirect(req.getContextPath() + "/dashboard/categories");
         }else if(action.equals("delete")){
             int id = Integer.parseInt(req.getParameter("id"));
 
@@ -78,7 +81,7 @@ public class CategoriesController extends HttpServlet {
 //                req.getRequestDispatcher("/WEB-INF/views/categories.jsp").forward(req,resp);
             }
                 SessionUtil.setAttribute(req, "error","Category successfully deleted");
-            resp.sendRedirect(req.getContextPath() + "/categories");
+            resp.sendRedirect(req.getContextPath() + "/dashboard/categories");
         }
     }
 }

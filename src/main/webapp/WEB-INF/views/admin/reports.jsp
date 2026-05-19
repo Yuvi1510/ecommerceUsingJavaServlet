@@ -43,8 +43,8 @@
         <a href="${pageContext.request.contextPath}/dashboard/users"><button class="option  ">Users</button></a>
         <a href="${pageContext.request.contextPath}/dashboard/categories"><button class="option ">Categories</button></a>
         <a href="${pageContext.request.contextPath}/dashboard/products"><button class="option">Products</button></a>
-        <a href="${pageContext.request.contextPath}/dashboard/orders"><button class="option active">Orders</button></a>
-        <a href="${pageContext.request.contextPath}/dashboard/reports"><button class="option">Reports</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/orders"><button class="option ">Orders</button></a>
+        <a href="${pageContext.request.contextPath}/dashboard/reports"><button class="option active">Reports</button></a>
     </aside>
 
     <div class="content-container">

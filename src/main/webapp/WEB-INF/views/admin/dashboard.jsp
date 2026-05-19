@@ -58,9 +58,7 @@
                 <button onclick="changeContent('findUserById', '${pageContext.request.contextPath}')">Find User By ID</button>
             </div>
             <div id="inner-content" class="form-container">
-                <c:if test="${not empty error}">
-                    <span style="color: red;">${error}</span>
-                </c:if>
+
                 <c:if test="${not empty users}">
                     <table>
                         <caption>All Users</caption>
