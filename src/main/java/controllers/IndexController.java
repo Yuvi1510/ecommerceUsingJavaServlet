@@ -2,6 +2,8 @@ package controllers;
 
 import dao.ProductsDao;
 import dao.ProductsDaoImpl;
+import dao.ReportsDao;
+import dao.ReportsDaoImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +20,7 @@ import java.util.List;
 public class IndexController extends HttpServlet {
 
     ProductsDao productsDao = new ProductsDaoImpl();
+    ReportsDao reportsDao = new ReportsDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,8 +40,11 @@ public class IndexController extends HttpServlet {
         List<Product> products = productsDao.findAllProducts();
 
         Collections.shuffle(products);
-        List<Product> topPicks = products.subList(0, Math.min(products.size(), 4));
+        List<Product> topPicks = productsDao.findTopProducts();
         req.setAttribute("topPicks", topPicks);
+        req.setAttribute("products", products);
+
+//        List<Product> fashion = productsDao.findProductsByCategory()
         req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req,resp);
     }
 

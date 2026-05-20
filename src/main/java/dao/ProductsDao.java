@@ -15,4 +15,5 @@ public interface ProductsDao {
     boolean deleteProduct(int id);
     List<Product> findAllProducts();
     List<Product> findLowStockProducts();
+    List<Product> findTopProducts();
 }

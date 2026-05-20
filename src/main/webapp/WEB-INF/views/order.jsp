@@ -314,7 +314,10 @@
                                 <c:if test="${order.orderStatus == 'DELIVERED'}">
                                     <button class="btn-review" onclick="writeReview(${order.orderId})">Write a Review</button>
                                 </c:if>
+                                <c:if test="${order.orderStatus != 'CANCELLED' && order.orderStatus != 'DELIVERED'}">
+
                                 <button class="btn-track" onclick="trackOrder('${order.orderId}')">Track Order</button>
+                                </c:if>
                             </div>
                         </div>
                     </div>

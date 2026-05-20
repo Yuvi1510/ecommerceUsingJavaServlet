@@ -267,6 +267,56 @@ public class ProductsDaoImpl implements ProductsDao {
         return products;
     }
 
+    @Override
+    public List<Product> findTopProducts() {
+
+        String sql = """
+        SELECT p.*, SUM(oi.order_quantity) AS sold
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.product_id
+        GROUP BY p.product_id
+        ORDER BY sold DESC
+        LIMIT 4
+    """;
+
+        List<Product> topProducts = new ArrayList<>();
+
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Product product = new Product();
+
+                product.setProductId(rs.getInt("product_id"));
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setImagePath(rs.getString("image_path"));
+                product.setPrice(rs.getDouble("price"));
+                product.setQuantity(rs.getInt("quantity"));
+                product.setCategoryId(rs.getInt("category_id"));
+
+                Date sqlDate = rs.getDate("date_added");
+
+                if (sqlDate != null) {
+                    product.setDate(sqlDate.toLocalDate());
+                }
+
+                topProducts.add(product);
+            }
+
+        } catch (SQLException e) {
+
+            throw new RuntimeException(e);
+        }
+
+        return topProducts;
+    }
+
 //    @Override
 //    public List<Product> findTopProducts() {
 //      String query = "SELECT p.*, SUM(oi.order_quantity) AS total_quantity_sold,SUM(oi.amount) AS total_revenue FROM orders o " +
