@@ -24,6 +24,8 @@ public class OrderItemDaoImpl implements OrderItemDao {
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
 
+
+
             ps.setInt(1, item.getOrderQuantity());
             ps.setDouble(2, item.getAmount() >0 ? item.getAmount() : 0.0);
             ps.setInt(3, item.getOrderId());
@@ -147,7 +149,6 @@ public class OrderItemDaoImpl implements OrderItemDao {
 
             ps.setInt(1, orderId);
             int rowsAffected = ps.executeUpdate();
-            System.out.println("Deleted " + rowsAffected + " order items for order ID: " + orderId);
             return rowsAffected >= 1;
 
         } catch (SQLException e) {

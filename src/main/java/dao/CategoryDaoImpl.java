@@ -21,7 +21,7 @@ public class CategoryDaoImpl implements CategoryDao{
             int rowsAffected = ps.executeUpdate();
             return rowsAffected>=1;
         }catch (Exception e){
-            System.out.println(e.getMessage());
+
         }
         return false;
     }

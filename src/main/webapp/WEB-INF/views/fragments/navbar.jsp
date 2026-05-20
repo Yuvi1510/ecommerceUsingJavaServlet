@@ -14,12 +14,13 @@
             <img src="${pageContext.request.contextPath}/static/images/download.png" alt="FataFat Kin Logo" />
         </div>
 
-        <div class="search-container">
-            <input type="text" placeholder="Search product" class="search-input" />
-            <button class="search-btn">
+        <form action="${pageContext.request.contextPath}/shop" method="get" class="search-container">
+            <input name="action" value="findProductsByName" hidden>
+            <input type="text" placeholder="Search product" class="search-input" name="name" />
+            <button type="submit" class="search-btn">
                 <img src="${pageContext.request.contextPath}/static/images/search.png" class="search-icon" />
             </button>
-        </div>
+        </form>
 
         <ul class="nav-links" style="align-items: center">
             <li><a href="${pageContext.request.contextPath}/home">Home</a></li>

@@ -20,13 +20,12 @@ public class AuthenticationFilter implements Filter {
 
 
         String uri = req.getRequestURI();
-        System.out.println(uri);
+
 
         String contextPath = req.getContextPath();
-        System.out.println(contextPath);
 
         String path = uri.substring(contextPath.length());
-        System.out.println(path);
+
 
 
         if(path.startsWith("/static/")){

@@ -88,8 +88,7 @@ public class OrderController extends HttpServlet {
         }
 
         if("buy-now".equals(action)){
-            System.out.println(req.getParameter("id"));
-            System.out.println(req.getParameter("subTotal"));
+
             Order order = ModelUtils.getOrderFromRequest(req);
             order.setUserId(user.getUserId());
 
@@ -108,17 +107,17 @@ public class OrderController extends HttpServlet {
                 SessionUtil.setAttribute(req, "success", "Order created successfully");
                 resp.sendRedirect(req.getContextPath() + "/my-orders");
             }else {
-                SessionUtil.setAttribute(req, "error", "Failed to create order");
+                SessionUtil.setAttribute(req, "error", "Failed to place order! Insufficient quantity");
                 resp.sendRedirect(req.getContextPath() + "/shop");
             }
         } else if ("create".equals(action)) {
-            System.out.println("Creating order");
+
             boolean success = orderDao.createOrder(user.getUserId());
             if(success){
                 SessionUtil.setAttribute(req, "success", "Order created successfully");
                 resp.sendRedirect(req.getContextPath() + "/my-orders");
             }else {
-                SessionUtil.setAttribute(req, "error", "Failed to create order");
+                SessionUtil.setAttribute(req, "error", "Failed to place order! Insufficient quantity");
                 resp.sendRedirect(req.getContextPath() + "/cart");
             }
 

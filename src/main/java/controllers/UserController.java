@@ -68,14 +68,11 @@ public class UserController extends HttpServlet {
         }else if(action.equals("findById")){
             int id = Integer.parseInt( req.getParameter("userId"));
             User user = userDao.findUserById(id);
-            System.out.println(user.getUserId());
             req.setAttribute("users", List.of(user));
             req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req,resp);
         }else if(action.equals("findByEmail")){
             String email = req.getParameter("email");
-            System.out.println(email);
             User user = userDao.findUserByEmail(email);
-            System.out.println(user.getEmail());
             req.setAttribute("users", List.of(user));
             req.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(req,resp);
         }else if(action.equals("edit")){
@@ -90,7 +87,6 @@ public class UserController extends HttpServlet {
             }
                 resp.sendRedirect(req.getContextPath() + "/dashboard/users");
         }else if(action.equals("delete")){
-            System.out.println(req.getParameter("userId"));
             int id = Integer.parseInt(req.getParameter("userId"));
             boolean success = userDao.deleteUser(id);
             if(success){

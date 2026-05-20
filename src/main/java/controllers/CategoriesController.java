@@ -38,7 +38,7 @@ public class CategoriesController extends HttpServlet {
         if(action == null){
             List<Category> categories = categoryDao.getAllCategories();
             req.setAttribute("categories", categories);
-            System.out.println("forwarding to categories");
+
             req.getRequestDispatcher("/WEB-INF/views/admin/categories.jsp").forward(req,resp);
         }
     }
@@ -56,7 +56,7 @@ public class CategoriesController extends HttpServlet {
                 SessionUtil.setAttribute(req, "success","Category successfully added");
             }
 
-            System.out.println("redirecting to categories");
+
             resp.sendRedirect(req.getContextPath() + "/dashboard/categories");
 
         }else if(action.equals("edit")){

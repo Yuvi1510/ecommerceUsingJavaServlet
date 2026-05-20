@@ -23,6 +23,20 @@
       <h3>Products</h3>
       <hr class="divider">
       <p>Find the best and most compatible products for you</p>
+      <!-- Success/Error Messages -->
+      <c:if test="${not empty success}">
+        <div id="successMessage" style="display:flex; justify-content: space-between; background: #d1fae5; padding: 12px; border-radius: 10px; margin: 10px 0; color: #065f46; font-weight: 500; max-width: 600px; margin:auto;">
+            ${success}
+          <button onclick="document.getElementById('successMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #065f46;">✕</button>
+        </div>
+      </c:if>
+
+      <c:if test="${not empty error}">
+        <div id="errorMessage" style="display:flex; justify-content: space-between; background: #fee2e2; padding: 12px; border-radius: 10px; margin: 10px 0; color: #991b1b; font-weight: 500;  max-width: 600px; margin:auto;">
+            ${error}
+          <button onclick="document.getElementById('errorMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #991b1b;">✕</button>
+        </div>
+      </c:if>
     </div>
 
     <div class="shop-layout">
@@ -46,20 +60,6 @@
         <div class="shop-products-area">
           <div class="product-list" style="grid-template-columns: repeat(3, 1fr);">
 
-            <!-- Success/Error Messages -->
-            <c:if test="${not empty success}">
-              <div id="successMessage" style="display:flex; justify-content: space-between; background: #d1fae5; padding: 12px; border-radius: 10px; margin: 10px 0; color: #065f46; font-weight: 500; max-width: 600px; margin:auto;">
-                  ${success}
-                <button onclick="document.getElementById('successMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #065f46;">✕</button>
-              </div>
-            </c:if>
-
-            <c:if test="${not empty error}">
-              <div id="errorMessage" style="display:flex; justify-content: space-between; background: #fee2e2; padding: 12px; border-radius: 10px; margin: 10px 0; color: #991b1b; font-weight: 500;">
-                  ${error}
-                <button onclick="document.getElementById('errorMessage').style.display='none'" style="padding: 2px 5px; background: none; border: none; font-size: 18px; cursor: pointer; color: #991b1b;">✕</button>
-              </div>
-            </c:if>
 
             <%-- Iterates through the 'products' list, starting at index 0 and stopping at index 3 (4 items total) --%>
             <c:forEach var="product" items="${products}" >

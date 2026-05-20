@@ -300,7 +300,7 @@
                                                  class="item-image"/>
                                             <div class="item-details">
                                                 <h5>${item.name}</h5>
-                                                <p>Quantity: ${item.orderQuantity} × Rs ${item.price} = <strong>Rs ${item.amount}</strong></p>
+                                                <p>Quantity: ${item.orderQuantity} × Rs ${item.price} = <strong>Rs ${item.amount * item.orderQuantity}</strong></p>
                                             </div>
                                         </div>
                                     </c:forEach>

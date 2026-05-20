@@ -24,42 +24,136 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean buyNow(Order order, CartItem cartItem) {
-        String query = "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        String query =
+                "INSERT INTO orders(date, sub_total, tax_amount, delivery_charge, total_amount, status, user_id) " +
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-            ps.setDate(1, Date.valueOf(order.getDate()));
-            ps.setDouble(2, order.getSubTotal());
-            ps.setDouble(3, order.getTaxAmount());
-            ps.setDouble(4, order.getDeliveryCharge());
-            ps.setDouble(5, order.getTotalAmount());
-            ps.setString(6, order.getOrderStatus().name());
-            ps.setInt(7, order.getUserId());
+        String insertOrderItemQuery =
+                "INSERT INTO order_items(order_quantity, amount, order_id, product_id) " +
+                        "VALUES(?, ?, ?, ?)";
 
-            int rowsAffected = ps.executeUpdate();
+        String updateProductQuantity =
+                "UPDATE products SET quantity=? WHERE product_id = ?";
 
-            // get the id of order
-            int id = 0;
-            ResultSet rs = ps.getGeneratedKeys();
-            if(rs.next()){
-               id =  rs.getInt(1);
+        String getQuantityQuery =
+                "SELECT quantity FROM products WHERE product_id=?";
+
+        try (Connection connection = DatabaseConnection.getConnection()) {
+
+            connection.setAutoCommit(false);
+
+            try (
+                    PreparedStatement ps = connection.prepareStatement(
+                            query,
+                            Statement.RETURN_GENERATED_KEYS
+                    );
+
+                    PreparedStatement insertOrderItem =
+                            connection.prepareStatement(insertOrderItemQuery);
+
+                    PreparedStatement setQuantity =
+                            connection.prepareStatement(updateProductQuantity);
+
+                    PreparedStatement getQuantity =
+                            connection.prepareStatement(getQuantityQuery)
+            ) {
+
+                // Insert order
+                ps.setDate(1, Date.valueOf(order.getDate()));
+                ps.setDouble(2, order.getSubTotal());
+                ps.setDouble(3, order.getTaxAmount());
+                ps.setDouble(4, order.getDeliveryCharge());
+                ps.setDouble(5, order.getTotalAmount());
+                ps.setString(6, order.getOrderStatus().name());
+                ps.setInt(7, order.getUserId());
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected < 1) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // Get generated order id
+                int orderId = 0;
+
+                ResultSet rs = ps.getGeneratedKeys();
+
+                if (rs.next()) {
+                    orderId = rs.getInt(1);
+                } else {
+                    connection.rollback();
+                    return false;
+                }
+
+                // Convert cart item to order item
+                OrderItem orderItem = mapCartItemToOrderItem(cartItem);
+
+                orderItem.setOrderId(orderId);
+
+                // Check product quantity
+                getQuantity.setInt(1, orderItem.getProductId());
+
+                ResultSet quantityRs = getQuantity.executeQuery();
+
+                if (!quantityRs.next()) {
+                    connection.rollback();
+                    return false;
+                }
+
+                int productQuantity = quantityRs.getInt("quantity");
+
+                // Insufficient stock check
+                if (productQuantity < orderItem.getOrderQuantity()) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // Insert order item
+                insertOrderItem.setInt(1, orderItem.getOrderQuantity());
+                insertOrderItem.setDouble(2, orderItem.getAmount());
+                insertOrderItem.setInt(3, orderId);
+                insertOrderItem.setInt(4, orderItem.getProductId());
+
+                int orderItemRows = insertOrderItem.executeUpdate();
+
+                if (orderItemRows < 1) {
+                    connection.rollback();
+                    return false;
+                }
+
+                // Update product quantity
+                setQuantity.setInt(
+                        1,
+                        productQuantity - orderItem.getOrderQuantity()
+                );
+
+                setQuantity.setInt(2, orderItem.getProductId());
+
+                int updatedRows = setQuantity.executeUpdate();
+
+                if (updatedRows < 1) {
+                    connection.rollback();
+                    return false;
+                }
+
+                connection.commit();
+
+                return true;
+
+            } catch (Exception e) {
+
+                connection.rollback();
+
+                e.printStackTrace();
             }
-
-            // if order is saved then set the order item with order id
-            // and then save the order item
-            if(rowsAffected >= 1){
-                    OrderItem orderItem = mapCartItemToOrderItem(cartItem);
-                    orderItem.setOrderId(id);
-                    orderItemDao.addOrderItem(orderItem);
-
-            }
-
-            return true;
 
         } catch (Exception e) {
-            System.out.println("Error adding order: " + e.getMessage());
+
+            e.printStackTrace();
         }
+
         return false;
     }
 
@@ -82,6 +176,8 @@ public class OrderDaoImpl implements OrderDao {
 
         String deleteCartItemsQuery =
                 "DELETE FROM cart_items WHERE cart_id = ?";
+        String updateProductQuantity = "UPDATE products SET quantity=? WHERE product_id = ?";
+        String getQuantityQuery = "SELECT quantity FROM products WHERE product_id=?";
 
         try (Connection connection = DatabaseConnection.getConnection()) {
 
@@ -189,6 +285,47 @@ public class OrderDaoImpl implements OrderDao {
                 }
 
                 ps.executeBatch();
+
+                // Update product quantities
+                try (
+                        PreparedStatement getPs = connection.prepareStatement(getQuantityQuery);
+                        PreparedStatement updatePs = connection.prepareStatement(updateProductQuantity)
+                ) {
+
+                    for (CartItem item : cartItems) {
+
+                        // Get current product quantity
+                        getPs.setInt(1, item.getProductId());
+
+                        ResultSet rs = getPs.executeQuery();
+
+                        if (rs.next()) {
+
+                            int currentQuantity = rs.getInt("quantity");
+
+                            // Remaining quantity after order
+                            int updatedQuantity = currentQuantity - item.getTotalItems();
+
+                            // Prevent negative quantity
+                            if (updatedQuantity < 0) {
+                                connection.rollback();
+                                return false;
+                            }
+
+                            // Update product quantity
+                            updatePs.setInt(1, updatedQuantity);
+                            updatePs.setInt(2, item.getProductId());
+
+                            updatePs.addBatch();
+
+                        } else {
+                            connection.rollback();
+                            return false;
+                        }
+                    }
+
+                    updatePs.executeBatch();
+                }
             }
 
             // Remove cart items
@@ -202,7 +339,6 @@ public class OrderDaoImpl implements OrderDao {
             // Commit transaction
             connection.commit();
 
-            System.out.println("order completed");
             return true;
 
         } catch (SQLException e) {

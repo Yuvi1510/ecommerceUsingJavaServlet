@@ -47,13 +47,10 @@ public class ProductsController extends HttpServlet {
         }
 
         String uri = req.getRequestURI();
-        System.out.println(uri);
 
         String contextPath = req.getContextPath();
-        System.out.println(contextPath);
 
         String path = uri.substring(contextPath.length());
-        System.out.println(path);
 
         User user = (User) SessionUtil.getAttribute(req, "user");
 
@@ -73,15 +70,12 @@ public class ProductsController extends HttpServlet {
             req.setAttribute("products", products);
             req.setAttribute("categories", categories);
 
-            for(Product product: products){
-                System.out.println(product.getName());
-            }
 
             if(path.contains("/dashboard/products")){
             req.getRequestDispatcher("/WEB-INF/views/admin/products.jsp").forward(req,resp);
 
             } else if (path.contains("/shop")) {
-                System.out.println("forwarding to shop");
+
                 req.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(req,resp);
             } else if (path.contains("/singleProduct")) {
                 int id = Integer.parseInt(req.getParameter("id"));

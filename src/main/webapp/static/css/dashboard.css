@@ -79,7 +79,7 @@ main aside{
     background-color: var(--sidebar);
     color: white;
     padding: 10px;
-    height: calc(100vh - 90px);
+    min-height: calc(100vh - 90px);
     width: 20%;
 }
 
