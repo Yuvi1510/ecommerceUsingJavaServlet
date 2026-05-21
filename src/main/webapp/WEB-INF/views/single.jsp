@@ -11,176 +11,271 @@
       <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/shop.css">
 
       <style>
-.single-product {
-    padding: 60px 0 60px 20px; 
-    display: flex;
-    justify-content: flex-start;
-    margin-left:  90px;
-}
+          /* Global Reset for Page Typography and Layout */
+          body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              margin: 0;
+              padding: 0;
+              background-color: #ffffff;
+              color: #333333;
+          }
 
-/* main display ra small image ko size milaune */
-.single-row {
-    display: flex;
-    flex-direction: column;
-    width: 400px; 
-    gap: 8px;    
-}
-/* Big Image Container */
-.single-image {
-    background-color: #f4f4f4; 
-    width: 100%;
-    height: 450px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 80px;
-}
 
-.single-image img {
-    width: 85%; 
-    height: auto;
-    object-fit: contain;
-}
+          .single-product {
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 40px 20px;
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start; /* Fixes vertical stretching issues */
+              gap: 50px;
+          }
 
-/* fixing small image row */
-.small-image-group {
-    display: flex;
-    justify-content: space-between; 
-    width: 100%;
-}
 
-/* Individual Thumbnail Boxes */
-.small-img-column {
-    flex-basis: 24%; /* adding gaps between images */
-    background-color: #f4f4f4;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+          .single-row {
+              flex: 0 0 450px;
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+          }
 
-.small-img-column img {
-    width: 100%;
-    display: block;
-    transition: 0.3s;
-}
+          /* Big Image Screen/Box Layout */  .single-image {
+              background-color: #f9f9f9;
+              border: 1px solid #eaeaea;
+              border-radius: 8px;
+              width: 100%;
+              height: 500px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+          }
 
-.small-img-column img:hover {
-    opacity: 0.7;
-}
+          .single-image img {
+              max-width: 90%;
+              max-height: 90%;
+              object-fit: contain; /* Prevents image distortion */
+              display: block;
+          }
 
-.description{
-  margin-left: 110px;
-}
 
-.number{
-width: 50px;
-margin: 5px 10px;
-padding: 5px;
-border: 2px solid #000;
-}
+          .small-image-group {
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              gap: 8px;
+          }
 
-.description .btn{
-  padding: 5px 10px;
-  border-radius: 5px;
-  background: coral;
-  transform: scale(1.1);
-}
-.description h3{
-    color: #b8a8a8;
-    font-weight: normal;
-}
-.description h4{
-  margin-top: 3rem;
-  font-size: 1.3rem;
-}
 
-.description p{
-  margin-top: 1.5rem;
+          .small-img-column {
+              flex: 1;
+              height: 100px;
+              background-color: #f9f9f9;
+              border: 1px solid #eaeaea;
+              border-radius: 4px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+          }
 
-}
-.shop-container {
-    text-align: center;     
-    margin: 40px auto;       
-    max-width: 1200px;      
-}
-h6{
-  font-size: 1.3rem;
-}
+          .small-img-column img {
+              max-width: 100%;
+              max-height: 100%;
+              object-fit: contain;
+              transition: opacity 0.2s ease-in-out;
+          }
 
-.shop-container h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    margin-top: -140px;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+          .small-img-column img:hover {
+              opacity: 0.7;
+          }
 
-.shop-container hr {
-    border: none;
-    height: 3px;
-    background-color: #ff523b; 
-    width: 80px;               
-    margin: 0 auto;      
-}    
 
-.product-list{
-  margin-top: -115px;
-}
+          .description {
+              flex: 1; /*it consumes the width of row automativally*/
+              display: flex;
+              flex-direction: column;
+          }
 
-.popup {
-    position: fixed;
-    top: 20px;
-    right: -350px; /* Moves it completely off-screen */
-    background-color: #28a745;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 5px;
-    z-index: 9999; /* Ensure it is above everything else */
-    transition: all 0.5s ease;
-    opacity: 0;
-    visibility: hidden;
-}
 
-.popup.show {
-    right: 20px;
-    opacity: 1;
-    visibility: visible;
-}
+          .description h6 {
+              font-size: 1.8rem;
+              font-weight: 700;
+              margin: 0 0 10px 0;
+              color: #222222;
+              line-height: 1.2;
+          }
 
-.popup-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: sans-serif;
-    font-weight: bold;
-}
+          .description h2 {
+              font-size: 1.6rem;
+              font-weight: 600;
+              color: #ff523b; /* Accent Coral color */
+              margin: 0 0 20px 0;
+          }
 
-.popup-content i {
-    font-size: 24px;
-}
-#cart-count {
-    position: absolute;
-    top: -3px;
-    right: 32px;
-    background-color: #ff523b; /* Matches your theme red/coral */
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    visibility: hidden; /* Hide until at least 1 item is added */
-}
+          .description h4 {
+              font-size: 1.2rem;
+              font-weight: 600;
+              margin: 30px 0 10px 0;
+              color: #333333;
+              border-bottom: 2px solid #f4f4f4;
+              padding-bottom: 8px;
+          }
 
-#cart-count.show {
-    visibility: visible;
-}
- </style>
+          .description p {
+              font-size: 1rem;
+              line-height: 1.6;
+              color: #666666;
+              margin: 0;
+          }
+
+          /* Interactive Form Components of shopping */
+          .description form {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              margin-bottom: 10px;
+          }
+
+          .number {
+              width: 60px;
+              height: 40px;
+              padding: 5px;
+              border: 1px solid #cccccc;
+              border-radius: 4px;
+              text-align: center;
+              font-size: 1rem;
+              font-weight: 600;
+              box-sizing: border-box;
+          }
+
+          .number:focus {
+              border-color: #ff523b;
+              outline: none;
+          }
+
+          .description .btn {
+              height: 40px;
+              padding: 0 24px;
+              border-radius: 4px;
+              background-color: #ff523b;
+              color: #ffffff;
+              font-size: 0.95rem;
+              font-weight: 700;
+              border: none;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: pointer;
+              transition: background-color 0.2s ease, transform 0.1s ease;
+          }
+
+          .description .btn:hover {
+              background-color: #e0442f;
+          }
+
+          .description .btn:active {
+              transform: scale(0.98);
+          }
+
+          /* Platform Notification Popups Architecture */
+          .popup {
+              position: fixed;
+              top: 20px;
+              right: -350px;
+              background-color: #28a745;
+              color: white;
+              padding: 15px 25px;
+              border-radius: 5px;
+              z-index: 9999;
+              transition: all 0.5s ease;
+              opacity: 0;
+              visibility: hidden;
+          }
+
+          .popup.show {
+              right: 20px;
+              opacity: 1;
+              visibility: visible;
+          }
+
+          .popup-content {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-weight: bold;
+          }
+
+          /* Header Navbar Cart Item Track Badge Component */
+          #cart-count {
+              position: absolute;
+              top: -3px;
+              right: 32px;
+              background-color: #ff523b;
+              color: white;
+              font-size: 11px;
+              font-weight: bold;
+              width: 18px;
+              height: 18px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              visibility: hidden;
+          }
+
+          #cart-count.show {
+              visibility: visible;
+          }
+
+          /* Buy Now Checkout Overlay Panels */
+          .popup-overlay {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.5);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 10000;
+              opacity: 0;
+              visibility: hidden;
+              transition: opacity 0.3s ease, visibility 0.3s ease;
+          }
+
+          .popup-overlay.show {
+              opacity: 1;
+              visibility: visible;
+          }
+
+          .popup-box {
+              background-color: #ffffff;
+              padding: 30px;
+              border-radius: 8px;
+              width: 100%;
+              max-width: 450px;
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+              position: relative;
+              box-sizing: border-box;
+          }
+
+          /* Overlay Utility Fields Formatting */
+          .detail-row {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 12px;
+          }
+
+          .detail-row .value {
+              font-weight: 600;
+              text-align: right;
+              border: none;
+              background: transparent;
+          }
+      </style>
 </head>
 <body style="display: flex; flex-direction: column;">
 

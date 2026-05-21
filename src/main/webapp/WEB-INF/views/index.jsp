@@ -383,9 +383,7 @@ button:hover {
   transition: transform 0.5s ease;
 }
 
-.one:hover .img-fluid {
-  transform: scale(1.1);
-}
+
 
 .one .details {
   position: absolute;
